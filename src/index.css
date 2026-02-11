@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+body { font-family: 'Poppins', sans-serif; background-color: #1a162d; overflow-x: hidden; }
+.blob-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+
+
+.header-bg {
+    background-image: linear-gradient(to bottom, rgba(26, 22, 45, 0.283), rgba(26, 22, 45, 0.434)), 
+                    url('./assets/img/download\ \(1\).gif'); /* Ganti dengan URL gambar Anda */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Memberikan efek parallax sedikit */
+}
