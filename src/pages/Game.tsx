@@ -7,10 +7,11 @@ import GlowCard from "../component/GlowCard";
 import logo from './../assets/img/logoMosher.jpeg';
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { getCart } from '../api/cart'
+import type { CartItem } from '../types/Cart'
 
 type Props = {
   id: number;
-  DCart:[]
+  DCart:number[]
 };
 
 const CekCart = ({ id, DCart }: Props) => {
@@ -69,6 +70,7 @@ const CekCart = ({ id, DCart }: Props) => {
 
 export default function Game() {
     const { slug } = useParams();
+    let attrCart: number[] =[]
     if (!slug) return null
     const [game, setGame] = useState<Game | []>([])
     // const [products, setProducts] = useState<Product | []>([])
@@ -77,7 +79,17 @@ export default function Game() {
         alert('Button diklik!')
     }
 
+    const GetDCart = async () => {
+        try {
+            const data = await getCart()
+            data.map((item:CartItem) => attrCart.push(item.product_id))
+        } catch (error) {
+            console.error(error)
+        } 
+    }
+
     useEffect(() => {
+        GetDCart()
         getGameDetail(slug).then(setGame)
     }, [slug])
     if (!game) return null
@@ -101,7 +113,7 @@ export default function Game() {
                 >
                 {game.map((item:Game) => (
                     <GlowCard title={item.name} image={logo} description=''>
-                        <CekCart id={item.id}/>
+                        <CekCart id={item.id} DCart={attrCart}/>
                         {/* <span
                             className="
                                 absolute
