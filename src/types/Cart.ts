@@ -14,4 +14,8 @@ export interface CartItem {
 export interface CartResponse {
   status: boolean
   message: string
+  data:{
+    id: number
+    qty:number
+  }
 }

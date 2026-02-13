@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import {getGames,getGameDetail} from "../api/game";
+import {getGameDetail} from "../api/game";
 import type {Game} from "../types/Game";
-import type {Product} from "../types/Product";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import GlowCard from "../component/GlowCard";
 import logo from './../assets/img/logoMosher.jpeg';
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
-import { getCart } from '../api/cart'
+import { addToCart,getCart } from '../api/cart'
 import type { CartItem } from '../types/Cart'
 import Toast from "./../component/transaksi/Toast"
 
@@ -21,61 +20,40 @@ type Props = {
 }
 
 const CekCart = ({ id, DCart }: Props) => {
-    const [attr, setAttr] = useState(false);
-    const [total, setTotal] = useState<number>(0)
+  const item = DCart.find(x => x.id === id)
 
-    const fetchCart = async () => {
-        try {
-            const tCart = DCart.find(x => x.id === id)
-            if (tCart) {
-                setAttr(true)
-                setTotal(tCart.qty)
-            }else {
-                setAttr(false)
-                setTotal(0)
-            }
-        } catch (error) {
-            console.error(error)
-        } 
-    }
+  if (!item) return null
 
-    useEffect(() => {
-        fetchCart()
-    }, [id])
-
-    if (attr) {
-        return (<span
-            className="
-                absolute
-                -top-2
-                -right-2
-                bg-fuchsia-500
-                text-black
-                text-[10px]
-                font-bold
-                px-2
-                py-0.5
-                rounded-full
-                shadow-[0_0_8px_#ff00ff]
-                animate-bounce
-            "
-        >
-            {total}
-        </span>);
-    }else{
-        return
-    }
-};
+  return (
+    <span className="
+      absolute -top-2 -right-2
+      bg-fuchsia-500 text-black
+      text-[10px] font-bold
+      px-2 py-0.5 rounded-full
+      shadow-[0_0_8px_#ff00ff]
+      animate-bounce
+    ">
+      {item.qty}
+    </span>
+  )
+}
 
 export default function Game() {
     const [cartem, setCartem] = useState<CartRow[]>([])
     const { slug } = useParams();
     const [game, setGame] = useState<Game[]>([])
     const [show, setShow] = useState(false)
+    const [reloadCart, setReloadCart] = useState(0)
     
-    const handleCheckout = async (id: number) => {
-        console.log("Tambah ke cart:", id)
+    const handleCheckout = async (id: number,qty:number) => {
+        console.log("Tambah ke cart:", id," dan ",qty)
         setShow(true)
+        const data = await addToCart(id,qty)
+        setCartem(prev => [
+            ...prev,
+            { id, qty }
+        ])
+        setReloadCart(x => x + 1) 
     }
 
     useEffect(() => {
@@ -100,7 +78,7 @@ export default function Game() {
         }
 
         load()
-    }, [slug])
+    }, [slug,reloadCart])
     if (!game) return null
     console.log('cartem');
     console.log(cartem);
@@ -128,7 +106,7 @@ export default function Game() {
                 "
                 >
                 {game.map((item:Game) => (
-                    <GlowCard id={item.id} title={item.name} image={logo} description='' onChange={handleCheckout} >
+                    <GlowCard Dcart={{id:item.id,qty:1}} title={item.name} image={logo} description='' onChange={handleCheckout} >
                         <CekCart id={item.id} DCart={cartem}/>
                         {/* <span
                             className="

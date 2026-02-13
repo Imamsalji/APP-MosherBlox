@@ -1,13 +1,16 @@
 type GlowCardProps = {
-  id: number;
+  Dcart: {
+    id: number
+    qty: number
+  };
   title: string;
   image: string;
   description?: string;
   children?: React.ReactNode;
-  onChange: (id: number) => void
+  onChange: (id: number , qty: number) => void
 };
 
-const GlowCard = ({id, title, image, description, children, onChange}: GlowCardProps) => {
+const GlowCard = ({Dcart, title, image, description, children, onChange}: GlowCardProps) => {
   return (
     <div className="relative group">
 
@@ -88,7 +91,7 @@ const GlowCard = ({id, title, image, description, children, onChange}: GlowCardP
               relative
               tracking-wider
             "
-            onClick={() => onChange(id)}>
+            onClick={() => onChange(Dcart.id,Dcart.qty)}>
 
             ADD TO CART
             {children}
