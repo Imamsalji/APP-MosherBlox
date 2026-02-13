@@ -15,7 +15,7 @@ import ListOrder from "./pages/ListOrder";
 
 export default function Router() {
     return (
-        <BrowserRouter>
+      <BrowserRouter>
       <Routes>
         {/* PUBLIC */}
         <Route path="/" element={<LandingPage />} />

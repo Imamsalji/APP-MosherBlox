@@ -1,11 +1,13 @@
 type GlowCardProps = {
+  id: number;
   title: string;
   image: string;
   description?: string;
-  children?: React.ReactNode
+  children?: React.ReactNode;
+  onChange: (id: number) => void
 };
 
-const GlowCard = ({ title, image, description, children}: GlowCardProps) => {
+const GlowCard = ({id, title, image, description, children, onChange}: GlowCardProps) => {
   return (
     <div className="relative group">
 
@@ -86,7 +88,7 @@ const GlowCard = ({ title, image, description, children}: GlowCardProps) => {
               relative
               tracking-wider
             "
-          >
+            onClick={() => onChange(id)}>
 
             ADD TO CART
             {children}

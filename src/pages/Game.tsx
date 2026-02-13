@@ -8,33 +8,32 @@ import logo from './../assets/img/logoMosher.jpeg';
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { getCart } from '../api/cart'
 import type { CartItem } from '../types/Cart'
+import Toast from "./../component/transaksi/Toast"
+
+type CartRow = {
+  id: number
+  qty: number
+}
 
 type Props = {
-  id: number;
-  DCart:number[]
-};
+  id: number
+  DCart: CartRow[]
+}
 
 const CekCart = ({ id, DCart }: Props) => {
     const [attr, setAttr] = useState(false);
     const [total, setTotal] = useState<number>(0)
-    let ini=[];
-    let tCart=[];
 
     const fetchCart = async () => {
         try {
-            const data = await getCart()
-            // ini=data.items;
-            ini = data.items;
-            tCart = ini.find(x => x.product_id === id)
-            // console.log('asdasdasd');
-            // console.log(ini.find(x => x.product_id === id));
-            // console.log(ini.find(x => x.product_id === id) !== undefined);
-            // console.log('=================');
-            if (ini.find(x => x.product_id === id) !== undefined) {
-                setAttr(ini.find(x => x.product_id === id) !== undefined)
+            const tCart = DCart.find(x => x.id === id)
+            if (tCart) {
+                setAttr(true)
                 setTotal(tCart.qty)
+            }else {
+                setAttr(false)
+                setTotal(0)
             }
-            
         } catch (error) {
             console.error(error)
         } 
@@ -69,35 +68,52 @@ const CekCart = ({ id, DCart }: Props) => {
 };
 
 export default function Game() {
+    const [cartem, setCartem] = useState<CartRow[]>([])
     const { slug } = useParams();
-    let attrCart: number[] =[]
-    if (!slug) return null
-    const [game, setGame] = useState<Game | []>([])
-    // const [products, setProducts] = useState<Product | []>([])
-    // const [gamelist, setGamelist] = useState();
-    const handleClick = () => {
-        alert('Button diklik!')
-    }
-
-    const GetDCart = async () => {
-        try {
-            const data = await getCart()
-            data.map((item:CartItem) => attrCart.push(item.product_id))
-        } catch (error) {
-            console.error(error)
-        } 
+    const [game, setGame] = useState<Game[]>([])
+    const [show, setShow] = useState(false)
+    
+    const handleCheckout = async (id: number) => {
+        console.log("Tambah ke cart:", id)
+        setShow(true)
     }
 
     useEffect(() => {
-        GetDCart()
-        getGameDetail(slug).then(setGame)
+        if (!slug) return
+        const load = async () => {
+            try {
+                const data = await getCart()
+
+                const ids = data.items.map((item: CartItem) => ({
+                    id: item.product_id,
+                    qty: item.qty
+                }))
+
+                setCartem(ids)
+
+                const gameData = await getGameDetail(slug)
+                setGame(gameData)
+
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
+        load()
     }, [slug])
     if (!game) return null
-    console.log(game);
+    console.log('cartem');
+    console.log(cartem);
+    
 
     return (
     <section id="games" className="container mx-auto px-6 md:px-10 py-16 text-center">
         <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">Games</h2>
+        <Toast
+            show={show}
+            message="Game Berhasil Di Tambahkan! "
+            onClose={() => setShow(false)}
+        />
             {game.length === 0 ? (
                 <CyberpunkSpinner size={80} text="Loading" />
             ) : (
@@ -112,8 +128,8 @@ export default function Game() {
                 "
                 >
                 {game.map((item:Game) => (
-                    <GlowCard title={item.name} image={logo} description=''>
-                        <CekCart id={item.id} DCart={attrCart}/>
+                    <GlowCard id={item.id} title={item.name} image={logo} description='' onChange={handleCheckout} >
+                        <CekCart id={item.id} DCart={cartem}/>
                         {/* <span
                             className="
                                 absolute

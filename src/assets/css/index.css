@@ -11,3 +11,5 @@ body { font-family: 'Poppins', sans-serif; background-color: #1a162d; overflow-x
     background-position: center;
     background-attachment: fixed; /* Memberikan efek parallax sedikit */
 }
+/* Animasi halus untuk mobile menu */
+#mobile-menu { transition: all 0.3s ease-in-out; }

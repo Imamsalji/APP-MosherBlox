@@ -10,7 +10,6 @@ import CyberpunkCarousel from "../component/transaksi/CyberpunkCarousel";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
-import './../App.css'
 
 function App() {
   const navigate = useNavigate();

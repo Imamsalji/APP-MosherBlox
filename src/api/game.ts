@@ -20,7 +20,7 @@ export const getGames = async (): Promise<Game[]> => {
  * Ambil detail game
  * GET /games/{id}
  */
-export const getGameDetail = async (gameId: string): Promise<Game> => {
+export const getGameDetail = async (gameId: string) => {
   const response = await axios.get(`/games/${gameId}`)
   return response.data.data.products
 }
