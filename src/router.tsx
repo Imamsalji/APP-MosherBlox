@@ -14,8 +14,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import ListOrder from "./pages/ListOrder";
 
 export default function Router() {
-    return (
-      <BrowserRouter>
+  return (
+    <BrowserRouter>
       <Routes>
         {/* PUBLIC */}
         <Route path="/" element={<LandingPage />} />
@@ -27,7 +27,7 @@ export default function Router() {
           <Route element={<MainLayout />}>
             <Route path="/game" element={<AllGame />} />
             <Route path="/detail-game/:slug" element={<Game />} />
-            <Route path="/cart" element={<CyberpunkCart />} />
+            <Route path="/carts" element={<Cart />} />
             <Route path="/payment/:id" element={<CyberpunkPayment />} />
             <Route path="/list-order" element={<CyberpunkOrderList />} />
             <Route path="/tes" element={<CyberpunkCarousel />} />
@@ -36,5 +36,5 @@ export default function Router() {
         </Route>
       </Routes>
     </BrowserRouter>
-    );
+  );
 }

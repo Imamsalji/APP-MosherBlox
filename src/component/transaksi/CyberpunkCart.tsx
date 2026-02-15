@@ -1,4 +1,4 @@
-import logo from './../../assets/img/logoMosher.jpeg';
+import logo from "./../../assets/img/logoMosher.jpeg";
 import { useNavigate } from "react-router-dom";
 
 type CartItem = {
@@ -56,20 +56,17 @@ const cartItems: CartItem[] = [
 
 const CyberpunkCart = () => {
   const navigate = useNavigate();
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
-  
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+
   const checkout = async () => {
-        navigate(`/payment/order-id`);
-    };
+    navigate(`/payment/order-id`);
+  };
 
   return (
-   <section className="relative py-20 bg-[#070b14] overflow-hidden">
-        {/* OUTER GLOW */}
-        <div
-            className="
+    <section className="relative py-20 bg-[#070b14] overflow-hidden">
+      {/* OUTER GLOW */}
+      <div
+        className="
             pointer-events-none
             absolute -inset-10
             bg-gradient-to-r
@@ -78,11 +75,11 @@ const CyberpunkCart = () => {
             to-purple-600/20
             blur-3xl
             "
-        />
+      />
 
-        {/* SOFT RADIAL GLOW */}
-        <div
-            className="
+      {/* SOFT RADIAL GLOW */}
+      <div
+        className="
             pointer-events-none
             absolute inset-0
             bg-[radial-gradient(circle_at_center,
@@ -90,24 +87,24 @@ const CyberpunkCart = () => {
                 transparent_65%
             )]
             "
-        />
+      />
 
-        {/* CONTENT */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
-
+      {/* CONTENT */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
         {/* Header */}
-        <h2 className="
+        <h2
+          className="
           text-xl md:text-3xl
           font-bold
           tracking-widest
           text-cyan-400
           mb-10
-        ">
+        "
+        >
           CART SYSTEM
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
           {/* Cart List */}
           <div className="lg:col-span-2 space-y-6">
             {cartItems.map((item) => (
@@ -148,16 +145,16 @@ const CyberpunkCart = () => {
                   </p>
 
                   <div className="flex items-center gap-3 mt-3">
-                    <span className="text-xs text-cyan-300">
-                      QTY
-                    </span>
-                    <div className="
+                    <span className="text-xs text-cyan-300">QTY</span>
+                    <div
+                      className="
                       px-3 py-1
                       text-xs
                       border
                       border-cyan-400/40
                       rounded
-                    ">
+                    "
+                    >
                       {item.qty}
                     </div>
                   </div>
@@ -191,22 +188,22 @@ const CyberpunkCart = () => {
               h-fit
             "
           >
-            <h3 className="
+            <h3
+              className="
               text-lg
               font-bold
               tracking-widest
               text-fuchsia-400
               mb-6
-            ">
+            "
+            >
               SUMMARY
             </h3>
 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>
-                  Rp {total.toLocaleString("id-ID")}
-                </span>
+                <span>Rp {total.toLocaleString("id-ID")}</span>
               </div>
 
               <div className="flex justify-between text-gray-400">
@@ -214,13 +211,15 @@ const CyberpunkCart = () => {
                 <span>Rp 0</span>
               </div>
 
-              <div className="
+              <div
+                className="
                 border-t
                 border-cyan-400/20
                 pt-4
                 flex justify-between
                 font-bold
-              ">
+              "
+              >
                 <span>Total</span>
                 <span className="text-cyan-400">
                   Rp {total.toLocaleString("id-ID")}
@@ -243,12 +242,11 @@ const CyberpunkCart = () => {
                 hover:brightness-125
                 transition
               "
-              onClick={()=>checkout()}
+              onClick={() => checkout()}
             >
               CHECKOUT
             </button>
           </div>
-
         </div>
       </div>
     </section>

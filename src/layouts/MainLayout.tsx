@@ -6,20 +6,20 @@ import { Outlet } from "react-router-dom";
 function MainLayout() {
   return (
     <>
-    <Navbar />
-    <div className="h-20"></div>
-    <Header />
+      <Navbar />
+      <div className="h-20"></div>
+      {/* <Header /> */}
 
-    <Outlet />
-    {/* <CyberpunkCart/>
+      <Outlet />
+      {/* <CyberpunkCart/>
 
     <CyberpunkPayment/>
 
     <CyberpunkOrderList/> */}
 
-    <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default MainLayout
+export default MainLayout;

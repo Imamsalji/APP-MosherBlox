@@ -1,102 +1,107 @@
 import { useEffect, useState } from "react";
-import {getGameDetail} from "../api/game";
-import type {Game} from "../types/Game";
+import { getGameDetail } from "../api/game";
+import type { Game } from "../types/Game";
 import { useParams } from "react-router-dom";
 import GlowCard from "../component/GlowCard";
-import logo from './../assets/img/logoMosher.jpeg';
+import logo from "./../assets/img/logoMosher.jpeg";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
-import { addToCart,getCart } from '../api/cart'
-import type { CartItem } from '../types/Cart'
-import Toast from "./../component/transaksi/Toast"
+import { addToCart, getCart } from "../api/cart";
+import type { CartItem } from "../types/Cart";
+import Toast from "./../component/transaksi/Toast";
+import { useAppStore } from "../store/appStore";
 
 type CartRow = {
-  id: number
-  qty: number
-}
+  id: number;
+  qty: number;
+};
 
 type Props = {
-  id: number
-  DCart: CartRow[]
-}
+  id: number;
+  DCart: CartRow[];
+};
 
 const CekCart = ({ id, DCart }: Props) => {
-  const item = DCart.find(x => x.id === id)
+  const setNavCart = useAppStore((s) => s.setCart);
+  const item = DCart.find((x) => x.id === id);
+  setNavCart(DCart.length);
 
-  if (!item) return null
+  if (!item) return null;
 
   return (
-    <span className="
+    <span
+      className="
       absolute -top-2 -right-2
       bg-fuchsia-500 text-black
       text-[10px] font-bold
       px-2 py-0.5 rounded-full
       shadow-[0_0_8px_#ff00ff]
       animate-bounce
-    ">
+    "
+    >
       {item.qty}
     </span>
-  )
-}
+  );
+};
 
 export default function Game() {
-    const [cartem, setCartem] = useState<CartRow[]>([])
-    const { slug } = useParams();
-    const [game, setGame] = useState<Game[]>([])
-    const [show, setShow] = useState(false)
-    const [reloadCart, setReloadCart] = useState(0)
-    
-    const handleCheckout = async (id: number,qty:number) => {
-        console.log("Tambah ke cart:", id," dan ",qty)
-        setShow(true)
-        const data = await addToCart(id,qty)
-        setCartem(prev => [
-            ...prev,
-            { id, qty }
-        ])
-        setReloadCart(x => x + 1) 
-    }
+  const [cartem, setCartem] = useState<CartRow[]>([]);
+  const { slug } = useParams();
+  const [game, setGame] = useState<Game[]>([]);
+  const [show, setShow] = useState(false);
+  const [reloadCart, setReloadCart] = useState(0);
 
-    useEffect(() => {
-        if (!slug) return
-        const load = async () => {
-            try {
-                const data = await getCart()
+  const handleCheckout = async (id: number, qty: number) => {
+    console.log("Tambah ke cart:", id, " dan ", qty);
+    setShow(true);
+    const data = await addToCart(id, qty);
+    setCartem((prev) => [...prev, { id, qty }]);
+    setReloadCart((x) => x + 1);
+  };
 
-                const ids = data.items.map((item: CartItem) => ({
-                    id: item.product_id,
-                    qty: item.qty
-                }))
+  useEffect(() => {
+    if (!slug) return;
+    const load = async () => {
+      try {
+        const data = await getCart();
 
-                setCartem(ids)
+        const ids = data.items.map((item: CartItem) => ({
+          id: item.product_id,
+          qty: item.qty,
+        }));
 
-                const gameData = await getGameDetail(slug)
-                setGame(gameData)
+        setCartem(ids);
 
-            } catch (err) {
-                console.error(err)
-            }
-        }
+        const gameData = await getGameDetail(slug);
+        setGame(gameData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-        load()
-    }, [slug,reloadCart])
-    if (!game) return null
-    console.log('cartem');
-    console.log(cartem);
-    
+    load();
+  }, [slug, reloadCart]);
+  if (!game) return null;
+  console.log("cartem");
+  console.log(cartem);
 
-    return (
-    <section id="games" className="container mx-auto px-6 md:px-10 py-16 text-center">
-        <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">Games</h2>
-        <Toast
-            show={show}
-            message="Game Berhasil Di Tambahkan! "
-            onClose={() => setShow(false)}
-        />
-            {game.length === 0 ? (
-                <CyberpunkSpinner size={80} text="Loading" />
-            ) : (
-                <div
-                className="
+  return (
+    <section
+      id="games"
+      className="container mx-auto px-6 md:px-10 py-16 text-center"
+    >
+      <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
+        Games
+      </h2>
+      <Toast
+        show={show}
+        message="Game Berhasil Di Tambahkan! "
+        onClose={() => setShow(false)}
+      />
+      {game.length === 0 ? (
+        <CyberpunkSpinner size={80} text="Loading" />
+      ) : (
+        <div
+          className="
                     grid
                     grid-cols-2
                     sm:grid-cols-3
@@ -104,11 +109,17 @@ export default function Game() {
                     lg:grid-cols-6
                     gap-6
                 "
-                >
-                {game.map((item:Game) => (
-                    <GlowCard Dcart={{id:item.id,qty:1}} title={item.name} image={logo} description='' onChange={handleCheckout} >
-                        <CekCart id={item.id} DCart={cartem}/>
-                        {/* <span
+        >
+          {game.map((item: Game) => (
+            <GlowCard
+              Dcart={{ id: item.id, qty: 1 }}
+              title={item.name}
+              image={logo}
+              description=""
+              onChange={handleCheckout}
+            >
+              <CekCart id={item.id} DCart={cartem} />
+              {/* <span
                             className="
                                 absolute
                                 -top-2
@@ -126,11 +137,10 @@ export default function Game() {
                         >
                             3
                         </span> */}
-                    </GlowCard>
-                ))}
-                </div>
-            )}
-            
+            </GlowCard>
+          ))}
+        </div>
+      )}
     </section>
-    );
+  );
 }
