@@ -1,6 +1,6 @@
 import logo from "./../assets/img/logoMosher.jpeg";
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../api/cart";
+import { removeCartItem, updateCartItem, getCart } from "../api/cart";
 import type { CartItem } from "./../types/Cart";
 import { useEffect, useState } from "react";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
@@ -13,6 +13,24 @@ const Cart = () => {
   const checkout = async () => {
     navigate(`/payment/order-id`);
   };
+
+  const UpdateCart = async (id: number, kondisi: string) => {
+    console.log("Tambah ke cart:", id, " kondisi ", kondisi);
+    if (kondisi == "increment") {
+      const data = await updateCartItem(id, kondisi);
+    } else {
+      const data = await updateCartItem(id, kondisi);
+    }
+    const data = await getCart();
+    setCartItems(data.items);
+  };
+
+  const RemoveCart = async (id: number) => {
+    await removeCartItem(id);
+    const data = await getCart();
+    setCartItems(data.items);
+  };
+
   const fetchCart = async () => {
     try {
       const data = await getCart();
@@ -123,6 +141,40 @@ const Cart = () => {
                       >
                         {item.qty}
                       </div>
+                      <button
+                        className="
+                            px-3 py-1
+                            rounded-lg
+                            bg-gradient-to-r
+                            from-cyan-500
+                            to-fuchsia-600
+                            text-xs
+                            font-bold
+                            tracking-widest
+                            hover:brightness-125
+                            transition
+                          "
+                        onClick={() => UpdateCart(item.id, "increment")}
+                      >
+                        +
+                      </button>
+                      <button
+                        className="
+                            px-3 py-1
+                            rounded-lg
+                            bg-gradient-to-r
+                            from-cyan-500
+                            to-fuchsia-600
+                            text-xs
+                            font-bold
+                            tracking-widest
+                            hover:brightness-125
+                            transition
+                          "
+                        onClick={() => UpdateCart(item.id, "decrement")}
+                      >
+                        -
+                      </button>
                     </div>
                   </div>
 
@@ -134,6 +186,7 @@ const Cart = () => {
                     hover:text-pink-300
                     transition
                   "
+                    onClick={() => RemoveCart(item.id)}
                   >
                     REMOVE
                   </button>
