@@ -37,11 +37,12 @@ export const addToCart = async (
  * PUT /cart/{id}
  */
 export const updateCartItem = async (
-  cartId: number,
-  quantity: number
+  id: number,
+  // qty: number
+  kondisi: string
 ): Promise<CartResponse> => {
-  const response = await axios.put(`/cart/${cartId}`, {
-    quantity,
+  const response = await axios.put(`/cart/${id}`, {
+    kondisi
   })
 
   return response.data
