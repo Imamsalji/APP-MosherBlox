@@ -21,9 +21,11 @@ type Props = {
 };
 
 const CekCart = ({ id, DCart }: Props) => {
+  // update Nav Global Keranjang
   const setNavCart = useAppStore((s) => s.setCart);
   const item = DCart.find((x) => x.id === id);
   setNavCart(DCart.length);
+  //END update Nav Global Keranjang
 
   if (!item) return null;
 
