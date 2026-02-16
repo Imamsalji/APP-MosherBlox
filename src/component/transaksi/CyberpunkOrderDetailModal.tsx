@@ -1,11 +1,10 @@
-// ==========================
-// TYPES
-// ==========================
+import type { OrderItem } from "../../types/Order";
+
 export type OrderStatus = "pending" | "paid";
 
 export interface OrderDetail {
   id: string;
-  game: string;
+  game: OrderItem[];
   product: string;
   amount: string;
   status: OrderStatus;
@@ -29,7 +28,6 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-
       {/* OVERLAY */}
       <div
         className="absolute inset-0 bg-black/70 backdrop-blur"
@@ -39,7 +37,6 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
       {/* MODAL */}
       <div className="relative w-full max-w-xl rounded-2xl bg-[#0b0f1a] border border-cyan-400/30 shadow-[0_0_40px_rgba(34,211,238,0.35)]">
         <div className="p-6 space-y-5 text-white">
-
           {/* HEADER */}
           <div className="flex justify-between items-center">
             <h3 className="text-cyan-400 font-bold tracking-widest">
@@ -55,7 +52,7 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
 
           {/* DETAIL */}
           <Detail label="Order ID" value={order.id} mono />
-          <Detail label="Game" value={order.game} />
+          {/* <Detail label="Game" value={order.game} /> */}
           <Detail label="Product" value={order.product} />
           <Detail label="Amount" value={order.amount} highlight />
           <Detail label="Payment" value={order.paymentMethod} />
@@ -81,7 +78,6 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
               </button>
             )}
           </div>
-
         </div>
       </div>
     </div>
