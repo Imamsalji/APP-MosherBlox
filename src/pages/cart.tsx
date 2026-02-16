@@ -4,6 +4,7 @@ import { removeCartItem, updateCartItem, getCart } from "../api/cart";
 import type { CartItem } from "./../types/Cart";
 import { useEffect, useState } from "react";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
+import { useNotifStore } from "./../store/appStore";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -11,7 +12,15 @@ const Cart = () => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const checkout = async () => {
-    navigate(`/payment/order-id`);
+    useNotifStore.getState().show({
+      title: "Konfirmasi Checkout",
+      message:
+        "Cek dulu pesanan kamu ya. Kalau sudah sesuai, klik lanjut untuk proses pembayaran.",
+      onConfirm: () => {
+        console.log("hapus dijalankan");
+        navigate(`/payment/order-id`);
+      },
+    });
   };
 
   const UpdateCart = async (id: number, kondisi: string) => {
@@ -153,7 +162,9 @@ const Cart = () => {
                             tracking-widest
                             hover:brightness-125
                             transition
+                           
                           "
+                        // cursor-progress
                         onClick={() => UpdateCart(item.id, "increment")}
                       >
                         +
