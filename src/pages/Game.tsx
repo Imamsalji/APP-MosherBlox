@@ -66,12 +66,13 @@ export default function Game() {
       try {
         const data = await getCart();
 
-        const ids = data.items.map((item: CartItem) => ({
-          id: item.product_id,
-          qty: item.qty,
-        }));
-
-        setCartem(ids);
+        if (data.length != 0) {
+          const ids = data.items.map((item: CartItem) => ({
+            id: item.product_id,
+            qty: item.qty,
+          }));
+          setCartem(ids);
+        }
 
         const gameData = await getGameDetail(slug);
         setGame(gameData);

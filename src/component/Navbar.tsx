@@ -23,7 +23,9 @@ export default function Navbar() {
     try {
       const data = await getCart();
       //   setCart(data.items);
-      setNavCart(data.items.length);
+      if (data.length != 0) {
+        setNavCart(data.items.length);
+      }
     } catch (error) {
       console.error(error);
     }

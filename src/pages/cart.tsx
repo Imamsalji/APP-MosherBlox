@@ -2,13 +2,16 @@ import logo from "./../assets/img/logoMosher.jpeg";
 import { useNavigate } from "react-router-dom";
 import { removeCartItem, updateCartItem, getCart } from "../api/cart";
 import type { CartItem } from "./../types/Cart";
+import { checkoutItem } from "./../api/order";
 import { useEffect, useState } from "react";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { useNotifStore } from "./../store/appStore";
+import { div } from "framer-motion/client";
 
 const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  console.log(cartItems);
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const checkout = async () => {
@@ -16,9 +19,15 @@ const Cart = () => {
       title: "Konfirmasi Checkout",
       message:
         "Cek dulu pesanan kamu ya. Kalau sudah sesuai, klik lanjut untuk proses pembayaran.",
-      onConfirm: () => {
-        console.log("hapus dijalankan");
-        navigate(`/payment/order-id`);
+      onConfirm: async () => {
+        try {
+          const data = await checkoutItem();
+          console.log(data);
+
+          // navigate(`/payment/order-id`);
+        } catch (err) {
+          console.error(err);
+        }
       },
     });
   };
@@ -31,19 +40,31 @@ const Cart = () => {
       const data = await updateCartItem(id, kondisi);
     }
     const data = await getCart();
-    setCartItems(data.items);
+    if (data.length != 0) {
+      setCartItems(data.items);
+    } else {
+      setCartItems([]);
+    }
   };
 
   const RemoveCart = async (id: number) => {
     await removeCartItem(id);
     const data = await getCart();
-    setCartItems(data.items);
+    if (data.length != 0) {
+      setCartItems(data.items);
+    } else {
+      setCartItems([]);
+    }
   };
 
   const fetchCart = async () => {
     try {
       const data = await getCart();
-      setCartItems(data.items);
+      if (data.length != 0) {
+        setCartItems(data.items);
+      } else {
+        setCartItems([]);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -80,25 +101,33 @@ const Cart = () => {
       />
 
       {/* CONTENT */}
-      {cartItems.length === 0 ? (
-        <CyberpunkSpinner size={80} text="Loading" />
-      ) : (
-        <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
-          {/* Header */}
-          <h2
-            className="
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
+        {/* Header */}
+        <h2
+          className="
           text-xl md:text-3xl
           font-bold
           tracking-widest
           text-cyan-400
           mb-10
         "
-          >
-            CART SYSTEM
-          </h2>
+        >
+          CART SYSTEM
+        </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart List */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Cart List */}
+
+          {cartItems.length === 0 ? (
+            <div
+              className="
+                  lg:col-span-2 space-y-6
+                  w-full
+                "
+            >
+              <CyberpunkSpinner size={80} text="no data...!" />
+            </div>
+          ) : (
             <div className="lg:col-span-2 space-y-6">
               {cartItems.map((item) => (
                 <div
@@ -204,10 +233,11 @@ const Cart = () => {
                 </div>
               ))}
             </div>
+          )}
 
-            {/* Summary */}
-            <div
-              className="
+          {/* Summary */}
+          <div
+            className="
               relative
               p-6
               rounded-xl
@@ -217,46 +247,48 @@ const Cart = () => {
               shadow-[0_0_30px_rgba(217,70,239,0.25)]
               h-fit
             "
-            >
-              <h3
-                className="
+          >
+            <h3
+              className="
               text-lg
               font-bold
               tracking-widest
               text-fuchsia-400
               mb-6
             "
-              >
-                SUMMARY
-              </h3>
+            >
+              SUMMARY
+            </h3>
 
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>Rp {total.toLocaleString("id-ID")}</span>
-                </div>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>Rp {total.toLocaleString("id-ID")}</span>
+              </div>
 
-                <div className="flex justify-between text-gray-400">
-                  <span>Fee</span>
-                  <span>Rp 0</span>
-                </div>
+              <div className="flex justify-between text-gray-400">
+                <span>Fee</span>
+                <span>Rp 0</span>
+              </div>
 
-                <div
-                  className="
+              <div
+                className="
                 border-t
                 border-cyan-400/20
                 pt-4
                 flex justify-between
                 font-bold
               "
-                >
-                  <span>Total</span>
-                  <span className="text-cyan-400">
-                    Rp {total.toLocaleString("id-ID")}
-                  </span>
-                </div>
+              >
+                <span>Total</span>
+                <span className="text-cyan-400">
+                  Rp {total.toLocaleString("id-ID")}
+                </span>
               </div>
-
+            </div>
+            {cartItems.length === 0 ? (
+              <></>
+            ) : (
               <button
                 className="
                 mt-6
@@ -276,10 +308,10 @@ const Cart = () => {
               >
                 CHECKOUT
               </button>
-            </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 };

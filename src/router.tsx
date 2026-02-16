@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Cart from "./pages/cart";
+import Cart from "./pages/Cart";
 import Game from "./pages/Game";
 import AllGame from "./pages/AllGame";
 import CyberpunkCart from "./component/transaksi/CyberpunkCart";
 import CyberpunkPayment from "./component/transaksi/CyberpunkPayment";
-import CyberpunkOrderList from "./component/transaksi/CyberpunkOrderList";
+import OrderList from "./pages/OrderList";
 import CyberpunkCarousel from "./component/transaksi/CyberpunkCarousel";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -29,7 +29,7 @@ export default function Router() {
             <Route path="/detail-game/:slug" element={<Game />} />
             <Route path="/carts" element={<Cart />} />
             <Route path="/payment/:id" element={<CyberpunkPayment />} />
-            <Route path="/list-order" element={<CyberpunkOrderList />} />
+            <Route path="/list-order" element={<OrderList />} />
             <Route path="/tes" element={<CyberpunkCarousel />} />
             <Route path="/list-orders" element={<ListOrder />} />
           </Route>
