@@ -170,10 +170,10 @@ const OrderList = () => {
                           id: order.id,
                           game: order.items,
                           product: "Diamond Pass",
-                          amount: order.amount,
+                          amount: order.total_price,
                           status: order.status,
                           paymentMethod: "QRIS",
-                          date: order.date,
+                          date: order.created_at,
                         })
                       }
                       className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition"
