@@ -135,7 +135,7 @@ const OrderList = () => {
                       text-xs
                       rounded-full
                       border
-                      ${statusStyle[order.status]}
+                     ${statusStyle[order.status]}
                     `}
                   >
                     {order.status.toUpperCase()}

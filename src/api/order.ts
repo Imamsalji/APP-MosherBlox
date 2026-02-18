@@ -1,7 +1,7 @@
 import axios from './axios'
 import type {
-  Order,
-  OrderDetail,
+  OrderItem,
+  GetOrders,
   CheckoutPayload,
   CheckoutResponse,
   UploadPaymentResponse,
@@ -52,7 +52,7 @@ export const uploadPaymentProof = async (
  * Ambil riwayat order user
  * GET /orders
  */
-export const getMyOrders = async (): Promise<Order[]> => {
+export const getMyOrders = async (): Promise<GetOrders[]> => {
   const response = await axios.get('/orders')
   return response.data.data
 }
@@ -63,7 +63,18 @@ export const getMyOrders = async (): Promise<Order[]> => {
  */
 export const getOrderDetail = async (
   orderId: number
-): Promise<OrderDetail> => {
+): Promise<GetOrders> => {
   const response = await axios.get(`/orders/${orderId}`)
+  return response.data.data
+}
+
+/**
+ * Ambil Ava Roblox 
+ * GET /orders/{id}
+ */
+export const getRoblox = async (
+  user: string
+) => {
+  const response = await axios.get(`/getRoblox/${user}`)
   return response.data.data
 }

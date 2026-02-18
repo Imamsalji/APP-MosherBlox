@@ -1,13 +1,11 @@
 import type { OrderItem } from "../../types/Order";
 
-export type OrderStatus = "pending" | "paid";
-
 export interface OrderDetail {
   id: string;
   game: OrderItem[];
   product: string;
   amount: string;
-  status: OrderStatus;
+  status: string;
   paymentMethod: string;
   date: string;
 }

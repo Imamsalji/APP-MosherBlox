@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import qris from "./../assets/img/logoMosher.jpeg";
 import axios from "axios";
-import { getRobloxUser } from "../api/roblox";
+import { getRoblox } from "../api/order";
 
 const Payment = () => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | "">("");
   const [query, setQuery] = useState("");
   const [debounced, setDebounced] = useState(query);
 
@@ -29,8 +30,9 @@ const Payment = () => {
     if (!debounced) return;
     const load = async () => {
       try {
-        const data = await getRobloxUser(debounced);
+        const data = await getRoblox(debounced);
         console.log(data);
+        setAvatar(data);
       } catch (e) {
         console.error(e);
       }
@@ -170,11 +172,11 @@ const Payment = () => {
                 "
               onChange={(e) => setQuery(e.target.value)}
             />
-            {preview && (
+            {avatar && (
               <div className="mt-4 mb-4">
                 <p className="text-xs text-gray-400 mb-2">Ava Roblox</p>
                 <img
-                  src={preview}
+                  src={avatar}
                   alt="Preview"
                   className="
                     max-h-30

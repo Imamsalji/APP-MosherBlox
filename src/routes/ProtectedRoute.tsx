@@ -1,17 +1,17 @@
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import ConfirmModal from '../component/Confirm';
-import { useAuthStore } from '../store/auth'
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ConfirmModal from "../component/Confirm";
+import { useAuthStore } from "../store/auth";
 
 export default function ProtectedRoute() {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
-  const { isAuthenticated, user, logout } = useAuthStore()
- 
+  const { isAuthenticated, user, logout } = useAuthStore();
+
   if (!isAuthenticated) {
     const handleConfirmLogin = () => {
-      navigate('/login', {
+      navigate("/login", {
         state: { from: location.pathname },
         replace: true,
       });
