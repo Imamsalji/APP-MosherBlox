@@ -5,7 +5,6 @@ import Register from "./pages/auth/Register";
 import Cart from "./pages/Cart";
 import Game from "./pages/Game";
 import AllGame from "./pages/AllGame";
-import CyberpunkCart from "./component/transaksi/CyberpunkCart";
 import Payment from "./pages/Payment";
 import OrderList from "./pages/OrderList";
 import CyberpunkCarousel from "./component/transaksi/CyberpunkCarousel";
