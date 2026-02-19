@@ -1,10 +1,11 @@
 import api from "../../api/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link,useNavigate } from "react-router-dom";
-import { useAuthStore } from '../../store/auth'
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/auth";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import CyberpunkSpinner from "../../component/transaksi/CyberpunkSpinner";
 
 type LoginForm = {
   email: string;
@@ -16,40 +17,36 @@ const Login = () => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginForm) => {
-      console.log(data);
-      
-      try {
-          // const res = await api.post("/login", { email, password });
-          const res = await api.post("/login", data);
-          console.log(res.data);
-          
-          // localStorage.setItem("token", 'imam salji anjay');
-          useAuthStore.getState().setAuth(
-            res.data.token,
-            res.data.user
-          )
+    console.log(data);
+    setLoading(true);
+    try {
+      // const res = await api.post("/login", { email, password });
+      const res = await api.post("/login", data);
+      console.log(res.data);
 
-          navigate("/game");
-      } catch (err) {
-        console.log('login');
-        if (axios.isAxiosError(err)) {
-          console.log(err.response?.data.message);
-          setError(err.response?.data.message);
-        } else {
-          console.log(err);
-        }
+      // localStorage.setItem("token", 'imam salji anjay');
+      useAuthStore.getState().setAuth(res.data.token, res.data.user);
+
+      navigate("/game");
+    } catch (err) {
+      setLoading(false);
+      if (axios.isAxiosError(err)) {
+        console.log(err.response?.data.message);
+        setError(err.response?.data.message);
+      } else {
+        console.log(err);
       }
+    }
   };
 
-  useEffect(() => {
-  }, [error])
+  useEffect(() => {}, [error]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#05080f] relative overflow-hidden px-4 sm:px-6">
-
       {/* BACKGROUND GLOW */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-purple-600/10 blur-3xl" />
 
@@ -63,7 +60,6 @@ const Login = () => {
         "
       >
         <div className="bg-[#0b0f1a] rounded-[14px] p-8">
-
           <h1 className="text-3xl font-bold text-center text-cyan-400 tracking-widest drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">
             LOGIN
           </h1>
@@ -73,7 +69,6 @@ const Login = () => {
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
-
             {/* <div className="mb-4 p-4 rounded-lg border border-green-500/30 bg-green-500/10 text-green-400 text-sm">
               <div className="flex items-center gap-2">
                 <span>✅</span>
@@ -150,7 +145,7 @@ const Login = () => {
             >
               LOGIN
             </button>
-
+            {loading && <CyberpunkSpinner size={80} text="Loading" />}
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-400">
@@ -159,7 +154,6 @@ const Login = () => {
               Register
             </Link>
           </p>
-
         </div>
       </div>
     </div>
