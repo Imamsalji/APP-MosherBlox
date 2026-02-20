@@ -29,14 +29,18 @@ export const checkoutItem = async (
  * POST /orders/{id}/upload-payment
  */
 export const uploadPaymentProof = async (
-  orderId: number,
-  file: File
+  id:number,
+  formData: {
+        email: "",
+        username: "",
+        file: File,
+    }
 ): Promise<UploadPaymentResponse> => {
-  const formData = new FormData()
-  formData.append('payment_proof', file)
+  // const formData = new FormData()
+  // formData.append('payment_proof', file)
 
   const response = await axios.post(
-    `/orders/${orderId}/upload-payment`,
+    `/orders/${id}/upload-payment`,
     formData,
     {
       headers: {

@@ -1,8 +1,9 @@
+import api from "../api/axios";
 import { useEffect, useState } from "react";
 import qris from "./../assets/img/logoMosher.jpeg";
 import { getRoblox } from "../api/order";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 type dataupload = {
   email: string;
@@ -16,11 +17,12 @@ const Payment = () => {
     username: "",
     file: null,
   });
-  const [errors, setErrors] = useState({
-    email: "",
-    username: "",
-    file: null,
-  });
+  const [errors, setErrors] = useState<{
+    email?: string;
+    username?: string;
+    file?: string;
+  }>({});
+  const { id } = useParams();
   const [preview, setPreview] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | "">("");
   const [query, setQuery] = useState("");
@@ -89,11 +91,21 @@ const Payment = () => {
       console.log(errors);
       return;
     }
-
+    if (!form.file) return;
     try {
-      console.log(form);
+      const formData = new FormData();
+      formData.append("email", form.email);
+      formData.append("username", form.username);
+      formData.append("file", form.file);
 
-      navigate("/products");
+      const res = await api.post(`/orders/${id}/payment`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(res.data);
+      // navigate("/products");
     } catch (error) {
       console.error(error);
     }
@@ -236,17 +248,25 @@ const Payment = () => {
 
             <form onSubmit={handleSubmit}>
               <label className="text-sm text-gray-400">Email</label>
+              <p className="mt-1 text-sm text-fg-danger-strong text-red-400">
+                {errors && <span className="font-medium">{errors.email}</span>}
+              </p>
               <input
                 type="email"
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="
+                className={`
                   w-full mt-1 px-4 py-3 mb-3 rounded-lg
                   bg-[#05080f] text-white
                   border border-cyan-400/30
                   focus:outline-none focus:ring-2 focus:ring-cyan-400
-                "
+                `}
               />
               <label className="text-sm text-gray-400">Username Roblox</label>
+              <p className="mt-1 text-sm text-fg-danger-strong text-red-400">
+                {errors && (
+                  <span className="font-medium">{errors.username}</span>
+                )}
+              </p>
               <input
                 type="username"
                 onChange={(e) => {
@@ -260,7 +280,7 @@ const Payment = () => {
                   setQuery(value);
                 }}
                 className="
-                  w-full mt-1 px-4 py-3 mb-3 rounded-lg
+                  w-full mt-1 px-4 py-3 mb-2 rounded-lg
                   bg-[#05080f] text-white
                   border border-cyan-400/30
                   focus:outline-none focus:ring-2 focus:ring-cyan-400
@@ -283,8 +303,15 @@ const Payment = () => {
                 </div>
               )}
 
+              <label className="mt-1 mb-3 text-sm text-gray-400">
+                Upload Bukti Pembayaran
+              </label>
+              <p className="mt-1 text-sm text-fg-danger-strong text-red-400">
+                {errors && <span className="font-medium">{errors.file}</span>}
+              </p>
               <label
                 className="
+                mt-2
                 flex flex-col items-center justify-center
                 h-48
                 border-2 border-dashed

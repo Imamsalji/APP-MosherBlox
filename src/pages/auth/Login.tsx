@@ -77,7 +77,7 @@ const Login = () => {
             </div> */}
 
             {error && (
-              <div className="mb-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
+              <div className="mb-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10  text-red-400 text-sm">
                 <div className="flex items-center gap-2">
                   <span>❌</span>
                   <span>{error}</span>
