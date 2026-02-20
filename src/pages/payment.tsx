@@ -1,18 +1,101 @@
 import { useEffect, useState } from "react";
 import qris from "./../assets/img/logoMosher.jpeg";
-import axios from "axios";
 import { getRoblox } from "../api/order";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+type dataupload = {
+  email: string;
+  username: string;
+  file: File | null;
+};
 
 const Payment = () => {
+  const [form, setForm] = useState<dataupload>({
+    email: "",
+    username: "",
+    file: null,
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    username: "",
+    file: null,
+  });
   const [preview, setPreview] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | "">("");
   const [query, setQuery] = useState("");
   const [debounced, setDebounced] = useState(query);
+  const navigate = useNavigate();
+
+  const validate = () => {
+    let newErrors: any = {};
+
+    // Name
+    if (!form.username.trim()) {
+      newErrors.username = "Name wajib diisi";
+    }
+
+    // ✅ Email Required
+    if (!form.email.trim()) {
+      newErrors.email = "Email wajib diisi";
+    } else {
+      // ✅ Email Format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(form.email)) {
+        newErrors.email = "Format email tidak valid";
+      }
+    }
+
+    // ✅ File Required
+    if (!form.file) {
+      newErrors.file = "File wajib diupload";
+    } else {
+      // ✅ Validasi tipe file (contoh: hanya gambar)
+      const allowedTypes = ["image/jpeg", "image/png"];
+
+      if (!allowedTypes.includes(form.file.type)) {
+        newErrors.file = "File harus berupa JPG atau PNG";
+      }
+
+      // ✅ Validasi ukuran file (contoh: max 2MB)
+      const maxSize = 2 * 1024 * 1024;
+
+      if (form.file.size > maxSize) {
+        newErrors.file = "Ukuran file maksimal 2MB";
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    setForm((prev) => ({
+      ...prev,
+      file,
+    }));
+    setPreview(URL.createObjectURL(file));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validate()) {
+      console.log(errors);
+      return;
+    }
+
+    try {
+      console.log(form);
+
+      navigate("/products");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -20,7 +103,7 @@ const Payment = () => {
   useEffect(() => {
     const t = setTimeout(() => {
       setDebounced(query);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(t);
   }, [query]);
@@ -151,46 +234,57 @@ const Payment = () => {
               Pembayaran
             </h3>
 
-            <label className="text-sm text-gray-400">Email</label>
-            <input
-              type="email"
-              className="
+            <form onSubmit={handleSubmit}>
+              <label className="text-sm text-gray-400">Email</label>
+              <input
+                type="email"
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="
                   w-full mt-1 px-4 py-3 mb-3 rounded-lg
                   bg-[#05080f] text-white
                   border border-cyan-400/30
                   focus:outline-none focus:ring-2 focus:ring-cyan-400
                 "
-            />
-            <label className="text-sm text-gray-400">Username Roblox</label>
-            <input
-              type="username"
-              className="
+              />
+              <label className="text-sm text-gray-400">Username Roblox</label>
+              <input
+                type="username"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  setForm((prev) => ({
+                    ...prev,
+                    username: value,
+                  }));
+
+                  setQuery(value);
+                }}
+                className="
                   w-full mt-1 px-4 py-3 mb-3 rounded-lg
                   bg-[#05080f] text-white
                   border border-cyan-400/30
                   focus:outline-none focus:ring-2 focus:ring-cyan-400
                 "
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            {avatar && (
-              <div className="mt-4 mb-4">
-                <p className="text-xs text-gray-400 mb-2">Ava Roblox</p>
-                <img
-                  src={avatar}
-                  alt="Preview"
-                  className="
+              />
+              {avatar && (
+                <div className="mt-4 mb-4">
+                  <p className="text-xs text-gray-400 mb-2">Ava Roblox</p>
+                  <img
+                    src={avatar}
+                    alt="Preview"
+                    className="
                     max-h-30
                     object-contain
                     rounded-lg
                     border
                     border-fuchsia-400/30
                   "
-                />
-              </div>
-            )}
+                  />
+                </div>
+              )}
 
-            <label
-              className="
+              <label
+                className="
                 flex flex-col items-center justify-center
                 h-48
                 border-2 border-dashed
@@ -200,25 +294,25 @@ const Payment = () => {
                 hover:bg-fuchsia-500/5
                 transition
               "
-            >
-              <span className="text-xs tracking-widest text-gray-400">
-                Upload File Bukti Pembayaran
-              </span>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleUpload}
-                className="hidden"
-              />
-            </label>
+              >
+                <span className="text-xs tracking-widest text-gray-400">
+                  Upload File Bukti Pembayaran
+                </span>
+                <input
+                  onChange={handleUpload}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                />
+              </label>
 
-            {preview && (
-              <div className="mt-4">
-                <p className="text-xs text-gray-400 mb-2">PREVIEW</p>
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="
+              {preview && (
+                <div className="mt-4">
+                  <p className="text-xs text-gray-400 mb-2">PREVIEW</p>
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="
                     w-full
                     max-h-64
                     object-contain
@@ -226,12 +320,12 @@ const Payment = () => {
                     border
                     border-fuchsia-400/30
                   "
-                />
-              </div>
-            )}
+                  />
+                </div>
+              )}
 
-            <button
-              className="
+              <button
+                className="
                 mt-6
                 w-full
                 py-3
@@ -245,9 +339,10 @@ const Payment = () => {
                 hover:brightness-140
                 transition
               "
-            >
-              CONFIRM PAYMENT
-            </button>
+              >
+                CONFIRM PAYMENT
+              </button>
+            </form>
           </div>
         </div>
       </div>
