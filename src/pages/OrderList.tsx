@@ -5,7 +5,6 @@ import type { GetOrders } from "../types/Order";
 
 import CyberpunkOrderDetailModal from "../component/transaksi/CyberpunkOrderDetailModal";
 import type { OrderDetail } from "../component/transaksi/CyberpunkOrderDetailModal";
-type OrderStatus = "pending" | "paid";
 
 // const orders: Order[] = [
 //   {
@@ -30,11 +29,16 @@ type OrderStatus = "pending" | "paid";
 //     date: "13 Jan 2026",
 //   },
 // ];
-
-const statusStyle = {
+type Status = "pending" | "waiting_verification" | "success" | "rejected";
+const statusStyle: Record<Status, string> = {
   pending:
     "text-yellow-400 border-yellow-400/40 shadow-[0_0_15px_rgba(250,204,21,0.4)]",
-  paid: "text-cyan-400 border-cyan-400/40 shadow-[0_0_15px_rgba(34,211,238,0.4)]",
+  waiting_verification:
+    "text-yellow-400 border-yellow-400/40 shadow-[0_0_15px_rgba(250,204,21,0.4)]",
+  success:
+    "text-cyan-400 border-cyan-400/40 shadow-[0_0_15px_rgba(34,211,238,0.4)]",
+  rejected:
+    "text-red-400 border-red-400/40 shadow-[0_0_15px_rgba(34,211,238,0.4)]",
 };
 
 const OrderList = () => {
@@ -135,7 +139,7 @@ const OrderList = () => {
                       text-xs
                       rounded-full
                       border
-                     ${statusStyle[order.status]}
+                     ${statusStyle[order.status as Status]}
                     `}
                   >
                     {order.status.toUpperCase()}
