@@ -4,6 +4,7 @@ import qris from "./../assets/img/logoMosher.jpeg";
 import { getRoblox } from "../api/order";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { useNotifStore } from "./../store/appStore";
 
 type dataupload = {
   email: string;
@@ -91,21 +92,29 @@ const Payment = () => {
       console.log(errors);
       return;
     }
-    if (!form.file) return;
+
+    useNotifStore.getState().show({
+      title: "Konfirmasi Pembayaran",
+      message:
+        "Kalau sudah sesuai, klik Confirm untuk menunggu verification oleh admin.",
+      onConfirm: async () => {
+        if (!form.file) return;
+        const formData = new FormData();
+        formData.append("email", form.email);
+        formData.append("username", form.username);
+        formData.append("file", form.file);
+
+        const res = await api.post(`/orders/${id}/payment`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        console.log(res.data);
+        navigate("/list-order");
+      },
+    });
     try {
-      const formData = new FormData();
-      formData.append("email", form.email);
-      formData.append("username", form.username);
-      formData.append("file", form.file);
-
-      const res = await api.post(`/orders/${id}/payment`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log(res.data);
-      // navigate("/products");
     } catch (error) {
       console.error(error);
     }

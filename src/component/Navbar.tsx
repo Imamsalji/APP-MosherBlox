@@ -95,7 +95,6 @@ export default function Navbar() {
   if (isAuthenticated) {
     listOrder = (
       <a
-        href=""
         onClick={(e) => {
           navigate("/list-order");
         }}
