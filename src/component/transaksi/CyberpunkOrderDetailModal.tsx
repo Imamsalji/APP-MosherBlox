@@ -23,6 +23,7 @@ interface Props {
 // ==========================
 const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
   if (!order) return null;
+  console.log(order.game);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -50,7 +51,7 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
 
           {/* DETAIL */}
           <Detail label="Order ID" value={order.id} mono />
-          {/* <Detail label="Game" value={order.game} /> */}
+          <Detail label="Game" value={order.game} />
           <Detail label="Product" value={order.product} />
           <Detail label="Amount" value={order.amount} highlight />
           <Detail label="Payment" value={order.paymentMethod} />
@@ -87,6 +88,12 @@ export default CyberpunkOrderDetailModal;
 // ==========================
 // SUB COMPONENT
 // ==========================
+
+type DetailValue =
+  | string
+  | number
+  | Array<{ name?: string; value?: string; [key: string]: any }>;
+
 const Detail = ({
   label,
   value,
@@ -94,18 +101,39 @@ const Detail = ({
   highlight,
 }: {
   label: string;
-  value: string;
+  value: DetailValue;
   mono?: boolean;
   highlight?: boolean;
-}) => (
-  <div>
-    <p className="text-xs tracking-widest text-gray-400">{label}</p>
-    <p
-      className={`mt-1 ${
-        mono ? "font-mono text-cyan-300" : ""
-      } ${highlight ? "text-fuchsia-400 font-semibold" : ""}`}
-    >
-      {value}
-    </p>
-  </div>
-);
+}) => {
+  const baseClass = `
+    mt-1
+    ${mono ? "font-mono text-cyan-300" : ""}
+    ${highlight ? "text-fuchsia-400 font-semibold" : ""}
+  `;
+
+  return (
+    <div>
+      <p className="text-xs tracking-widest text-gray-400">{label}</p>
+
+      {/* STRING / NUMBER */}
+      {typeof value === "string" || typeof value === "number" ? (
+        <p className={baseClass}>{value}</p>
+      ) : (
+        /* ARRAY */
+        <div className="mt-2 space-y-2">
+          {value.map((item, index) => (
+            <div
+              key={index}
+              className="text-sm bg-white/5 border border-white/10 rounded p-2"
+            >
+              {item.product.name && <span>{item.product.name}</span>}
+              {item.price && (
+                <span className="text-cyan-300"> Rp.{item.price}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};

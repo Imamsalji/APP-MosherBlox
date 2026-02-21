@@ -1,4 +1,5 @@
 import axios from './axios'
+import type {apiPublic} from './axios'
 import type { Game, Product } from '../types/Game'
 
 /**

@@ -88,23 +88,34 @@ export default function Game() {
   console.log(cartem);
 
   return (
-    <section
-      id="games"
-      className="container mx-auto px-6 md:px-10 py-16 text-center"
-    >
-      <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
-        Games
-      </h2>
-      <Toast
-        show={show}
-        message="Game Berhasil Di Tambahkan! "
-        onClose={() => setShow(false)}
-      />
-      {game.length === 0 ? (
-        <CyberpunkSpinner size={80} text="Loading" />
-      ) : (
-        <div
-          className="
+    <>
+      <section
+        id="games"
+        className="container mx-auto px-6 md:px-10 py-16 text-center"
+      >
+        <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
+          Games
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-3">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            className="bg border-cyan-400 text-white-300 
+            rounded-xl px-4 py-2 focus:outline-none 
+            focus:shadow-[0_0_10px_rgba(0,255,255,0.8)]"
+          />
+        </div>
+        <Toast
+          show={show}
+          message="Game Berhasil Di Tambahkan! "
+          onClose={() => setShow(false)}
+        />
+        {game.length === 0 ? (
+          <CyberpunkSpinner size={80} text="Loading" />
+        ) : (
+          <div
+            className="
                     grid
                     grid-cols-2
                     sm:grid-cols-3
@@ -112,17 +123,17 @@ export default function Game() {
                     lg:grid-cols-6
                     gap-6
                 "
-        >
-          {game.map((item: Game) => (
-            <GlowCard
-              Dcart={{ id: item.id, qty: 1 }}
-              title={item.name}
-              image={logo}
-              description=""
-              onChange={handleCheckout}
-            >
-              <CekCart id={item.id} DCart={cartem} />
-              {/* <span
+          >
+            {game.map((item: Game) => (
+              <GlowCard
+                Dcart={{ id: item.id, qty: 1 }}
+                title={item.name}
+                image={logo}
+                description=""
+                onChange={handleCheckout}
+              >
+                <CekCart id={item.id} DCart={cartem} />
+                {/* <span
                             className="
                                 absolute
                                 -top-2
@@ -140,10 +151,11 @@ export default function Game() {
                         >
                             3
                         </span> */}
-            </GlowCard>
-          ))}
-        </div>
-      )}
-    </section>
+              </GlowCard>
+            ))}
+          </div>
+        )}
+      </section>
+    </>
   );
 }
