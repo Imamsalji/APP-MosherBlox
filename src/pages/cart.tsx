@@ -15,9 +15,6 @@ const Cart = () => {
   const setNavCart = useAppStore((s) => s.setCart);
 
   const checkout = async () => {
-    console.log("ser");
-
-    console.log("sersss");
     useNotifStore.getState().show({
       title: "Konfirmasi Checkout",
       message:
