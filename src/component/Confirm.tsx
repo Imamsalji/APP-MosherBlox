@@ -48,9 +48,7 @@ export default function ConfirmModal({
               </h2>
 
               {/* Message */}
-              <p className="mb-6 text-sm text-cyan-100/80">
-                {message}
-              </p>
+              <p className="mb-6 text-sm text-cyan-100/80">{message}</p>
 
               {/* Buttons */}
               <div className="flex justify-end gap-3">

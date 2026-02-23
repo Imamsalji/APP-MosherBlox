@@ -5,18 +5,19 @@ import type { CartItem } from "./../types/Cart";
 import { checkoutItem } from "./../api/order";
 import { useEffect, useState } from "react";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
-import { useNotifStore } from "./../store/appStore";
-import { div } from "framer-motion/client";
-import { useAppStore } from "../store/appStore";
+import { useNotifStore, useAppStore } from "./../store/appStore";
 
 const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   console.log(cartItems);
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const setNavCart = useAppStore((s) => s.setCart);
 
   const checkout = async () => {
-    const setNavCart = useAppStore((s) => s.setCart);
+    console.log("ser");
+
+    console.log("sersss");
     useNotifStore.getState().show({
       title: "Konfirmasi Checkout",
       message:
