@@ -7,12 +7,15 @@ import Game from "./pages/Game";
 import AllGame from "./pages/AllGame";
 import Payment from "./pages/Payment";
 import OrderList from "./pages/OrderList";
-import Dashboard from "./pages/admin/Dashboard";
 import CyberpunkCarousel from "./component/transaksi/CyberpunkCarousel";
 import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+//admin
+import Dashboard from "./pages/admin/Dashboard";
+import CreateProduct from "./pages/admin/products/CreateProduct";
+import ProductList from "./pages/admin/products/ProductList";
 
 export default function Router() {
   return (
@@ -38,7 +41,12 @@ export default function Router() {
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/orders" element={<AllGame />} />
-              <Route path="/admin/products" element={<AllGame />} />
+              <Route path="/admin/orders/create" element={<AllGame />} />
+              <Route path="/admin/products" element={<ProductList />} />
+              <Route
+                path="/admin/products/create"
+                element={<CreateProduct />}
+              />
             </Route>
           </Route>
         </Route>

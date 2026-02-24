@@ -4,7 +4,7 @@ import { Outlet, Navigate } from "react-router-dom";
 const AdminRoute = () => {
   const { user } = useAuthStore();
 
-  if (!user || user.role !== "admin") {
+  if (!user || user.role === "admin") {
     return <Navigate to="/" />;
   }
 

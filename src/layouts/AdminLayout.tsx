@@ -1,24 +1,38 @@
-import Navbar from "../component/admin/Navbar";
-import Sidebar from "../component/admin/Sidebar";
-import Footer from "../component/admin/Footer";
-import { Outlet } from "react-router-dom";
+import { SidebarProvider, useSidebar } from "../context/SidebarContext";
+import { Outlet } from "react-router";
+import AppHeader from "./AppHeader";
+import Backdrop from "./Backdrop";
+import AppSidebar from "./AppSidebar";
 
-const AppLayout = () => {
+const LayoutContent: React.FC = () => {
+  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+
   return (
-    <div className="main-wrapper container">
-      <div className="navbar-bg"></div>
-      <Navbar />
-      <Sidebar />
-      <main>
-        <div className="main-content">
-          <section className="section">
-            <Outlet />
-          </section>
+    <div className="min-h-screen xl:flex">
+      <div>
+        <AppSidebar />
+        <Backdrop />
+      </div>
+      <div
+        className={`flex-1 transition-all duration-300 ease-in-out ${
+          isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"
+        } ${isMobileOpen ? "ml-0" : ""}`}
+      >
+        <AppHeader />
+        <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+          <Outlet />
         </div>
-      </main>
-      <Footer />
+      </div>
     </div>
   );
 };
 
-export default AppLayout;
+const AdminLayout: React.FC = () => {
+  return (
+    <SidebarProvider>
+      <LayoutContent />
+    </SidebarProvider>
+  );
+};
+
+export default AdminLayout;

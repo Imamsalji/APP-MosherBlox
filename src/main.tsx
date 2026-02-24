@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { AppWrapper } from "./component/common/PageMeta.tsx";
+import { ThemeProvider } from "./context/ThemeContext.tsx";
 import "./assets/css/index.css";
 
-import AOS from 'aos';
+import AOS from "aos";
 import "aos/dist/aos.css";
 
 AOS.init({
@@ -13,7 +15,9 @@ AOS.init({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <ThemeProvider>
+    <AppWrapper>
+      <App />
+    </AppWrapper>
+  </ThemeProvider>,
 );
