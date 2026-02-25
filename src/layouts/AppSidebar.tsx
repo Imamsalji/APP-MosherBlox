@@ -24,22 +24,23 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/admin/dashboard",
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    name: "Forms",
+    name: "Game",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    subItems: [
+      { name: "List Game", path: "/form-elements", pro: false },
+      { name: "Tambah Game", path: "/form-elements", pro: false },
+    ],
   },
   {
-    name: "Tables",
+    name: "Produk Game",
     icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+    subItems: [
+      { name: "List Produk", path: "/basic-tables", pro: false },
+      { name: "Tambah Produk", path: "/basic-tables", pro: false },
+    ],
   },
 ];
 
