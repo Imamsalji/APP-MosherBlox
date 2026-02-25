@@ -3,6 +3,7 @@ import Navbar from "../component/Navbar";
 import GlobalConfirm from "./../component/GlobalConfirm";
 import Header from "../component/Header";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
 
 function MainLayout() {
   return (
