@@ -10,7 +10,7 @@ function MainLayout() {
     <>
       <Navbar />
       <div className="h-20"></div>
-      {/* <Header /> */}
+      <Header />
       <GlobalConfirm />
       <Outlet />
       {/* <CyberpunkCart/>

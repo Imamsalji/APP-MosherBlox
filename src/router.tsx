@@ -16,6 +16,8 @@ import AdminRoute from "./routes/AdminRoute";
 import Dashboard from "./pages/admin/Dashboard";
 import CreateProduct from "./pages/admin/products/CreateProduct";
 import ProductList from "./pages/admin/products/ProductList";
+import GameList from "./pages/admin/games/GameList";
+import CreateGame from "./pages/admin/games/CreateGame";
 
 export default function Router() {
   return (
@@ -40,8 +42,8 @@ export default function Router() {
           <Route element={<AdminRoute />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/orders" element={<AllGame />} />
-              <Route path="/admin/orders/create" element={<AllGame />} />
+              <Route path="/admin/game" element={<GameList />} />
+              <Route path="/admin/game/create" element={<CreateGame />} />
               <Route path="/admin/products" element={<ProductList />} />
               <Route
                 path="/admin/products/create"

@@ -30,17 +30,22 @@ const navItems: NavItem[] = [
     name: "Game",
     icon: <ListIcon />,
     subItems: [
-      { name: "List Game", path: "/form-elements", pro: false },
-      { name: "Tambah Game", path: "/form-elements", pro: false },
+      { name: "List Game", path: "/admin/game", pro: false },
+      { name: "Tambah Game", path: "/admin/game/create", pro: false },
     ],
   },
   {
     name: "Produk Game",
     icon: <TableIcon />,
     subItems: [
-      { name: "List Produk", path: "/basic-tables", pro: false },
-      { name: "Tambah Produk", path: "/basic-tables", pro: false },
+      { name: "List Produk", path: "/admin/products", pro: false },
+      { name: "Tambah Produk", path: "/admin/products/create", pro: false },
     ],
+  },
+  {
+    icon: <GridIcon />,
+    name: "Transaksi",
+    path: "/admin/Transaksi",
   },
 ];
 

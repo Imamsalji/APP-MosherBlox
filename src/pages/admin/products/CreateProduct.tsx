@@ -5,7 +5,7 @@ import CheckboxComponents from "../../../component/form/form-elements/CheckboxCo
 import FileInputExample from "../../../component/form/form-elements/FileInputExample";
 import PageMeta from "../../../component/common/PageMeta";
 
-export default function FormElements() {
+export default function CreateProduct() {
   return (
     <div>
       <PageMeta
