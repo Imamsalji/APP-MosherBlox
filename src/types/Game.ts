@@ -6,6 +6,7 @@ export interface Game {
   name: string
   slug: string
   image: string
+  image_url: string
   status: number
   created_at: string
 }
