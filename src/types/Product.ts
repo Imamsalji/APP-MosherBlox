@@ -1,3 +1,4 @@
+import type { Game } from './Game'
 export interface Product {
   id: number
   game_id: number
@@ -7,9 +8,11 @@ export interface Product {
   specification: string
 
   image: string
+  image_url: string
   stock: number
   status: number
 
   created_at: string
   updated_at?: string
+  game:Game
 }
