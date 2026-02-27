@@ -19,7 +19,7 @@ const GlowCard = ({
   onChange,
 }: GlowCardProps) => {
   return (
-    <div className="relative group">
+    <div className="relative group h-full">
       {/* Glow Background */}
       <div
         className="
@@ -48,6 +48,7 @@ const GlowCard = ({
           transition
           duration-300
           group-hover:-translate-y-1
+          flex flex-col h-full
         "
       >
         {/* Image */}
@@ -63,8 +64,8 @@ const GlowCard = ({
         </div>
 
         {/* Content */}
-        <div className="p-4">
-          <h3 className="text-white font-semibold text-sm md:text-base">
+        <div className="p-4 flex flex-col flex-grow">
+          <h3 className="text-white font-semibold text-sm md:text-base line-clamp-2">
             {title}
           </h3>
 
@@ -76,7 +77,7 @@ const GlowCard = ({
 
           <button
             className="
-              mt-4
+              mt-auto
               w-full
               py-2
               rounded-lg
