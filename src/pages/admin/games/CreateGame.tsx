@@ -28,7 +28,7 @@ export default function CreateGame() {
         description="This is React.js Form Elements  Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
       <PageBreadcrumb pageTitle="Game" />
-      <ComponentCard title="Simpan Game terbaru">
+      <ComponentCard title="Tambah Game terbaru">
         <div className="space-y-6">
           <div>
             <Label htmlFor="name">name</Label>
