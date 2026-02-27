@@ -7,14 +7,13 @@ type CyberpunkCardProps = {
 
 const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
   const navigate = useNavigate();
-  
+
   const gameDetail = async (id: string) => {
-        console.log(id);
-        navigate(`/detail-game/${id}`);
-    };
+    console.log(id);
+    navigate(`/detail-game/${id}`);
+  };
   return (
     <div className="relative group">
-
       {/* Neon Glow */}
       <div
         className="
@@ -47,15 +46,15 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
           group-hover:-translate-y-1
         "
       >
-
         {/* Image */}
-        <div className="relative overflow-hidden">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111827]">
           <img
             src={image}
             alt={title}
             className="
               w-full h-full
               object-cover
+              object-center
               group-hover:scale-110
               transition
               duration-500
@@ -63,7 +62,8 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
           />
 
           {/* Scanline Effect */}
-          <div className="
+          <div
+            className="
             absolute inset-0
             bg-[linear-gradient(
               rgba(255,255,255,0.03)_1px,
@@ -72,12 +72,12 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
             bg-[size:100%_4px]
             opacity-30
             pointer-events-none
-          " />
+          "
+          />
         </div>
 
         {/* Content */}
         <div className="p-3 text-white">
-
           {tag && (
             <span
               className="
@@ -121,7 +121,6 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
             ACCESS
           </button>
         </div>
-
       </div>
     </div>
   );

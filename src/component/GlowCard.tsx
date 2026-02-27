@@ -1,19 +1,25 @@
 type GlowCardProps = {
   Dcart: {
-    id: number
-    qty: number
+    id: number;
+    qty: number;
   };
   title: string;
   image: string;
   description?: string;
   children?: React.ReactNode;
-  onChange: (id: number , qty: number) => void
+  onChange: (id: number, qty: number) => void;
 };
 
-const GlowCard = ({Dcart, title, image, description, children, onChange}: GlowCardProps) => {
+const GlowCard = ({
+  Dcart,
+  title,
+  image,
+  description,
+  children,
+  onChange,
+}: GlowCardProps) => {
   return (
     <div className="relative group">
-
       {/* Glow Background */}
       <div
         className="
@@ -44,7 +50,6 @@ const GlowCard = ({Dcart, title, image, description, children, onChange}: GlowCa
           group-hover:-translate-y-1
         "
       >
-
         {/* Image */}
         <div className="aspect-[3/4]">
           <img
@@ -91,13 +96,12 @@ const GlowCard = ({Dcart, title, image, description, children, onChange}: GlowCa
               relative
               tracking-wider
             "
-            onClick={() => onChange(Dcart.id,Dcart.qty)}>
-
+            onClick={() => onChange(Dcart.id, Dcart.qty)}
+          >
             ADD TO CART
             {children}
           </button>
         </div>
-
       </div>
     </div>
   );
