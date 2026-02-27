@@ -128,7 +128,7 @@ export default function Game() {
               <GlowCard
                 Dcart={{ id: item.id, qty: 1 }}
                 title={item.name}
-                image={logo}
+                image={item.image_url}
                 description=""
                 onChange={handleCheckout}
               >
