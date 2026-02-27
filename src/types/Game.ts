@@ -7,21 +7,8 @@ export interface Game {
   slug: string
   image: string
   image_url: string
+  description:string
   status: number
   created_at: string
 }
 
-/**
- * PRODUCT / GAMEPASS TYPE
- */
-export interface Product {
-  id: number
-  game_id: number
-  name: string
-  price: number
-  specification: string
-  image: string
-  stock: number
-  status: number
-  created_at: string
-}
