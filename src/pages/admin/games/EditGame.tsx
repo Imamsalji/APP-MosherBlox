@@ -21,7 +21,7 @@ export default function GameEdit() {
   const mutation = useMutation({
     mutationFn: (data: FormData) => updateGame(Number(id), data),
     onSuccess: () => {
-      navigate("/admin/games");
+      navigate("/admin/game");
     },
   });
 
