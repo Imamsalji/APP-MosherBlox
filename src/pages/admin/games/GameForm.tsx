@@ -48,11 +48,15 @@ export default function GameForm({ initialData, onSubmit }: Props) {
 
     console.log(form);
 
-    // const formData = new FormData();
-    // formData.append("name", form.name);
-    // if (form.image) formData.append("image", form.image);
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("slug", form.slug);
+    if (form.image) {
+      formData.append("image", form.image);
+    }
+    formData.append("status", String(form.status));
 
-    // onSubmit(formData);
+    onSubmit(formData);
   };
 
   return (
