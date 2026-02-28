@@ -122,7 +122,10 @@ export default function GameForm({ initialData, onSubmit }: Props) {
                 className="dark:bg-dark-900"
               />
             </div>
-            <button className="btn btn-success mb-2" type="submit">
+            <button
+              className="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-blue-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-blue-300"
+              type="submit"
+            >
               Save
             </button>
           </div>
