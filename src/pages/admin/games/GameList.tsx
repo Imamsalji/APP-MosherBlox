@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllGames, deleteGame } from "./../../../api/admin";
-import type { Game } from "./../../../types/Game";
+import type { Game, GameList } from "./../../../types/Game";
 import PageBreadcrumb from "../../../component/common/PageBreadCrumb";
 import ComponentCard from "../../../component/common/ComponentCard";
 import PageMeta from "../../../component/common/PageMeta";
@@ -13,11 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "../../../component/ui/table";
-
+import { useNotifStore } from "./../../../store/appStore";
 import Badge from "../../../component/ui/badge/Badge";
 
 export default function GameList() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: games, isLoading } = useQuery({
     queryKey: ["admin-games"],
@@ -76,7 +77,7 @@ export default function GameList() {
 
                 {/* Table Body */}
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                  {games?.map((order: Game) => (
+                  {games?.map((order: GameList) => (
                     <TableRow key={order.id}>
                       <TableCell className="px-5 py-4 sm:px-6 text-start">
                         <div className="flex items-center gap-3">
@@ -104,10 +105,20 @@ export default function GameList() {
 
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         <div className="flex items-center gap-5">
-                          <Button size="sm" variant="primary">
+                          <Button
+                            size="sm"
+                            variant="primary"
+                            onClick={() =>
+                              navigate("/admin/game/edit/" + order.id)
+                            }
+                          >
                             Edit
                           </Button>
-                          <Button size="sm" variant="danger">
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onClick={() => deleteMutation.mutate(order.id)}
+                          >
                             Delete
                           </Button>
                         </div>
