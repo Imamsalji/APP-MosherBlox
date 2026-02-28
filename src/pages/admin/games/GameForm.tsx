@@ -55,6 +55,9 @@ export default function GameForm({ initialData, onSubmit }: Props) {
       formData.append("image", form.image);
     }
     formData.append("status", String(form.status));
+    if (initialData) {
+      formData.append("_method", "PUT");
+    }
 
     onSubmit(formData);
   };
