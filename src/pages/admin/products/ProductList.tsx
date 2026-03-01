@@ -38,8 +38,7 @@ export default function ProductList() {
     if (id) {
       useNotifStore.getState().show({
         title: "Konfirmasi Delete",
-        message:
-          "Apakah yakin anda ingin menghapus Game ini?, jika di hapus semua produk akan ikut terhapus!!",
+        message: "Apakah yakin anda ingin menghapus Game ini?",
         onConfirm: async () => {
           attr.mutate(id);
         },
