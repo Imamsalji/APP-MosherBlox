@@ -1,8 +1,10 @@
 import PageBreadcrumb from "../../../component/common/PageBreadCrumb";
 import ComponentCard from "../../../component/common/ComponentCard";
 import PageMeta from "../../../component/common/PageMeta";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllProducts, deleteProduct } from "./../../../api/admin";
+import { useNotifStore } from "./../../../store/appStore";
 import Button from "../../../component/ui/button/Button";
 import type { Product } from "./../../../types/Product";
 import {
@@ -16,18 +18,31 @@ import Badge from "../../../component/ui/badge/Badge";
 
 export default function ProductList() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["admin-games"],
     queryFn: getAllProducts,
   });
 
-  const deleteMutation = useMutation({
+  const attr = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-games"] });
     },
   });
+
+  const deleteMutation = (id: number) => {
+    console.log(id);
+    useNotifStore.getState().show({
+      title: "Konfirmasi Delete",
+      message:
+        "Apakah yakin anda ingin menghapus Game ini?, jika di hapus semua produk akan ikut terhapus!!",
+      onConfirm: async () => {
+        attr.mutate(id);
+      },
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -45,12 +60,12 @@ export default function ProductList() {
                 {/* Table Header */}
                 <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                   <TableRow>
-                    <TableCell
+                    {/* <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
                       Image
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
@@ -88,10 +103,11 @@ export default function ProductList() {
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                   {product?.map((order: Product) => (
                     <TableRow key={order.id}>
-                      <TableCell className="px-5 py-4 sm:px-6 text-start">
+                      {/* <TableCell className="px-5 py-4 sm:px-6 text-start">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 overflow-hidden rounded-full">
                             <img
+                              loading="lazy"
                               width={40}
                               height={40}
                               src={order.image_url}
@@ -99,7 +115,7 @@ export default function ProductList() {
                             />
                           </div>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         {order.name}
                       </TableCell>
@@ -120,10 +136,20 @@ export default function ProductList() {
 
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         <div className="flex items-center gap-5">
-                          <Button size="sm" variant="primary">
+                          <Button
+                            size="sm"
+                            variant="primary"
+                            onClick={() =>
+                              navigate("/admin/product/edit/" + order.id)
+                            }
+                          >
                             Edit
                           </Button>
-                          <Button size="sm" variant="danger">
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onClick={() => deleteMutation(order.id)}
+                          >
                             Delete
                           </Button>
                         </div>
