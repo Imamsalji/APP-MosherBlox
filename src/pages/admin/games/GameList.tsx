@@ -15,6 +15,7 @@ import {
 } from "../../../component/ui/table";
 import { useNotifStore } from "./../../../store/appStore";
 import Badge from "../../../component/ui/badge/Badge";
+import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
 
 export default function GameList() {
   const queryClient = useQueryClient();
@@ -44,7 +45,7 @@ export default function GameList() {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
   return (
     <>
       <PageMeta

@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "../../../component/ui/table";
 import Badge from "../../../component/ui/badge/Badge";
+import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
 
 export default function ProductList() {
   const queryClient = useQueryClient();
@@ -46,7 +47,7 @@ export default function ProductList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
   return (
     <>
       <PageMeta
