@@ -7,6 +7,7 @@ import CyberpunkCard from "../component/transaksi/CyberpunkCard";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CyberpunkCarousel from "../component/transaksi/CyberpunkCarousel";
+import GlobalConfirm from "../component/GlobalConfirm";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -33,6 +34,8 @@ function App() {
       <div className="h-20"></div>
       <Header />
       <CyberpunkCarousel />
+      <GlobalConfirm />
+
       {/* <CyberpunkCart/>
 
     <CyberpunkPayment/>

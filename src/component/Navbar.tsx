@@ -5,7 +5,7 @@ import logo from "./../assets/img/logoMosher.jpeg";
 import { useAuthStore } from "../store/auth";
 import { getCart } from "../api/cart";
 import type { CartItem } from "../types/Cart";
-import { useAppStore } from "../store/appStore";
+import { useAppStore, useNotifStore } from "../store/appStore";
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -87,9 +87,14 @@ export default function Navbar() {
   };
 
   const fLogout = () => {
-    console.log("logout");
-    useAuthStore.getState().logout();
-    navigate("/");
+    useNotifStore.getState().show({
+      title: "Konfirmasi Logout",
+      message: "Apakah anda yakin ingin keluar?",
+      onConfirm: async () => {
+        useAuthStore.getState().logout();
+        navigate("/");
+      },
+    });
   };
 
   if (isAuthenticated) {
