@@ -32,16 +32,18 @@ export default function ProductList() {
     },
   });
 
-  const deleteMutation = (id: number) => {
+  const deleteMutation = (id?: number) => {
     console.log(id);
-    useNotifStore.getState().show({
-      title: "Konfirmasi Delete",
-      message:
-        "Apakah yakin anda ingin menghapus Game ini?, jika di hapus semua produk akan ikut terhapus!!",
-      onConfirm: async () => {
-        attr.mutate(id);
-      },
-    });
+    if (id) {
+      useNotifStore.getState().show({
+        title: "Konfirmasi Delete",
+        message:
+          "Apakah yakin anda ingin menghapus Game ini?, jika di hapus semua produk akan ikut terhapus!!",
+        onConfirm: async () => {
+          attr.mutate(id);
+        },
+      });
+    }
   };
 
   if (isLoading) return <div>Loading...</div>;
