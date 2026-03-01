@@ -7,7 +7,7 @@ import PageBreadcrumb from "../../../component/common/PageBreadCrumb";
 import ComponentCard from "../../../component/common/ComponentCard";
 import PageMeta from "../../../component/common/PageMeta";
 
-export default function GameEdit() {
+export default function CreateGame() {
   const navigate = useNavigate();
 
   const mutation = useMutation({

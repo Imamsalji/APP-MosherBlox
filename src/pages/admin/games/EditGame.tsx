@@ -7,7 +7,7 @@ import PageBreadcrumb from "../../../component/common/PageBreadCrumb";
 import ComponentCard from "../../../component/common/ComponentCard";
 import PageMeta from "../../../component/common/PageMeta";
 
-export default function GameEdit() {
+export default function EditGame() {
   const { id } = useParams();
   const navigate = useNavigate();
 
