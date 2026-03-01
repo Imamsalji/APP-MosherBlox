@@ -5,6 +5,7 @@ import Input from "../../../component/form/input/InputField.tsx";
 import FileInput from "../../../component/form/input/FileInput.tsx";
 import TextArea from "../../../component/form/input/TextArea.tsx";
 import Select from "../../../component/form/Select.tsx";
+import { number } from "framer-motion";
 
 type Props = {
   initialData?: Product;
@@ -19,7 +20,7 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
   const [form, setForm] = useState<Product>({
     name: initialData?.name || "",
     price: initialData?.price || 0,
-    game_id: initialData?.game_id || null,
+    game_id: initialData?.game_id || 1,
     specification: initialData?.specification || "",
     image: initialData?.image || null,
     stock: initialData?.stock || 0,
@@ -27,14 +28,16 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
   });
   const [errors, setErrors] = useState({
     name: "",
-    slug: "",
+    price: 0,
+    game_id: 1,
+    specification: "",
     image: null,
-    description: "",
+    stock: 0,
     status: 0,
   });
-  const handleSelectChange = (value: number) => {
+  const handleSelectChange = (value: string) => {
     console.log("Selected value:", value);
-    setForm({ ...form, status: value });
+    setForm({ ...form, status: Number(value) });
   };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,8 +49,6 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(form);
 
     const formData: any = new FormData();
     formData.append("name", form.name);
@@ -62,8 +63,9 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
     if (initialData) {
       formData.append("_method", "PUT");
     }
+    console.log(form);
 
-    onSubmit(formData);
+    // onSubmit(formData);
   };
 
   return (
@@ -83,12 +85,42 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
               />
             </div>
             <div>
-              <Label htmlFor="game_id">slug</Label>
+              <Label htmlFor="game_id">game_id</Label>
               <Input
-                type="text"
+                type="number"
                 id="game_id"
                 value={form.game_id}
-                onChange={(e) => setForm({ ...form, game_id: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, game_id: Number(e.target.value) })
+                }
+                //   error
+                //   hint={"This is an invalid email address."}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="price">Price</Label>
+              <Input
+                type="number"
+                id="price"
+                value={form.price}
+                onChange={(e) =>
+                  setForm({ ...form, price: Number(e.target.value) })
+                }
+                //   error
+                //   hint={"This is an invalid email address."}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="stock">stock</Label>
+              <Input
+                type="number"
+                id="stock"
+                value={form.stock}
+                onChange={(e) =>
+                  setForm({ ...form, stock: Number(e.target.value) })
+                }
                 //   error
                 //   hint={"This is an invalid email address."}
               />
@@ -99,10 +131,10 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
             </div>
             {/* Default TextArea */}
             <div>
-              <Label>Description</Label>
+              <Label>specification</Label>
               <TextArea
-                value={form.description}
-                onChange={(value) => setForm({ ...form, description: value })}
+                value={form.specification}
+                onChange={(value) => setForm({ ...form, specification: value })}
                 rows={6}
                 // hint="Please enter a valid message."
               />
