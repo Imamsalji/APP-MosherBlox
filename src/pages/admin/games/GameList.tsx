@@ -25,12 +25,24 @@ export default function GameList() {
     queryFn: getAllGames,
   });
 
-  const deleteMutation = useMutation({
+  const attr = useMutation({
     mutationFn: deleteGame,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-games"] });
     },
   });
+
+  const deleteMutation = (id: number) => {
+    console.log(id);
+    useNotifStore.getState().show({
+      title: "Konfirmasi Delete",
+      message:
+        "Apakah yakin anda ingin menghapus Game ini?, jika di hapus semua produk akan ikut terhapus!!",
+      onConfirm: async () => {
+        attr.mutate(id);
+      },
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -48,12 +60,12 @@ export default function GameList() {
                 {/* Table Header */}
                 <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                   <TableRow>
-                    <TableCell
+                    {/* <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
                       Image
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
@@ -79,10 +91,11 @@ export default function GameList() {
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                   {games?.map((order: GameList) => (
                     <TableRow key={order.id}>
-                      <TableCell className="px-5 py-4 sm:px-6 text-start">
+                      {/* <TableCell className="px-5 py-4 sm:px-6 text-start">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 overflow-hidden rounded-full">
                             <img
+                              loading="lazy"
                               width={40}
                               height={40}
                               src={order.image_url}
@@ -90,7 +103,7 @@ export default function GameList() {
                             />
                           </div>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         {order.name}
                       </TableCell>
@@ -117,7 +130,7 @@ export default function GameList() {
                           <Button
                             size="sm"
                             variant="danger"
-                            onClick={() => deleteMutation.mutate(order.id)}
+                            onClick={() => deleteMutation(order.id)}
                           >
                             Delete
                           </Button>

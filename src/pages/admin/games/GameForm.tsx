@@ -93,19 +93,18 @@ export default function GameForm({ initialData, onSubmit }: Props) {
               <Label>Upload Image</Label>
               <FileInput onChange={handleFileChange} className="custom-class" />
             </div>
-            <div className="space-y-6">
-              {/* Default TextArea */}
-              <div>
-                <Label>Description</Label>
-                <TextArea
-                  value={form.description}
-                  onChange={(value) => setForm({ ...form, description: value })}
-                  rows={6}
-                  // hint="Please enter a valid message."
-                />
-              </div>
-              {/* Error TextArea */}
-              {/* <div>
+            {/* Default TextArea */}
+            <div>
+              <Label>Description</Label>
+              <TextArea
+                value={form.description}
+                onChange={(value) => setForm({ ...form, description: value })}
+                rows={6}
+                // hint="Please enter a valid message."
+              />
+            </div>
+            {/* Error TextArea */}
+            {/* <div>
               <Label>Description</Label>
               <TextArea
                 rows={6}
@@ -115,8 +114,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
                 hint="Please enter a valid message."
               />
             </div> */}
-            </div>
-            <div className="flex flex-wrap items-center gap-8">
+            <div>
               <Label>Status Game</Label>
               <Select
                 options={options}

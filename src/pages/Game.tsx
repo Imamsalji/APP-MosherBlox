@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getGameDetail } from "../api/game";
-import type { Game } from "../types/Game";
+import type { GameList } from "../types/Game";
 import { useParams } from "react-router-dom";
 import GlowCard from "../component/GlowCard";
 import logo from "./../assets/img/logoMosher.jpeg";
@@ -48,7 +48,7 @@ const CekCart = ({ id, DCart }: Props) => {
 export default function Game() {
   const [cartem, setCartem] = useState<CartRow[]>([]);
   const { slug } = useParams();
-  const [game, setGame] = useState<Game[]>([]);
+  const [game, setGame] = useState<GameList[]>([]);
   const [show, setShow] = useState(false);
   const [reloadCart, setReloadCart] = useState(0);
 
@@ -124,7 +124,7 @@ export default function Game() {
                     gap-6
                 "
           >
-            {game.map((item: Game) => (
+            {game.map((item: GameList) => (
               <GlowCard
                 Dcart={{ id: item.id, qty: 1 }}
                 title={item.name}

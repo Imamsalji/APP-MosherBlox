@@ -37,7 +37,7 @@ export const createGame = async (payload: FormData) => {
 };
 
 export const updateGame = async (id: number, payload: FormData) => {
-  const response = await api.put(`/admin/games/${id}`, payload, {
+  const response = await api.post(`/admin/games/${id}`, payload, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
