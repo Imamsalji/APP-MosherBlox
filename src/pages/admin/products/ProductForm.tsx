@@ -6,6 +6,8 @@ import FileInput from "../../../component/form/input/FileInput.tsx";
 import TextArea from "../../../component/form/input/TextArea.tsx";
 import Select from "../../../component/form/Select.tsx";
 import { number } from "framer-motion";
+import { getAllGames } from "../../../api/admin.ts";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   initialData?: Product;
@@ -24,8 +26,20 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
     specification: initialData?.specification || "",
     image: initialData?.image || null,
     stock: initialData?.stock || 0,
-    status: initialData?.status || 0,
+    status: initialData?.status || 1,
   });
+
+  const { data: games, isLoading } = useQuery({
+    queryKey: ["admin-games"],
+    queryFn: getAllGames,
+  });
+
+  // Transform data
+  const gameOptions =
+    games?.map((game: any) => ({
+      value: game.id,
+      label: game.name,
+    })) ?? [];
   const [errors, setErrors] = useState({
     name: "",
     price: 0,
@@ -35,10 +49,19 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
     stock: 0,
     status: 0,
   });
-  const handleSelectChange = (value: string) => {
-    console.log("Selected value:", value);
-    setForm({ ...form, status: Number(value) });
+
+  console.log(initialData);
+
+  const handleSelectChange = (value: number) => {
+    console.log("Selected values:", value);
+    setForm({ ...form, status: value });
   };
+
+  const handleSelectGame = (value: number) => {
+    console.log("Selected value:", value);
+    setForm({ ...form, game_id: Number(value) });
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -65,7 +88,7 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
     }
     console.log(form);
 
-    // onSubmit(formData);
+    onSubmit(formData);
   };
 
   return (
@@ -85,16 +108,13 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
               />
             </div>
             <div>
-              <Label htmlFor="game_id">game_id</Label>
-              <Input
-                type="number"
-                id="game_id"
-                value={form.game_id}
-                onChange={(e) =>
-                  setForm({ ...form, game_id: Number(e.target.value) })
-                }
-                //   error
-                //   hint={"This is an invalid email address."}
+              <Label htmlFor="game_id">Game</Label>
+              <Select
+                defaultValue="1"
+                options={gameOptions}
+                placeholder="Select an option"
+                onChange={handleSelectGame}
+                className="dark:bg-dark-900"
               />
             </div>
 

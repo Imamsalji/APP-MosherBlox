@@ -13,7 +13,7 @@ export default function CreateProduct() {
   const mutation = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
-      navigate("/admin/product");
+      navigate("/admin/products");
     },
   });
 

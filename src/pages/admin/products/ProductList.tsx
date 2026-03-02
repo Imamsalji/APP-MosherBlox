@@ -22,7 +22,7 @@ export default function ProductList() {
   const navigate = useNavigate();
 
   const { data: product, isLoading } = useQuery({
-    queryKey: ["admin-games"],
+    queryKey: ["admin-product"],
     queryFn: getAllProducts,
   });
 
