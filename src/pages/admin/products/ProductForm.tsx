@@ -153,6 +153,7 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
             <div>
               <Label>Status Game</Label>
               <Select
+                defaultValue="1"
                 options={options}
                 placeholder="Select an option"
                 onChange={handleSelectChange}

@@ -51,6 +51,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
     const formData = new FormData();
     formData.append("name", form.name);
     formData.append("slug", form.slug);
+    formData.append("description", form.description);
     if (form.image) {
       formData.append("image", form.image);
     }
@@ -58,6 +59,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
     if (initialData) {
       formData.append("_method", "PUT");
     }
+    console.log(form);
 
     onSubmit(formData);
   };
@@ -117,6 +119,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
             <div>
               <Label>Status Game</Label>
               <Select
+                defaultValue={form.description}
                 options={options}
                 placeholder="Select an option"
                 onChange={handleSelectChange}
