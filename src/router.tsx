@@ -47,10 +47,8 @@ export default function Router() {
               <Route path="/admin/game/create" element={<CreateGame />} />
               <Route path="/admin/game/edit/:id" element={<GameEdit />} />
               <Route path="/admin/products" element={<ProductList />} />
-              <Route
-                path="/admin/products/create"
-                element={<CreateProduct />}
-              />
+              <Route path="/admin/product/create" element={<CreateProduct />} />
+              <Route path="/admin/product/edit/:id" element={<GameEdit />} />
             </Route>
           </Route>
         </Route>

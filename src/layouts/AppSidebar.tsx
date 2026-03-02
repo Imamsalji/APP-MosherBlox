@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     subItems: [
       { name: "List Produk", path: "/admin/products", pro: false },
-      { name: "Tambah Produk", path: "/admin/products/create", pro: false },
+      { name: "Tambah Produk", path: "/admin/product/create", pro: false },
     ],
   },
   {

@@ -29,12 +29,9 @@ export default function EditProduct() {
 
   return (
     <>
-      <PageMeta
-        title="Tambah Games Product"
-        description="Halaman Simpan Product"
-      />
+      <PageMeta title="Ubah Games Product" description="Halaman Ubah Product" />
       <PageBreadcrumb pageTitle="Product Game" />
-      <ComponentCard title="Tambah Product ">
+      <ComponentCard title="Ubah Product ">
         <ProductForm onSubmit={(data) => mutation.mutate(data)} />
       </ComponentCard>
     </>
