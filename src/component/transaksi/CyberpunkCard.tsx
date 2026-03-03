@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 type CyberpunkCardProps = {
   title: string;
   image?: string;
-  tag?: string;
+  tag?: any;
 };
 
 const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
