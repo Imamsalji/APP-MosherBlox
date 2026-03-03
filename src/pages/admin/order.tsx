@@ -22,12 +22,25 @@ const order = () => {
     queryKey: ["admin-orders"],
     queryFn: getAllOrders,
   });
+
   const verifyMutation = useMutation({
-    mutationFn: verifyOrder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
-    },
+    mutationFn: ({
+      id,
+      status,
+      admin_note,
+    }: {
+      id: number;
+      status: string;
+      admin_note: string;
+    }) => verifyOrder(id, status, admin_note),
   });
+
+  // const verifyMutation = useMutation({
+  //   mutationFn: verifyOrder,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+  //   },
+  // });
 
   const rejectMutation = useMutation({
     mutationFn: rejectOrder,
