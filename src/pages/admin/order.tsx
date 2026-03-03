@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllOrders, verifyOrder } from "../../api/admin";
+import { getAllOrders, rejectOrder, verifyOrder } from "../../api/admin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PageMeta from "../../component/common/PageMeta";
 import PageBreadcrumb from "../../component/common/PageBreadCrumb";
@@ -13,6 +13,7 @@ import {
 } from "../../component/ui/table";
 import Badge from "../../component/ui/badge/Badge";
 import Button from "../../component/ui/button/Button";
+import { GetOrders, Orders } from "../../types/Order";
 
 const order = () => {
   const queryClient = useQueryClient();
@@ -26,18 +27,25 @@ const order = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
     },
   });
+
+  const rejectMutation = useMutation({
+    mutationFn: rejectOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+    },
+  });
   const statusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-500";
+        return "warning";
       case "waiting_verification":
-        return "bg-blue-500";
+        return "primary";
       case "paid":
-        return "bg-green-500";
+        return "info";
       case "rejected":
-        return "bg-red-500";
+        return "error";
       default:
-        return "bg-gray-500";
+        return "primary";
     }
   };
   if (isLoading) return <p>Loading...</p>;
@@ -60,25 +68,25 @@ const order = () => {
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
-                      Name
+                      User
                     </TableCell>
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
-                      Harga
+                      Total
                     </TableCell>
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
-                      stock
+                      Status
                     </TableCell>
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
-                      status
+                      Bukti
                     </TableCell>
                     <TableCell
                       isHeader
@@ -91,27 +99,31 @@ const order = () => {
 
                 {/* Table Body */}
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                  {product?.map((order: Product) => (
+                  {orders?.map((order: any) => (
                     <TableRow key={order.id}>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.name}
+                        {order.user.name}
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 ">
+                        {order.total_price}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.price}
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.stock}
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        <Badge
-                          size="sm"
-                          color={order.status === 1 ? "success" : "error"}
-                        >
-                          {order.status === 1 ? "Aktif" : "Non-Aktif"}
+                        <Badge size="sm" color={statusBadge(order.status)}>
+                          {order.status}
                         </Badge>
                       </TableCell>
-
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                        {order.payment_proof_url ? (
+                          <img
+                            src={order.payment_proof_url}
+                            alt="bukti"
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-white-500 text-start text-theme-sm dark:text-white/90">
                         <div className="flex items-center gap-5">
                           {order.status === "waiting_verification" && (
                             <>

@@ -44,8 +44,8 @@ const navItems: NavItem[] = [
   },
   {
     icon: <GridIcon />,
-    name: "Transaksi",
-    path: "/admin/Transaksi",
+    name: "Order Pesanan",
+    path: "/admin/orders",
   },
 ];
 

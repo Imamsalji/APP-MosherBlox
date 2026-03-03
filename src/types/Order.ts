@@ -31,23 +31,38 @@ export interface OrderItem {
   product: Product;
 }
 
+export interface User {
+  id: number;
+  email: string;
+  name: string | null;
+  role: string | null;
+}
+
 export interface GetOrders {
   id: string;
   user_id: number;
   admin_note: string | null;
   payment_proof: string | null;
-  status: "pending" | "paid" | "cancelled" | string;
+  status: "pending" | "paid" | "rejected"| "waiting_verification" | string;
   total_price: string;
   created_at: string;
   updated_at: string;
   items: OrderItem[];
+  user:User
 }
 
-/**
- * =========================
- * ORDER DETAIL
- * =========================
- */
+export interface Orders {
+  id?: string;
+  user_id?: number;
+  admin_note?: string | null;
+  payment_proof?: string | null;
+  status?: "pending" | "paid" | "rejected"| "waiting_verification" | string;
+  total_price?: string;
+  created_at?: string;
+  updated_at?: string;
+  user?:User
+}
+
 
 
 /**
