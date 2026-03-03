@@ -22,7 +22,11 @@ export default function CreateGame() {
       <PageMeta title="Tambah Games" description="Halaman Simpan Games" />
       <PageBreadcrumb pageTitle="Game" />
       <ComponentCard title="Tambah Game ">
-        <GameForm onSubmit={(data) => mutation.mutate(data)} />
+        <GameForm
+          onSubmit={async (formData) => {
+            await mutation.mutateAsync(formData);
+          }}
+        />
       </ComponentCard>
     </>
   );

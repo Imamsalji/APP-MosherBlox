@@ -9,7 +9,7 @@ import Select from "../../../component/form/Select.tsx";
 
 type Props = {
   initialData?: Game;
-  onSubmit: (formData: FormData) => void;
+  onSubmit: (formData: FormData) => Promise<void>;
 };
 
 export default function GameForm({ initialData, onSubmit }: Props) {
@@ -19,18 +19,16 @@ export default function GameForm({ initialData, onSubmit }: Props) {
   ];
   const [form, setForm] = useState<Game>({
     name: initialData?.name || "",
-    slug: initialData?.slug || "",
     image: null,
     description: initialData?.description || "",
     status: initialData?.status || 0,
   });
-  const [errors, setErrors] = useState({
-    name: "",
-    slug: "",
-    image: null,
-    description: "",
-    status: 0,
-  });
+  const [errors, setErrors] = useState<{
+    name?: string;
+    image?: string;
+    description?: string;
+    status?: string;
+  }>({});
   const handleSelectChange = (value: string) => {
     console.log("Selected value:", value);
     setForm({ ...form, status: value });
@@ -43,25 +41,42 @@ export default function GameForm({ initialData, onSubmit }: Props) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(form);
 
     const formData = new FormData();
     formData.append("name", form.name);
-    formData.append("slug", form.slug);
+    // formData.append("slug", form.slug);
     formData.append("description", form.description);
+
     if (form.image) {
       formData.append("image", form.image);
     }
+
     formData.append("status", String(form.status));
+
     if (initialData) {
       formData.append("_method", "PUT");
     }
-    console.log(form);
 
-    onSubmit(formData);
+    try {
+      console.log("apiErrors");
+      setErrors({}); // reset error dulu
+      console.log(await onSubmit(formData));
+    } catch (error: any) {
+      if (error.response?.data?.errors) {
+        const apiErrors = error.response.data.errors;
+        console.log("apiErrors");
+        console.log(apiErrors);
+
+        setErrors({
+          name: apiErrors.name?.[0],
+          image: apiErrors.image?.[0],
+          description: apiErrors.description?.[0],
+          status: apiErrors.status?.[0],
+        });
+      }
+    }
   };
 
   return (
@@ -74,35 +89,28 @@ export default function GameForm({ initialData, onSubmit }: Props) {
               <Input
                 type="text"
                 id="input"
-                //   error
-                //   hint={"This is an invalid email address."}
                 value={form.name}
+                error={!!errors.name}
+                hint={errors.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="slug">slug</Label>
-              <Input
-                type="text"
-                id="slug"
-                value={form.slug}
-                onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                //   error
-                //   hint={"This is an invalid email address."}
               />
             </div>
             <div>
               <Label>Upload Image</Label>
               <FileInput onChange={handleFileChange} className="custom-class" />
+              {errors.image && (
+                <p className="text-red-500 text-sm mt-1">{errors.image}</p>
+              )}
             </div>
             {/* Default TextArea */}
             <div>
               <Label>Description</Label>
               <TextArea
                 value={form.description}
-                onChange={(value) => setForm({ ...form, description: value })}
                 rows={6}
-                // hint="Please enter a valid message."
+                error={!!errors.description}
+                hint={errors.description}
+                onChange={(value) => setForm({ ...form, description: value })}
               />
             </div>
             {/* Error TextArea */}
@@ -125,6 +133,9 @@ export default function GameForm({ initialData, onSubmit }: Props) {
                 onChange={handleSelectChange}
                 className="dark:bg-dark-900"
               />
+              {errors.status && (
+                <p className="text-red-500 text-sm mt-1">{errors.status}</p>
+              )}
             </div>
             <button
               className="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-blue-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-blue-300"

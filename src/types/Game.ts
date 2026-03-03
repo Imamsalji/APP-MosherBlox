@@ -4,7 +4,7 @@
 export interface Game {
   id?: number
   name: string
-  slug: string
+  slug?: string | null
   image: File | null
   image_url?: string
   description:string
