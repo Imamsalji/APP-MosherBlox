@@ -14,6 +14,7 @@ import {
 import Badge from "../../component/ui/badge/Badge";
 import Button from "../../component/ui/button/Button";
 import { GetOrders, Orders } from "../../types/Order";
+import CyberpunkSpinner from "../../component/transaksi/CyberpunkSpinner";
 
 const order = () => {
   const queryClient = useQueryClient();
@@ -48,7 +49,7 @@ const order = () => {
         return "primary";
     }
   };
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
   return (
     <>
       <PageMeta
