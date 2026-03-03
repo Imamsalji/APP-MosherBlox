@@ -91,8 +91,20 @@ export const getAllOrders = async (): Promise<OrderItem[]> => {
   return response.data.data;
 };
 
-export const verifyOrder = async (id: number) => {
-  const response = await api.patch(`/admin/orders/${id}/verify`);
+// export const verifyOrder = async (id: number) => {
+//   const response = await api.patch(`/admin/orders/${id}/verify`);
+//   return response.data;
+// };
+export const verifyOrder = async (
+  id: number,
+  status: string,
+  admin_note: string
+) => {
+  const response = await api.patch(`/admin/orders/${id}/verify`, {
+    status,
+    admin_note,
+  });
+
   return response.data;
 };
 
