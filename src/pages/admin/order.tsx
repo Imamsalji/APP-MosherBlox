@@ -15,13 +15,24 @@ import Badge from "../../component/ui/badge/Badge";
 import Button from "../../component/ui/button/Button";
 import { GetOrders, Orders } from "../../types/Order";
 import CyberpunkSpinner from "../../component/transaksi/CyberpunkSpinner";
+import TextArea from "../../component/form/input/TextArea";
+import Label from "../../component/form/Label";
+import Select from "../../component/form/Select";
 
 const order = () => {
   const queryClient = useQueryClient();
+  const options = [
+    { value: "marketing", label: "Marketing" },
+    { value: "template", label: "Template" },
+  ];
   const { data: orders, isLoading } = useQuery({
     queryKey: ["admin-orders"],
     queryFn: getAllOrders,
   });
+
+  const handleSelectChange = (value: number) => {
+    console.log("Selected values:", value);
+  };
 
   const verifyMutation = useMutation({
     mutationFn: ({
@@ -141,19 +152,38 @@ const order = () => {
                         <div className="flex items-center gap-5">
                           {order.status === "waiting_verification" && (
                             <>
-                              <button
-                                onClick={() => verifyMutation.mutate(order.id)}
-                                className="bg-green-600 px-3 py-1 rounded hover:bg-green-700"
-                              >
-                                Verify
-                              </button>
+                              <form action="" method="post">
+                                <div>
+                                  <Label>Comment</Label>
+                                  <TextArea
+                                    // value={form.specification}
+                                    // onChange={(value) =>
+                                    //   setForm({ ...form, specification: value })
+                                    // }
+                                    rows={6}
+                                    // hint="Please enter a valid message."
+                                  />
+                                </div>
+                                <div>
+                                  <Label htmlFor="game_id">Status Order</Label>
+                                  <Select
+                                    defaultValue="1"
+                                    options={options}
+                                    placeholder="Select an option"
+                                    onChange={handleSelectChange}
+                                    className="dark:bg-dark-900"
+                                  />
+                                </div>
 
-                              <button
-                                onClick={() => rejectMutation.mutate(order.id)}
-                                className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-                              >
-                                Reject
-                              </button>
+                                <button
+                                  onClick={() =>
+                                    verifyMutation.mutate(order.id)
+                                  }
+                                  className="bg-green-600 px-3 py-1 rounded hover:bg-green-700 mt-2"
+                                >
+                                  Proses
+                                </button>
+                              </form>
                             </>
                           )}
                         </div>
