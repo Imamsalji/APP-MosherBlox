@@ -5,6 +5,7 @@ import type { CartItem } from "./../types/Cart";
 import { checkoutItem } from "./../api/order";
 import { useEffect, useState } from "react";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
+import { formatRupiah } from "../utils/format";
 import { useNotifStore, useAppStore } from "./../store/appStore";
 
 const Cart = () => {
@@ -146,7 +147,7 @@ const Cart = () => {
                 >
                   {/* Image */}
                   <img
-                    src={item.product.image}
+                    src={item.product.image_url}
                     alt={item.product.name}
                     className="
                     w-20 h-20
@@ -164,7 +165,7 @@ const Cart = () => {
                     </h3>
 
                     <p className="text-xs text-gray-400 mt-1">
-                      Rp {item.price.toLocaleString("id-ID")}
+                      {formatRupiah(item.price)}
                     </p>
 
                     <div className="flex items-center gap-3 mt-3">

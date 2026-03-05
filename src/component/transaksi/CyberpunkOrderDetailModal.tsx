@@ -1,4 +1,5 @@
 import type { OrderItem } from "../../types/Order";
+import { formatRupiah } from "../../utils/format";
 
 export interface OrderDetail {
   id: string;
@@ -23,7 +24,6 @@ interface Props {
 // ==========================
 const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
   if (!order) return null;
-  console.log(order.game);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -128,7 +128,10 @@ const Detail = ({
             >
               {item.product.name && <span>{item.product.name}</span>}
               {item.price && (
-                <span className="text-cyan-300"> Rp.{item.price}</span>
+                <span className="text-cyan-300">
+                  {" "}
+                  {formatRupiah(item.price)}
+                </span>
               )}
             </div>
           ))}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyOrders } from "../api/order";
 import type { GetOrders } from "../types/Order";
+import { formatRupiah } from "../utils/format";
 
 import CyberpunkOrderDetailModal from "../component/transaksi/CyberpunkOrderDetailModal";
 import type { OrderDetail } from "../component/transaksi/CyberpunkOrderDetailModal";
@@ -122,7 +123,7 @@ const OrderList = () => {
                     AMOUNT
                   </p>
                   <p className="font-semibold text-fuchsia-400">
-                    {order.total_price}
+                    {formatRupiah(order.total_price)}
                   </p>
                 </div>
 
@@ -174,7 +175,7 @@ const OrderList = () => {
                           id: order.id,
                           game: order.items,
                           product: "Diamond Pass",
-                          amount: order.total_price,
+                          amount: formatRupiah(order.total_price),
                           status: order.status,
                           paymentMethod: "QRIS",
                           date: order.created_at,
