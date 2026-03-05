@@ -100,7 +100,7 @@ export const verifyOrder = async (
   status: string,
   admin_note: string
 ) => {
-  const response = await api.patch(`/admin/orders/${id}/verify`, {
+  const response = await api.put(`/admin/orders/${id}/verify`, {
     status,
     admin_note,
   });

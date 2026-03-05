@@ -47,6 +47,9 @@ const order = () => {
       status: string;
       admin_note: string;
     }) => verifyOrder(id, status, admin_note),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+    },
   });
 
   // const verifyMutation = useMutation({
@@ -62,7 +65,11 @@ const order = () => {
     const data = form[id];
     console.log(data);
 
-    // onSubmit(formData);
+    verifyMutation.mutate({
+      id: id,
+      status: data.status,
+      admin_note: data.comment,
+    });
   };
   const statusBadge = (status: string) => {
     switch (status) {
