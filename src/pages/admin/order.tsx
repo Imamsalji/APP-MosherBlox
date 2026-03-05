@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { getAllOrders, rejectOrder, verifyOrder } from "../../api/admin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PageMeta from "../../component/common/PageMeta";
@@ -19,20 +19,23 @@ import TextArea from "../../component/form/input/TextArea";
 import Label from "../../component/form/Label";
 import Select from "../../component/form/Select";
 
+interface formOrder {
+  comment: string;
+  status: string;
+}
+
 const order = () => {
   const queryClient = useQueryClient();
   const options = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
+    { value: "success", label: "Sukses" },
+    { value: "rejected", label: "Rejected" },
   ];
+  const [form, setForm] = useState<Record<number, formOrder>>({});
+
   const { data: orders, isLoading } = useQuery({
     queryKey: ["admin-orders"],
     queryFn: getAllOrders,
   });
-
-  const handleSelectChange = (value: number) => {
-    console.log("Selected values:", value);
-  };
 
   const verifyMutation = useMutation({
     mutationFn: ({
@@ -53,12 +56,14 @@ const order = () => {
   //   },
   // });
 
-  const rejectMutation = useMutation({
-    mutationFn: rejectOrder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
-    },
-  });
+  const handleSubmit = (id: number, e: React.FormEvent) => {
+    e.preventDefault();
+
+    const data = form[id];
+    console.log(data);
+
+    // onSubmit(formData);
+  };
   const statusBadge = (status: string) => {
     switch (status) {
       case "pending":
@@ -152,14 +157,25 @@ const order = () => {
                         <div className="flex items-center gap-5">
                           {order.status === "waiting_verification" && (
                             <>
-                              <form action="" method="post">
+                              <form
+                                key={order.id}
+                                onSubmit={(event) =>
+                                  handleSubmit(order.id, event)
+                                }
+                              >
                                 <div>
                                   <Label>Comment</Label>
                                   <TextArea
-                                    // value={form.specification}
-                                    // onChange={(value) =>
-                                    //   setForm({ ...form, specification: value })
-                                    // }
+                                    value={form[order.id]?.comment || ""}
+                                    onChange={(value) =>
+                                      setForm({
+                                        ...form,
+                                        [order.id]: {
+                                          ...form[order.id],
+                                          comment: value,
+                                        },
+                                      })
+                                    }
                                     rows={6}
                                     // hint="Please enter a valid message."
                                   />
@@ -167,18 +183,23 @@ const order = () => {
                                 <div>
                                   <Label htmlFor="game_id">Status Order</Label>
                                   <Select
-                                    defaultValue="1"
                                     options={options}
                                     placeholder="Select an option"
-                                    onChange={handleSelectChange}
+                                    onChange={(value) =>
+                                      setForm({
+                                        ...form,
+                                        [order.id]: {
+                                          ...form[order.id],
+                                          status: value,
+                                        },
+                                      })
+                                    }
                                     className="dark:bg-dark-900"
                                   />
                                 </div>
 
                                 <button
-                                  onClick={() =>
-                                    verifyMutation.mutate(order.id)
-                                  }
+                                  type="submit"
                                   className="bg-green-600 px-3 py-1 rounded hover:bg-green-700 mt-2"
                                 >
                                   Proses
