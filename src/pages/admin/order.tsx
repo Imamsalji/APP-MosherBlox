@@ -18,6 +18,7 @@ import CyberpunkSpinner from "../../component/transaksi/CyberpunkSpinner";
 import TextArea from "../../component/form/input/TextArea";
 import Label from "../../component/form/Label";
 import Select from "../../component/form/Select";
+import { formatRupiah } from "../../utils/format";
 
 interface formOrder {
   comment: string;
@@ -142,7 +143,7 @@ const order = () => {
                         {order.user.name}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 ">
-                        {order.total_price}
+                        {formatRupiah(order.total_price)}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         <Badge size="sm" color={statusBadge(order.status)}>

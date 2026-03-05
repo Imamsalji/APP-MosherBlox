@@ -16,6 +16,7 @@ import {
 } from "../../../component/ui/table";
 import Badge from "../../../component/ui/badge/Badge";
 import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
+import { formatRupiah } from "../../../utils/format";
 
 export default function ProductList() {
   const queryClient = useQueryClient();
@@ -122,7 +123,7 @@ export default function ProductList() {
                         {order.name}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.price}
+                        {formatRupiah(order.price)}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         {order.stock}
