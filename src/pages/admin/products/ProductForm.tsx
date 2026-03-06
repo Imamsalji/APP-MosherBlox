@@ -1,71 +1,59 @@
 import { useState } from "react";
-import { Product } from "../../../types/Product.ts";
-import Label from "../../../component/form/Label.tsx";
-import Input from "../../../component/form/input/InputField.tsx";
-import FileInput from "../../../component/form/input/FileInput.tsx";
-import TextArea from "../../../component/form/input/TextArea.tsx";
-import Select from "../../../component/form/Select.tsx";
-import { number } from "framer-motion";
-import { getAllGames } from "../../../api/admin.ts";
+import { Product } from "../../../types/Product";
+import Label from "../../../component/form/Label";
+import Input from "../../../component/form/input/InputField";
+import FileInput from "../../../component/form/input/FileInput";
+import TextArea from "../../../component/form/input/TextArea";
+import Select from "../../../component/form/Select";
+import { getAllGames } from "../../../api/admin";
 import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   initialData?: Product;
+  errors?: any;
   onSubmit: (formData: FormData) => void;
 };
 
-export default function ProductForm({ initialData, onSubmit }: Props) {
+export default function ProductForm({ initialData, errors, onSubmit }: Props) {
   const options = [
     { value: "1", label: "Aktif" },
     { value: "0", label: "Non-Aktif" },
   ];
+
   const [form, setForm] = useState<Product>({
     name: initialData?.name || "",
     price: initialData?.price || 0,
-    game_id: initialData?.game_id || 1,
+    game_id: initialData?.game_id || 0,
     specification: initialData?.specification || "",
     image: initialData?.image || null,
     stock: initialData?.stock || 0,
     status: initialData?.status || 1,
   });
 
-  const { data: games, isLoading } = useQuery({
+  const { data: games } = useQuery({
     queryKey: ["admin-games"],
     queryFn: getAllGames,
   });
-
-  // Transform data
-  const gameOptions =
-    games?.map((game: any) => ({
+  const gameOptions = [
+    { value: "", label: "Pilih Game di bawah ini" },
+    ...(games?.map((game: any) => ({
       value: game.id,
       label: game.name,
-    })) ?? [];
-  const [errors, setErrors] = useState({
-    name: "",
-    price: 0,
-    game_id: 1,
-    specification: "",
-    image: null,
-    stock: 0,
-    status: 0,
-  });
+    })) ?? []),
+  ];
 
-  console.log(initialData);
-
-  const handleSelectChange = (value: number) => {
-    console.log("Selected values:", value);
+  const handleSelectStatus = (value: number) => {
     setForm({ ...form, status: value });
   };
 
   const handleSelectGame = (value: number) => {
-    console.log("Selected value:", value);
     setForm({ ...form, game_id: Number(value) });
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (file) {
-      console.log("Selected file:", file.name);
       setForm({ ...form, image: file });
     }
   };
@@ -73,122 +61,130 @@ export default function ProductForm({ initialData, onSubmit }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData: any = new FormData();
+    const formData = new FormData();
+
     formData.append("name", form.name);
-    formData.append("price", form.price);
-    formData.append("game_id", form.game_id);
+    formData.append("price", String(form.price));
+    formData.append("game_id", String(form.game_id));
     formData.append("specification", form.specification);
-    formData.append("stock", form.stock);
-    if (form.image) {
+    formData.append("stock", String(form.stock));
+    formData.append("status", String(form.status));
+
+    if (form.image instanceof File) {
       formData.append("image", form.image);
     }
-    formData.append("status", form.status);
-    if (initialData) {
-      formData.append("_method", "PUT");
-    }
-    console.log(form);
 
     onSubmit(formData);
   };
 
   return (
-    <>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-6">
-            <div>
-              <Label htmlFor="name">name</Label>
-              <Input
-                type="text"
-                id="input"
-                //   error
-                //   hint={"This is an invalid email address."}
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="game_id">Game</Label>
-              <Select
-                defaultValue="1"
-                options={gameOptions}
-                placeholder="Select an option"
-                onChange={handleSelectGame}
-                className="dark:bg-dark-900"
-              />
-            </div>
+    <form onSubmit={handleSubmit}>
+      <div className="space-y-6">
+        {/* NAME */}
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            type="text"
+            id="name"
+            value={form.name}
+            error={!!errors?.name}
+            hint={errors?.name?.[0]}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </div>
 
-            <div>
-              <Label htmlFor="price">Price</Label>
-              <Input
-                type="number"
-                id="price"
-                value={form.price}
-                onChange={(e) =>
-                  setForm({ ...form, price: Number(e.target.value) })
-                }
-                //   error
-                //   hint={"This is an invalid email address."}
-              />
-            </div>
+        {/* GAME */}
+        <div>
+          <Label htmlFor="game_id">Game</Label>
+          <Select
+            defaultValue={String(form.game_id)}
+            options={gameOptions}
+            onChange={handleSelectGame}
+            className={
+              errors?.game_id
+                ? "border-error-500 focus:border-error-300 focus:ring-error-500/20 dark:text-error-400 dark:border-error-500 dark:focus:border-error-800"
+                : "dark:bg-dark-900"
+            }
+          />
+          {errors?.game_id && (
+            <p className="text-red-500 text-sm mt-1">{errors.game_id[0]}</p>
+          )}
+        </div>
 
-            <div>
-              <Label htmlFor="stock">stock</Label>
-              <Input
-                type="number"
-                id="stock"
-                value={form.stock}
-                onChange={(e) =>
-                  setForm({ ...form, stock: Number(e.target.value) })
-                }
-                //   error
-                //   hint={"This is an invalid email address."}
-              />
-            </div>
-            <div>
-              <Label>Upload Image</Label>
-              <FileInput onChange={handleFileChange} className="custom-class" />
-            </div>
-            {/* Default TextArea */}
-            <div>
-              <Label>specification</Label>
-              <TextArea
-                value={form.specification}
-                onChange={(value) => setForm({ ...form, specification: value })}
-                rows={6}
-                // hint="Please enter a valid message."
-              />
-            </div>
-            {/* Error TextArea */}
-            {/* <div>
-              <Label>Description</Label>
-              <TextArea
-                rows={6}
-                value={messageTwo}
-                error
-                onChange={(value) => setMessageTwo(value)}
-                hint="Please enter a valid message."
-              />
-            </div> */}
-            <div>
-              <Label>Status Game</Label>
-              <Select
-                defaultValue="1"
-                options={options}
-                placeholder="Select an option"
-                onChange={handleSelectChange}
-                className="dark:bg-dark-900"
-              />
-            </div>
-            <button
-              className="inline-flex items-center justify-center gap-2 rounded-lg transition px-4 py-3 text-sm bg-blue-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-blue-300"
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
-        </form>
+        {/* PRICE */}
+        <div>
+          <Label htmlFor="price">Price</Label>
+          <Input
+            type="number"
+            id="price"
+            value={form.price}
+            error={!!errors?.price}
+            hint={errors?.price?.[0]}
+            onChange={(e) =>
+              setForm({ ...form, price: Number(e.target.value) })
+            }
+          />
+        </div>
+
+        {/* STOCK */}
+        <div>
+          <Label htmlFor="stock">Stock</Label>
+          <Input
+            type="number"
+            id="stock"
+            value={form.stock}
+            error={!!errors?.stock}
+            hint={errors?.stock?.[0]}
+            onChange={(e) =>
+              setForm({ ...form, stock: Number(e.target.value) })
+            }
+          />
+        </div>
+
+        {/* IMAGE */}
+        <div>
+          <Label>Upload Image</Label>
+          <FileInput onChange={handleFileChange} />
+          {errors?.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image[0]}</p>
+          )}
+        </div>
+
+        {/* SPECIFICATION */}
+        <div>
+          <Label>Specification</Label>
+          <TextArea
+            rows={6}
+            value={form.specification}
+            error={!!errors?.specification}
+            hint={errors?.specification?.[0]}
+            onChange={(value) => setForm({ ...form, specification: value })}
+          />
+        </div>
+
+        {/* STATUS */}
+        <div>
+          <Label>Status Product</Label>
+          <Select
+            defaultValue={String(form.status)}
+            options={options}
+            placeholder="Select Status"
+            onChange={handleSelectStatus}
+            className={errors?.status ? "dark:bg-red-900" : "dark:bg-dark-900"}
+          />
+          {errors?.status && (
+            <p className="text-red-500 text-sm mt-1">{errors.status[0]}</p>
+          )}
+        </div>
+
+        {/* SUBMIT */}
+        <button
+          type="submit"
+          className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm bg-blue-500 text-white hover:bg-blue-600"
+        >
+          Save Product
+        </button>
       </div>
-    </>
+    </form>
   );
 }
