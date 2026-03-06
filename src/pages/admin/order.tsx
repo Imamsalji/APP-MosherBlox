@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getAllOrders, rejectOrder, verifyOrder } from "../../api/admin";
+import { getAllOrders, verifyOrder } from "../../api/admin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PageMeta from "../../component/common/PageMeta";
 import PageBreadcrumb from "../../component/common/PageBreadCrumb";
@@ -12,8 +12,6 @@ import {
   TableBody,
 } from "../../component/ui/table";
 import Badge from "../../component/ui/badge/Badge";
-import Button from "../../component/ui/button/Button";
-import { GetOrders, Orders } from "../../types/Order";
 import CyberpunkSpinner from "../../component/transaksi/CyberpunkSpinner";
 import TextArea from "../../component/form/input/TextArea";
 import Label from "../../component/form/Label";
@@ -25,7 +23,7 @@ interface formOrder {
   status: string;
 }
 
-const order = () => {
+const Order = () => {
   const queryClient = useQueryClient();
   const options = [
     { value: "success", label: "Sukses" },
@@ -229,4 +227,4 @@ const order = () => {
   );
 };
 
-export default order;
+export default Order;

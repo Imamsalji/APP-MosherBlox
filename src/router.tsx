@@ -20,7 +20,8 @@ import ProductEdit from "./pages/admin/products/EditProduct";
 import GameList from "./pages/admin/games/GameList";
 import CreateGame from "./pages/admin/games/CreateGame";
 import GameEdit from "./pages/admin/games/EditGame";
-import Order from "./pages/admin/order";
+import Order from "./pages/admin/Order";
+import Profiles from "./pages/admin/Profiles";
 
 export default function Router() {
   return (
@@ -52,6 +53,7 @@ export default function Router() {
               <Route path="/admin/product/create" element={<CreateProduct />} />
               <Route path="/admin/product/edit/:id" element={<ProductEdit />} />
               <Route path="/admin/orders" element={<Order />} />
+              <Route path="/admin/profile" element={<Profiles />} />
             </Route>
           </Route>
         </Route>
