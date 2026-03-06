@@ -1,7 +1,7 @@
 import PageBreadcrumb from "../../../component/common/PageBreadCrumb";
 import ComponentCard from "../../../component/common/ComponentCard";
 import PageMeta from "../../../component/common/PageMeta";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllProducts, deleteProduct } from "./../../../api/admin";
 import { useNotifStore } from "./../../../store/appStore";
@@ -17,20 +17,34 @@ import {
 import Badge from "../../../component/ui/badge/Badge";
 import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
 import { formatRupiah } from "../../../utils/format";
+import Toast from "../../../component/transaksi/Toast";
+import { useEffect, useState } from "react";
 
 export default function ProductList() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [show, setShow] = useState(false);
 
+  const message = location.state?.message;
   const { data: product, isLoading } = useQuery({
     queryKey: ["admin-product"],
     queryFn: getAllProducts,
   });
 
+  useEffect(() => {
+    if (message) {
+      setShow(true);
+      setTimeout(() => {
+        setShow(false);
+      }, 3000);
+    }
+  }, []);
+
   const attr = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-games"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-product"] });
     },
   });
 
@@ -56,6 +70,9 @@ export default function ProductList() {
       />
       <PageBreadcrumb pageTitle="Game Detail" />
       <div className="space-y-6">
+        {message && (
+          <Toast show={show} message={message} onClose={() => setShow(false)} />
+        )}
         <ComponentCard title="List Game">
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">

@@ -19,7 +19,9 @@ export default function CreateProduct() {
       }
     },
     onSuccess: () => {
-      navigate("/admin/products");
+      navigate("/admin/products", {
+        state: { message: "Product Game berhasil diBuat" },
+      });
     },
   });
 

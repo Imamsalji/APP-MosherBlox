@@ -20,7 +20,9 @@ export default function EditProduct() {
   const mutation = useMutation({
     mutationFn: (data: FormData) => updateProduct(Number(id), data),
     onSuccess: () => {
-      navigate("/admin/products");
+      navigate("/admin/products", {
+        state: { message: "Product Game berhasil diUbah" },
+      });
     },
   });
   console.log("product");

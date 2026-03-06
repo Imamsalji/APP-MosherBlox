@@ -17,7 +17,7 @@ import { useNotifStore } from "./../../../store/appStore";
 import Badge from "../../../component/ui/badge/Badge";
 import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
 import Toast from "../../../component/transaksi/Toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function GameList() {
   const queryClient = useQueryClient();
@@ -31,6 +31,10 @@ export default function GameList() {
     queryKey: ["admin-games"],
     queryFn: getAllGames,
   });
+
+  useEffect(() => {
+    setTimeout(() => {}, 3000);
+  }, []);
 
   const attr = useMutation({
     mutationFn: deleteGame,
@@ -60,7 +64,7 @@ export default function GameList() {
       />
       <PageBreadcrumb pageTitle="Game" />
       {message && (
-        <Toast show={true} message={message} onClose={() => setShow(false)} />
+        <Toast show={show} message={message} onClose={() => setShow(false)} />
       )}
       <div className="space-y-6">
         <ComponentCard title="List Game">

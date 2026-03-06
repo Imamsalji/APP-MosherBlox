@@ -69,6 +69,9 @@ export default function ProductForm({ initialData, errors, onSubmit }: Props) {
     formData.append("specification", form.specification);
     formData.append("stock", String(form.stock));
     formData.append("status", String(form.status));
+    if (initialData) {
+      formData.append("_method", "PUT");
+    }
 
     if (form.image instanceof File) {
       formData.append("image", form.image);
