@@ -53,7 +53,6 @@ export default function Game() {
   const [reloadCart, setReloadCart] = useState(0);
 
   const handleCheckout = async (id: number, qty: number) => {
-    console.log("Tambah ke cart:", id, " dan ", qty);
     setShow(true);
     const data = await addToCart(id, qty);
     setCartem((prev) => [...prev, { id, qty }]);
@@ -84,8 +83,6 @@ export default function Game() {
     load();
   }, [slug, reloadCart]);
   if (!game) return null;
-  console.log("cartem");
-  console.log(cartem);
 
   return (
     <>

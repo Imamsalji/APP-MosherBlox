@@ -49,7 +49,6 @@ export default function ProductList() {
   });
 
   const deleteMutation = (id?: number) => {
-    console.log(id);
     if (id) {
       useNotifStore.getState().show({
         title: "Konfirmasi Delete",

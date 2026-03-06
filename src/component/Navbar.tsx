@@ -37,9 +37,6 @@ export default function Navbar() {
     }
   }, []);
 
-  // console.log('cart.length');
-
-  // };
   const [isOpen, setIsOpen] = useState(false);
   let LogContent = (
     <div className="hidden md:flex space-x-4">

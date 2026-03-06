@@ -21,12 +21,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginForm) => {
-    console.log(data);
     setLoading(true);
     try {
       // const res = await api.post("/login", { email, password });
       const res = await api.post("/login", data);
-      console.log(res.data);
 
       // localStorage.setItem("token", 'imam salji anjay');
       useAuthStore.getState().setAuth(res.data.token, res.data.user);
@@ -35,7 +33,6 @@ const Login = () => {
     } catch (err) {
       setLoading(false);
       if (axios.isAxiosError(err)) {
-        console.log(err.response?.data.message);
         setError(err.response?.data.message);
       } else {
         console.log(err);

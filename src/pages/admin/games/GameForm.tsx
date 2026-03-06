@@ -30,13 +30,11 @@ export default function GameForm({ initialData, onSubmit }: Props) {
     status?: string;
   }>({});
   const handleSelectChange = (value: string) => {
-    console.log("Selected value:", value);
     setForm({ ...form, status: value });
   };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log("Selected file:", file.name);
       setForm({ ...form, image: file });
     }
   };
@@ -60,14 +58,10 @@ export default function GameForm({ initialData, onSubmit }: Props) {
     }
 
     try {
-      console.log("apiErrors");
       setErrors({}); // reset error dulu
-      console.log(await onSubmit(formData));
     } catch (error: any) {
       if (error.response?.data?.errors) {
         const apiErrors = error.response.data.errors;
-        console.log("apiErrors");
-        console.log(apiErrors);
 
         setErrors({
           name: apiErrors.name?.[0],

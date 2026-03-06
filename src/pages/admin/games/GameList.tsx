@@ -49,7 +49,6 @@ export default function GameList() {
   });
 
   const deleteMutation = (id: number) => {
-    console.log(id);
     useNotifStore.getState().show({
       title: "Konfirmasi Delete",
       message:

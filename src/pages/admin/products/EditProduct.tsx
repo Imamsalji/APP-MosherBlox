@@ -25,8 +25,6 @@ export default function EditProduct() {
       });
     },
   });
-  console.log("product");
-  console.log(products);
   if (!products) return <div>Loading...</div>;
 
   return (
