@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 
 export default function GameList() {
   const queryClient = useQueryClient();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,7 +33,12 @@ export default function GameList() {
   });
 
   useEffect(() => {
-    setTimeout(() => {}, 3000);
+    if (message) {
+      setShow(true);
+      setTimeout(() => {
+        setShow(false);
+      }, 3000);
+    }
   }, []);
 
   const attr = useMutation({
