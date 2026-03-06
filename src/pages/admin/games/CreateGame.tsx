@@ -13,7 +13,9 @@ export default function CreateGame() {
   const mutation = useMutation({
     mutationFn: createGame,
     onSuccess: () => {
-      navigate("/admin/game");
+      navigate("/admin/game", {
+        state: { message: "Game berhasil dibuat" },
+      });
     },
   });
 

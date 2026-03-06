@@ -127,7 +127,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
             <div>
               <Label>Status Game</Label>
               <Select
-                defaultValue={form.description}
+                defaultValue={String(form.status)}
                 options={options}
                 placeholder="Select an option"
                 onChange={handleSelectChange}

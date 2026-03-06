@@ -11,7 +11,7 @@ export default function EditGame() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: games } = useQuery({
+  const { data: games, isLoading } = useQuery({
     queryKey: ["admin-games"],
     queryFn: getAllGames,
   });
@@ -20,22 +20,26 @@ export default function EditGame() {
 
   const mutation = useMutation({
     mutationFn: (data: FormData) => updateGame(Number(id), data),
-    onSuccess: () => {
-      navigate("/admin/game");
-    },
   });
 
-  if (!game) return <div>Loading...</div>;
+  const handleSubmit = async (formData: FormData) => {
+    await mutation.mutateAsync(formData);
+    navigate("/admin/game", {
+      state: { message: "Game berhasil di Ubah" },
+    });
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!game) return <div>Game tidak ditemukan</div>;
 
   return (
     <>
       <PageMeta title="Ubah Games" description="Halaman Ubah Games" />
       <PageBreadcrumb pageTitle="Game" />
-      <ComponentCard title="Edit Game ">
-        <GameForm
-          initialData={game}
-          onSubmit={(data) => mutation.mutate(data)}
-        />
+
+      <ComponentCard title="Edit Game">
+        <GameForm initialData={game} onSubmit={handleSubmit} />
       </ComponentCard>
     </>
   );

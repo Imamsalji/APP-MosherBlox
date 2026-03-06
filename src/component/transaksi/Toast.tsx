@@ -23,7 +23,7 @@ export default function Toast({
   if (!show) return null;
 
   return (
-    <div className="cyber-toast">
+    <div className="cyber-toast mt-15">
       <div className="cyber-toast-inner">⚡ {message}</div>
     </div>
   );

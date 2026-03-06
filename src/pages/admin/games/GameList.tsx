@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllGames, deleteGame } from "./../../../api/admin";
 import type { Game, GameList } from "./../../../types/Game";
@@ -16,10 +16,16 @@ import {
 import { useNotifStore } from "./../../../store/appStore";
 import Badge from "../../../component/ui/badge/Badge";
 import CyberpunkSpinner from "../../../component/transaksi/CyberpunkSpinner";
+import Toast from "../../../component/transaksi/Toast";
+import { useState } from "react";
 
 export default function GameList() {
   const queryClient = useQueryClient();
+  const [show, setShow] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const message = location.state?.message;
 
   const { data: games, isLoading } = useQuery({
     queryKey: ["admin-games"],
@@ -53,6 +59,9 @@ export default function GameList() {
         description="This is React.js Basic Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
       <PageBreadcrumb pageTitle="Game" />
+      {message && (
+        <Toast show={true} message={message} onClose={() => setShow(false)} />
+      )}
       <div className="space-y-6">
         <ComponentCard title="List Game">
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
