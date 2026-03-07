@@ -62,10 +62,7 @@ export default function GameList() {
   if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
   return (
     <>
-      <PageMeta
-        title="Game List Index"
-        description="This is React.js Basic Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
-      />
+      <PageMeta title="Game List Index" description="Menampilkan Game List" />
       <PageBreadcrumb pageTitle="Game" />
       {message && (
         <Toast show={show} message={message} onClose={() => setShow(false)} />

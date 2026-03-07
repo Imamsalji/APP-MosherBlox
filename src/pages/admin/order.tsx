@@ -94,8 +94,8 @@ const Order = () => {
   return (
     <>
       <PageMeta
-        title="React.js Basic Tables Dashboard | TailAdmin - Next.js Admin Dashboard Template"
-        description="This is React.js Basic Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="User Pesanan "
+        description="seluruh transaksi ada di sini untuk konfirmasi pembayaran"
       />
       <PageBreadcrumb pageTitle="Game Detail" />
       <div className="space-y-6">
