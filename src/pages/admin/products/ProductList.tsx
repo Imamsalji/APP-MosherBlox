@@ -25,6 +25,8 @@ export default function ProductList() {
   const navigate = useNavigate();
   const location = useLocation();
   const [show, setShow] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const message = location.state?.message;
   const { data: product, isLoading } = useQuery({
@@ -47,6 +49,11 @@ export default function ProductList() {
       queryClient.invalidateQueries({ queryKey: ["admin-product"] });
     },
   });
+
+  const handleShowModal = (product: Product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
 
   const deleteMutation = (id?: number) => {
     if (id) {
@@ -157,6 +164,13 @@ export default function ProductList() {
                         <div className="flex items-center gap-5">
                           <Button
                             size="sm"
+                            variant="outline"
+                            onClick={() => handleShowModal(order)}
+                          >
+                            Show
+                          </Button>
+                          <Button
+                            size="sm"
                             variant="primary"
                             onClick={() =>
                               navigate("/admin/product/edit/" + order.id)
@@ -181,6 +195,42 @@ export default function ProductList() {
           </div>
         </ComponentCard>
       </div>
+      {showModal && selectedProduct && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-[400px] text-start text-theme-sm dark:text-gray-400">
+            <h2 className="text-lg font-semibold mb-4">Detail Product</h2>
+
+            <div className="space-y-2">
+              <p>
+                <b>Nama :</b> {selectedProduct.name}
+              </p>
+
+              <p>
+                <b>Harga :</b> {formatRupiah(selectedProduct.price)}
+              </p>
+
+              <p>
+                <b>Stock :</b> {selectedProduct.stock}
+              </p>
+
+              <p>
+                <b>Status :</b>{" "}
+                {selectedProduct.status === 1 ? "Aktif" : "Non Aktif"}
+              </p>
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -30,6 +30,8 @@ const Order = () => {
     { value: "rejected", label: "Rejected" },
   ];
   const [form, setForm] = useState<Record<number, formOrder>>({});
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ["admin-orders"],
@@ -57,6 +59,10 @@ const Order = () => {
   //     queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
   //   },
   // });
+  const openModal = (order: any) => {
+    setSelectedOrder(order);
+    setShowModal(true);
+  };
 
   const handleSubmit = (id: number, e: React.FormEvent) => {
     e.preventDefault();
@@ -210,6 +216,13 @@ const Order = () => {
                                 >
                                   Proses
                                 </button>
+
+                                <button
+                                  onClick={() => openModal(order)}
+                                  className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 ml-2"
+                                >
+                                  Tampilkan Data
+                                </button>
                               </form>
                             </>
                           )}
@@ -223,6 +236,58 @@ const Order = () => {
           </div>
         </ComponentCard>
       </div>
+      {showModal && selectedOrder && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+          <div className="bg-white dark:bg-gray-900 text-white rounded-xl shadow-xl w-[500px] p-6">
+            <h2 className="text-xl font-semibold mb-4">Detail Order</h2>
+
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="ttext-white">User</span>
+                <span className="font-medium">{selectedOrder.user.name}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="ttext-white">Total</span>
+                <span className="font-medium">
+                  {formatRupiah(selectedOrder.total_price)}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="ttext-white">Status</span>
+
+                <Badge size="sm" color={statusBadge(selectedOrder.status)}>
+                  {selectedOrder.status}
+                </Badge>
+              </div>
+
+              <div>
+                <span className="ttext-white block mb-2">Bukti Pembayaran</span>
+
+                {selectedOrder.payment_proof_url ? (
+                  <img
+                    src={selectedOrder.payment_proof_url}
+                    alt="bukti"
+                    className="w-full h-60 object-cover rounded-lg border"
+                  />
+                ) : (
+                  <p className="text-gray-400">Tidak ada bukti</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
