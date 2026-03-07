@@ -86,12 +86,12 @@ export default function ProductList() {
                 {/* Table Header */}
                 <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                   <TableRow>
-                    {/* <TableCell
+                    <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
                       Image
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
@@ -129,6 +129,17 @@ export default function ProductList() {
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                   {product?.map((order: Product) => (
                     <TableRow key={order.id}>
+                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                        {order.image_url != "pending" ? (
+                          <img
+                            src={order.image_url}
+                            alt="bukti"
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
                       {/* <TableCell className="px-5 py-4 sm:px-6 text-start">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 overflow-hidden rounded-full">

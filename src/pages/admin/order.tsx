@@ -155,7 +155,7 @@ const Order = () => {
                         </Badge>
                       </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.payment_proof_url ? (
+                        {order.status != "pending" ? (
                           <img
                             src={order.payment_proof_url}
                             alt="bukti"
