@@ -45,12 +45,22 @@ const statusStyle: Record<Status, string> = {
 const OrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
   const [orders, setOrders] = useState<GetOrders[]>([]);
+  const [selectedOrder2, setSelectedOrder2] = useState<OrderDetail | null>(
+    null,
+  );
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
   const payment = async (id: number | String) => {
     console.log(id);
     navigate(`/payment/${id}`);
+  };
+
+  const openModal = (order: any) => {
+    console.log(order);
+    setSelectedOrder2(order);
+    setShowModal(true);
   };
 
   const fetchCart = async () => {
@@ -150,8 +160,25 @@ const OrderList = () => {
                 {/* ACTION */}
                 <div className="flex md:justify-end">
                   {order.status === "pending" ? (
-                    <button
-                      className="
+                    <>
+                      <button
+                        onClick={() =>
+                          setSelectedOrder({
+                            id: order.id,
+                            game: order.items,
+                            product: "Diamond Pass",
+                            amount: formatRupiah(order.total_price),
+                            status: order.status,
+                            paymentMethod: "QRIS",
+                            date: order.created_at,
+                          })
+                        }
+                        className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition mr-2"
+                      >
+                        VIEW
+                      </button>
+                      <button
+                        className="
                         px-4 py-2
                         rounded-lg
                         text-xs
@@ -164,27 +191,36 @@ const OrderList = () => {
                         hover:brightness-125
                         transition
                       "
-                      onClick={() => payment(order.id)}
-                    >
-                      Bayar Sekarang
-                    </button>
+                        onClick={() => payment(order.id)}
+                      >
+                        Pay Now
+                      </button>
+                    </>
                   ) : (
-                    <button
-                      onClick={() =>
-                        setSelectedOrder({
-                          id: order.id,
-                          game: order.items,
-                          product: "Diamond Pass",
-                          amount: formatRupiah(order.total_price),
-                          status: order.status,
-                          paymentMethod: "QRIS",
-                          date: order.created_at,
-                        })
-                      }
-                      className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition"
-                    >
-                      VIEW
-                    </button>
+                    <>
+                      <button
+                        onClick={() =>
+                          setSelectedOrder({
+                            id: order.id,
+                            game: order.items,
+                            product: "Diamond Pass",
+                            amount: formatRupiah(order.total_price),
+                            status: order.status,
+                            paymentMethod: "QRIS",
+                            date: order.created_at,
+                          })
+                        }
+                        className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition"
+                      >
+                        VIEW
+                      </button>
+                      <button
+                        onClick={() => openModal(order)}
+                        className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
+                      >
+                        NOTE
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -197,6 +233,35 @@ const OrderList = () => {
         order={selectedOrder}
         onClose={() => setSelectedOrder(null)}
       />
+      {showModal && selectedOrder2 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          {/* OVERLAY */}
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur"
+            onClick={() => setSelectedOrder2(null)}
+          />
+
+          {/* MODAL */}
+          <div className="relative w-full max-w-xl rounded-2xl bg-[#0b0f1a] border border-cyan-400/30 shadow-[0_0_40px_rgba(34,211,238,0.35)]">
+            <div className="p-6 space-y-5 text-white">
+              {/* HEADER */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-cyan-400 font-bold tracking-widest">
+                  Note Admin
+                </h3>
+
+                <button
+                  onClick={() => setSelectedOrder2(null)}
+                  className="text-gray-400 hover:text-red-400 transition"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-white-400 ">{selectedOrder2.admin_note}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

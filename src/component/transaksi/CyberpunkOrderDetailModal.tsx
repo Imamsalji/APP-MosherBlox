@@ -5,6 +5,7 @@ export interface OrderDetail {
   id: string;
   game: OrderItem[];
   product: string;
+  admin_note?: string;
   amount: string;
   status: string;
   paymentMethod: string;
