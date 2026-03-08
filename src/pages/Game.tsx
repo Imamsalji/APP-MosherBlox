@@ -9,6 +9,7 @@ import { addToCart, getCart } from "../api/cart";
 import type { CartItem } from "../types/Cart";
 import Toast from "./../component/transaksi/Toast";
 import { useAppStore } from "../store/appStore";
+import { formatRupiah } from "../utils/format";
 
 type CartRow = {
   id: number;
@@ -74,6 +75,8 @@ export default function Game() {
         }
 
         const gameData = await getGameDetail(slug);
+        console.log(gameData);
+
         setGame(gameData);
       } catch (err) {
         console.error(err);
@@ -126,7 +129,7 @@ export default function Game() {
                 Dcart={{ id: item.id, qty: 1 }}
                 title={item.name}
                 image={item.image_url}
-                description=""
+                description={formatRupiah(item.price)}
                 onChange={handleCheckout}
               >
                 <CekCart id={item.id} DCart={cartem} />

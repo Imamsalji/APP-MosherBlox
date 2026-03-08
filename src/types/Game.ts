@@ -15,6 +15,7 @@ export interface Game {
 export interface GameList {
   id: number
   name: string
+  price: string
   slug: string
   image: File | null
   image_url: string

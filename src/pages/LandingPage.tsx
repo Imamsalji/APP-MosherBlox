@@ -4,7 +4,6 @@ import Navbar from "../component/Navbar";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import CyberpunkCard from "../component/transaksi/CyberpunkCard";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CyberpunkCarousel from "../component/transaksi/CyberpunkCarousel";
 import GlobalConfirm from "../component/GlobalConfirm";
