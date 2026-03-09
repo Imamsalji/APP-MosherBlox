@@ -171,6 +171,8 @@ const OrderList = () => {
                             status: order.status,
                             paymentMethod: "QRIS",
                             date: order.created_at,
+                            username: order.username,
+                            email: order.email,
                           })
                         }
                         className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition mr-2"
@@ -208,6 +210,8 @@ const OrderList = () => {
                             status: order.status,
                             paymentMethod: "QRIS",
                             date: order.created_at,
+                            username: order.username,
+                            email: order.email,
                           })
                         }
                         className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition"

@@ -5,6 +5,8 @@ export interface OrderDetail {
   id: string;
   game: OrderItem[];
   product: string;
+  username: string;
+  email: string;
   admin_note?: string;
   amount: string;
   status: string;
@@ -57,6 +59,8 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
           <Detail label="Amount" value={order.amount} highlight />
           <Detail label="Payment" value={order.paymentMethod} />
           <Detail label="Date" value={order.date} />
+          {order.username && <Detail label="Username" value={order.username} />}
+          {order.email && <Detail label="Email" value={order.email} />}
 
           {/* FOOTER */}
           <div className="pt-4 flex justify-between items-center border-t border-white/10">

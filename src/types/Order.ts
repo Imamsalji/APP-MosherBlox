@@ -41,6 +41,8 @@ export interface User {
 export interface GetOrders {
   id: string;
   user_id: number;
+  username: string;
+  email: string;
   admin_note: string | null;
   payment_proof: string | null;
   status: "pending" | "paid" | "rejected"| "waiting_verification" | string;
