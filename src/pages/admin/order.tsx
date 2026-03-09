@@ -250,6 +250,11 @@ const Order = () => {
               </div>
 
               <div className="flex justify-between">
+                <span className="ttext-white">Email</span>
+                <span className="font-medium">{selectedOrder.email}</span>
+              </div>
+
+              <div className="flex justify-between">
                 <span className="ttext-white">Total</span>
                 <span className="font-medium">
                   {formatRupiah(selectedOrder.total_price)}
@@ -259,9 +264,16 @@ const Order = () => {
               <div className="flex justify-between">
                 <span className="ttext-white">Status</span>
 
-                <Badge size="sm" color={statusBadge(selectedOrder.status)}>
+                <Badge size="md" color={statusBadge(selectedOrder.status)}>
                   {selectedOrder.status}
                 </Badge>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="ttext-white">Username</span>
+                <span className="text-fuchsia-400 font-semibold font-medium">
+                  {selectedOrder.username}
+                </span>
               </div>
 
               <div>
