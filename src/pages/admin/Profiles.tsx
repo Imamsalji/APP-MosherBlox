@@ -1,7 +1,6 @@
 import PageBreadcrumb from "../../component/common/PageBreadCrumb";
 import UserMetaCard from "../../component/UserProfile/UserMetaCard";
 import UserInfoCard from "../../component/UserProfile/UserInfoCard";
-import UserAddressCard from "../../component/UserProfile/UserAddressCard";
 import PageMeta from "../../component/common/PageMeta";
 
 export default function Profiles() {
@@ -19,7 +18,6 @@ export default function Profiles() {
         <div className="space-y-6">
           <UserMetaCard />
           <UserInfoCard />
-          <UserAddressCard />
         </div>
       </div>
     </>
