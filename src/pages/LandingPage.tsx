@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Navbar from "../component/Navbar";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
@@ -16,19 +15,6 @@ import { Game } from "../types/Game";
 
 function App() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const scrollToSection = (e: React.MouseEvent<HTMLElement>, id: string) => {
-    e.preventDefault();
-
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   const { data: game, isLoading } = useQuery({
     queryKey: ["games"],
