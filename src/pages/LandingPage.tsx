@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "./../assets/img/logoMosher.jpeg";
 import Navbar from "../component/Navbar";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
@@ -7,6 +6,10 @@ import CyberpunkCard from "../component/transaksi/CyberpunkCard";
 import { useNavigate } from "react-router-dom";
 import CyberpunkCarousel from "../component/transaksi/CyberpunkCarousel";
 import GlobalConfirm from "../component/GlobalConfirm";
+import { useQuery } from "@tanstack/react-query";
+import { getGames } from "../api/game";
+import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
+import { Game } from "../types/Game";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -26,6 +29,12 @@ function App() {
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
+
+  const { data: game, isLoading } = useQuery({
+    queryKey: ["games"],
+    queryFn: getGames,
+  });
+  if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
 
   return (
     <>
@@ -67,12 +76,13 @@ function App() {
                 gap-6
             "
         >
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
-          <CyberpunkCard title="NEURAL ARENA" image={logo} tag="CYBER" />
+          {game?.map((item: Game) => (
+            <CyberpunkCard
+              title={item.name}
+              image={item.image_url}
+              tag={item.slug}
+            />
+          ))}
         </div>
         <button
           className="mt-8 border border-purple-500 text-purple-400 hover:brightness-150 px-6 py-2 rounded-full text-sm w-full md:w-auto"
