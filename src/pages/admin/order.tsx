@@ -94,7 +94,7 @@ const Order = () => {
   return (
     <>
       <PageMeta
-        title="User Pesanan "
+        title="User Pesanan MosherBlox"
         description="seluruh transaksi ada di sini untuk konfirmasi pembayaran"
       />
       <PageBreadcrumb pageTitle="Game Detail" />

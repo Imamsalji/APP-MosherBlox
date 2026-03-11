@@ -70,10 +70,7 @@ export default function ProductList() {
   if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
   return (
     <>
-      <PageMeta
-        title="Game Product"
-        description="isi Product dari game-game "
-      />
+      <PageMeta title="Game Product" description="isi Product dari games " />
       <PageBreadcrumb pageTitle="Game Detail" />
       <div className="space-y-6">
         {message && (
