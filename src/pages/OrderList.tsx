@@ -6,6 +6,8 @@ import { formatRupiah } from "../utils/format";
 
 import CyberpunkOrderDetailModal from "../component/transaksi/CyberpunkOrderDetailModal";
 import type { OrderDetail } from "../component/transaksi/CyberpunkOrderDetailModal";
+import TextArea from "../component/form/input/TextArea";
+import Label from "../component/form/Label";
 
 // const orders: Order[] = [
 //   {
@@ -234,12 +236,15 @@ const OrderList = () => {
                       >
                         NOTE
                       </button>
-                      <button
-                        onClick={() => openModalReport(order)}
-                        className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
-                      >
-                        Report
-                      </button>
+                      {(order.status === "success" ||
+                        order.status === "rejected") && (
+                        <button
+                          onClick={() => openModalReport(order)}
+                          className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
+                        >
+                          Report
+                        </button>
+                      )}
                     </>
                   )}
                 </div>
@@ -306,7 +311,32 @@ const OrderList = () => {
                   ✕
                 </button>
               </div>
-              <p className="text-white-400 ">{SelectedReport.admin_note}</p>
+              <form key={SelectedReport.id}>
+                <div>
+                  <Label>Comment</Label>
+                  <TextArea
+                    value={""}
+                    // onChange={(value) =>
+                    //   setForm({
+                    //     ...form,
+                    //     [order.id]: {
+                    //       ...form[order.id],
+                    //       comment: value,
+                    //     },
+                    //   })
+                    // }
+                    rows={6}
+                    // hint="Please enter a valid message."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="bg-green-600 px-3 py-1 rounded hover:bg-green-700 mt-2"
+                >
+                  Proses
+                </button>
+              </form>
             </div>
           </div>
         </div>
