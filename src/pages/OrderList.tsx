@@ -50,6 +50,11 @@ const OrderList = () => {
   );
   const [showModal, setShowModal] = useState(false);
 
+  const [SelectedReport, setSelectedReport] = useState<OrderDetail | null>(
+    null,
+  );
+  const [ShowModalReport, setShowModalReport] = useState(false);
+
   const navigate = useNavigate();
 
   const payment = async (id: number | String) => {
@@ -61,6 +66,11 @@ const OrderList = () => {
     console.log(order);
     setSelectedOrder2(order);
     setShowModal(true);
+  };
+
+  const openModalReport = (order: any) => {
+    setSelectedReport(order);
+    setShowModalReport(true);
   };
 
   const fetchCart = async () => {
@@ -224,6 +234,12 @@ const OrderList = () => {
                       >
                         NOTE
                       </button>
+                      <button
+                        onClick={() => openModalReport(order)}
+                        className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
+                      >
+                        Report
+                      </button>
                     </>
                   )}
                 </div>
@@ -262,6 +278,35 @@ const OrderList = () => {
                 </button>
               </div>
               <p className="text-white-400 ">{selectedOrder2.admin_note}</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {ShowModalReport && SelectedReport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          {/* OVERLAY */}
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur"
+            onClick={() => setSelectedReport(null)}
+          />
+
+          {/* MODAL */}
+          <div className="relative w-full max-w-xl rounded-2xl bg-[#0b0f1a] border border-cyan-400/30 shadow-[0_0_40px_rgba(34,211,238,0.35)]">
+            <div className="p-6 space-y-5 text-white">
+              {/* HEADER */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-cyan-400 font-bold tracking-widest">
+                  Report
+                </h3>
+
+                <button
+                  onClick={() => setSelectedReport(null)}
+                  className="text-gray-400 hover:text-red-400 transition"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-white-400 ">{SelectedReport.admin_note}</p>
             </div>
           </div>
         </div>
