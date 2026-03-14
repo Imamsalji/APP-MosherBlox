@@ -22,6 +22,7 @@ import FileInput from "../../component/form/input/FileInput";
 interface formOrder {
   comment: string;
   status: string;
+  bukti_admin: File;
 }
 
 const Order = () => {
@@ -44,11 +45,13 @@ const Order = () => {
       id,
       status,
       admin_note,
+      bukti_admin,
     }: {
       id: number;
       status: string;
       admin_note: string;
-    }) => verifyOrder(id, status, admin_note),
+      bukti_admin: File;
+    }) => verifyOrder(id, status, admin_note, bukti_admin),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
     },
@@ -75,6 +78,7 @@ const Order = () => {
       id: id,
       status: data.status,
       admin_note: data.comment,
+      bukti_admin: data.bukti_admin,
     });
   };
   const statusBadge = (status: string) => {

@@ -98,11 +98,13 @@ export const getAllOrders = async (): Promise<OrderItem[]> => {
 export const verifyOrder = async (
   id: number,
   status: string,
-  admin_note: string
+  admin_note: string,
+  bukti_admin: File
 ) => {
   const response = await api.put(`/admin/orders/${id}/verify`, {
     status,
     admin_note,
+    bukti_admin
   });
 
   return response.data;
