@@ -54,7 +54,7 @@ export default function Header() {
         data-aos="zoom-in"
       >
         {/* start FRAME */}
-        <div
+        {/* <div
           className="
                 relative z-10
                 w-full max-w-5xl
@@ -128,13 +128,13 @@ export default function Header() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
         {/* finish */}
-        {/* <div className="relative w-full max-w-[300px] md:max-w-md">
-                    <div className=" rounded-3xl p-3 transform rotate-6 md:rotate-12 shadow-2xl">
-                        <img style={{ background: 'transparent' }} src={logoheader} />
-                    </div>
-                </div> */}
+        <div className="relative w-full max-w-[300px] md:max-w-md">
+          <div className=" rounded-3xl p-3 transform rotate-6 md:rotate-12 shadow-2xl">
+            <img style={{ background: "transparent" }} src={logoheader} />
+          </div>
+        </div>
       </div>
     </header>
   );
