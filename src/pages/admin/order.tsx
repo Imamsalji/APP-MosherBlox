@@ -17,6 +17,7 @@ import TextArea from "../../component/form/input/TextArea";
 import Label from "../../component/form/Label";
 import Select from "../../component/form/Select";
 import { formatRupiah } from "../../utils/format";
+import FileInput from "../../component/form/input/FileInput";
 
 interface formOrder {
   comment: string;
@@ -210,6 +211,11 @@ const Order = () => {
                                     }
                                     className="dark:bg-dark-900"
                                   />
+                                </div>
+
+                                <div>
+                                  <Label>Upload Bukti</Label>
+                                  <FileInput />
                                 </div>
 
                                 <button
