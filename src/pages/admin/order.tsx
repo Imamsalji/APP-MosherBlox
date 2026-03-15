@@ -103,7 +103,34 @@ const Order = () => {
     e.preventDefault();
 
     const data = form[id];
-    console.log(id);
+    // cek apakah form ada
+    if (!data) {
+      alert("Form belum diisi");
+      return;
+    }
+
+    // validasi status
+    if (!data.status) {
+      alert("Status harus dipilih");
+      return;
+    }
+
+    // validasi comment
+    if (!data.comment || data.comment.trim() === "") {
+      alert("Comment wajib diisi");
+      return;
+    }
+
+    // validasi file
+    if (!data.bukti_admin) {
+      alert("Bukti admin wajib diupload");
+      return;
+    }
+
+    if (data.status === "success" && !data.bukti_admin) {
+      alert("Bukti admin wajib jika status sukses");
+      return;
+    }
 
     verifyMutation.mutate({
       id: id,
@@ -232,7 +259,6 @@ const Order = () => {
                                       })
                                     }
                                     rows={6}
-                                    // hint="Please enter a valid message."
                                   />
                                 </div>
                                 <div>
