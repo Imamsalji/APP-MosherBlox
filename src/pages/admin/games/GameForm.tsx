@@ -41,6 +41,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("asdasdssss");
 
     const formData = new FormData();
     formData.append("name", form.name);
@@ -59,6 +60,7 @@ export default function GameForm({ initialData, onSubmit }: Props) {
 
     try {
       setErrors({}); // reset error dulu
+      await onSubmit(formData);
     } catch (error: any) {
       if (error.response?.data?.errors) {
         const apiErrors = error.response.data.errors;

@@ -68,6 +68,23 @@ const Order = () => {
     setShowModal(true);
   };
 
+  const handleFileChange = (
+    id: number,
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    console.log(id);
+    if (file) {
+      setForm({
+        ...form,
+        [id]: {
+          ...form[id],
+          bukti_admin: file,
+        },
+      });
+    }
+  };
+
   const handleSubmit = (id: number, e: React.FormEvent) => {
     e.preventDefault();
 
@@ -219,7 +236,11 @@ const Order = () => {
 
                                 <div>
                                   <Label>Upload Bukti</Label>
-                                  <FileInput />
+                                  <FileInput
+                                    onChange={(event) =>
+                                      handleFileChange(order.id, event)
+                                    }
+                                  />
                                 </div>
 
                                 <button
