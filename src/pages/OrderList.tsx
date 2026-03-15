@@ -44,9 +44,14 @@ const statusStyle: Record<Status, string> = {
     "text-red-400 border-red-400/40 shadow-[0_0_15px_rgba(34,211,238,0.4)]",
 };
 
+interface formOrder {
+  comment: string;
+}
+
 const OrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
   const [orders, setOrders] = useState<GetOrders[]>([]);
+  const [form, setForm] = useState<Record<number, formOrder>>({});
   const [selectedOrder2, setSelectedOrder2] = useState<OrderDetail | null>(
     null,
   );
@@ -73,6 +78,20 @@ const OrderList = () => {
   const openModalReport = (order: any) => {
     setSelectedReport(order);
     setShowModalReport(true);
+  };
+
+  const handleSubmit = (id: number, e: React.FormEvent) => {
+    e.preventDefault();
+
+    const data = form[id];
+    console.log(data);
+
+    // verifyMutation.mutate({
+    //   id: id,
+    //   status: data.status,
+    //   admin_note: data.comment,
+    //   bukti_admin: data.bukti_admin,
+    // });
   };
 
   const fetchCart = async () => {
@@ -311,20 +330,23 @@ const OrderList = () => {
                   ✕
                 </button>
               </div>
-              <form key={SelectedReport.id}>
+              <form
+                key={SelectedReport.id}
+                onSubmit={(event) => handleSubmit(SelectedReport.id, event)}
+              >
                 <div>
                   <Label>Comment</Label>
                   <TextArea
-                    value={""}
-                    // onChange={(value) =>
-                    //   setForm({
-                    //     ...form,
-                    //     [order.id]: {
-                    //       ...form[order.id],
-                    //       comment: value,
-                    //     },
-                    //   })
-                    // }
+                    value={form[SelectedReport.id]?.comment || ""}
+                    onChange={(value) =>
+                      setForm({
+                        ...form,
+                        [SelectedReport.id]: {
+                          ...form[SelectedReport.id],
+                          comment: value,
+                        },
+                      })
+                    }
                     rows={6}
                     // hint="Please enter a valid message."
                   />

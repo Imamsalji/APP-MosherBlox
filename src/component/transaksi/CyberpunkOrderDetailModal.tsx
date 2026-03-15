@@ -2,7 +2,7 @@ import type { OrderItem } from "../../types/Order";
 import { formatRupiah } from "../../utils/format";
 
 export interface OrderDetail {
-  id: string;
+  id: any;
   game: OrderItem[];
   product: string;
   username: string;
