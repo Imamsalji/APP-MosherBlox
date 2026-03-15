@@ -18,6 +18,7 @@ import Label from "../../component/form/Label";
 import Select from "../../component/form/Select";
 import { formatRupiah } from "../../utils/format";
 import FileInput from "../../component/form/input/FileInput";
+import Toast from "../../component/transaksi/Toast";
 
 interface formOrder {
   comment: string;
@@ -34,27 +35,11 @@ const Order = () => {
   const [form, setForm] = useState<Record<number, formOrder>>({});
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [show, setShow] = useState(false);
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ["admin-orders"],
     queryFn: getAllOrders,
-  });
-
-  const verifyMutation = useMutation({
-    mutationFn: ({
-      id,
-      status,
-      admin_note,
-      bukti_admin,
-    }: {
-      id: number;
-      status: string;
-      admin_note: string;
-      bukti_admin: File;
-    }) => verifyOrder(id, status, admin_note, bukti_admin),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
-    },
   });
 
   // const verifyMutation = useMutation({
@@ -68,20 +53,49 @@ const Order = () => {
     setShowModal(true);
   };
 
+  const verifyMutation = useMutation({
+    mutationFn: ({
+      id,
+      status,
+      admin_note,
+      bukti_admin,
+    }: {
+      id: number;
+      status: string;
+      admin_note: string;
+      bukti_admin?: File;
+    }) => {
+      const formData = new FormData();
+
+      formData.append("_method", "PUT");
+      formData.append("status", status);
+      formData.append("admin_note", admin_note);
+
+      if (bukti_admin) {
+        formData.append("bukti_admin", bukti_admin);
+      }
+      setShow(true);
+      return verifyOrder(id, formData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+    },
+  });
+
   const handleFileChange = (
     id: number,
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
-    console.log(id);
+
     if (file) {
-      setForm({
-        ...form,
+      setForm((prev) => ({
+        ...prev,
         [id]: {
-          ...form[id],
+          ...prev[id],
           bukti_admin: file,
         },
-      });
+      }));
     }
   };
 
@@ -89,7 +103,7 @@ const Order = () => {
     e.preventDefault();
 
     const data = form[id];
-    console.log(data);
+    console.log(id);
 
     verifyMutation.mutate({
       id: id,
@@ -122,6 +136,11 @@ const Order = () => {
       <PageBreadcrumb pageTitle="Game Detail" />
       <div className="space-y-6">
         <ComponentCard title="List Game">
+          <Toast
+            show={show}
+            message="Status Berhasil di ubah! "
+            onClose={() => setShow(false)}
+          />
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">
               <Table>
@@ -237,8 +256,8 @@ const Order = () => {
                                 <div>
                                   <Label>Upload Bukti</Label>
                                   <FileInput
-                                    onChange={(event) =>
-                                      handleFileChange(order.id, event)
+                                    onChange={(e) =>
+                                      handleFileChange(order.id, e)
                                     }
                                   />
                                 </div>

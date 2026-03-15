@@ -95,16 +95,13 @@ export const getAllOrders = async (): Promise<OrderItem[]> => {
 //   const response = await api.patch(`/admin/orders/${id}/verify`);
 //   return response.data;
 // };
-export const verifyOrder = async (
-  id: number,
-  status: string,
-  admin_note: string,
-  bukti_admin: File
-) => {
-  const response = await api.put(`/admin/orders/${id}/verify`, {
-    status,
-    admin_note,
-    bukti_admin
+
+export const verifyOrder = async (id: number, payload: FormData) => {
+  const response = await api.post(`/admin/orders/${id}/verify`, payload,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   return response.data;
