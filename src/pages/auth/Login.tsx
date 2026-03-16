@@ -29,7 +29,9 @@ const Login = () => {
       // localStorage.setItem("token", 'imam salji anjay');
       useAuthStore.getState().setAuth(res.data.token, res.data.user);
 
-      navigate("/game");
+      navigate("/", {
+        state: { message: "Login Berhasil" },
+      });
     } catch (err) {
       setLoading(false);
       if (axios.isAxiosError(err)) {

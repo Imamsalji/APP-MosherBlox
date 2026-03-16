@@ -2,24 +2,38 @@ import Navbar from "../component/Navbar";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import CyberpunkCard from "../component/transaksi/CyberpunkCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CyberpunkCarousel from "../component/transaksi/CyberpunkCarousel";
 import GlobalConfirm from "../component/GlobalConfirm";
 import { useQuery } from "@tanstack/react-query";
 import { getGames } from "../api/game";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { Game } from "../types/Game";
+import { useEffect, useState } from "react";
+import Toast from "../component/transaksi/Toast";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message;
+  const [show, setShow] = useState(false);
 
   const { data: game, isLoading } = useQuery({
     queryKey: ["games"],
     queryFn: getGames,
   });
+
+  useEffect(() => {
+    if (message) {
+      setShow(true);
+      setTimeout(() => {
+        setShow(false);
+      }, 3000);
+    }
+  }, []);
   if (isLoading) return <CyberpunkSpinner size={50} text="Loading" />;
 
   return (
@@ -29,6 +43,9 @@ function App() {
       <Header />
       <CyberpunkCarousel />
       <GlobalConfirm />
+      {message && (
+        <Toast show={show} message={message} onClose={() => setShow(false)} />
+      )}
 
       {/* <CyberpunkCart/>
 
