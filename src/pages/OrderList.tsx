@@ -199,6 +199,14 @@ const OrderList = () => {
                   <p className="font-mono text-sm">{order.id}</p>
                 </div>
 
+                {/* ORDER ID */}
+                <div>
+                  <p className="text-xs text-gray-400 tracking-widest">
+                    Username Roblox
+                  </p>
+                  <p className="font-mono text-sm">{order.username}</p>
+                </div>
+
                 {/* AMOUNT */}
                 <div>
                   <p className="text-xs text-gray-400 tracking-widest">
