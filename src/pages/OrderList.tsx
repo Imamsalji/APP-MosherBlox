@@ -61,6 +61,8 @@ const OrderList = () => {
     null,
   );
   const [ShowModalReport, setShowModalReport] = useState(false);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const navigate = useNavigate();
 
@@ -110,7 +112,17 @@ const OrderList = () => {
   useEffect(() => {
     fetchCart();
   }, []);
-  console.log();
+
+  const filteredOrders = orders.filter((order) => {
+    const matchSearch =
+      order.id.toString().toLowerCase().includes(search.toLowerCase()) ||
+      order.username?.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus =
+      statusFilter === "all" ? true : order.status === statusFilter;
+
+    return matchSearch && matchStatus;
+  });
 
   return (
     <section className="relative py-20 bg-[#05080f] text-white overflow-hidden">
@@ -124,8 +136,37 @@ const OrderList = () => {
           ORDER HISTORY
         </h2>
 
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          {/* SEARCH */}
+          <input
+            type="text"
+            placeholder="Search Order ID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-4 py-2 rounded-lg bg-[#0b0f1a] border border-cyan-400/30 text-white w-full md:w-2/2"
+          />
+
+          {/* FILTER STATUS */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-4 py-2 rounded-lg bg-[#0b0f1a] border border-cyan-400/30 text-white"
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="waiting_verification">Waiting Verification</option>
+            <option value="success">Success</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
         <div className="space-y-6">
-          {orders.map((order) => (
+          {filteredOrders.length === 0 && (
+            <div className="text-center text-gray-400 py-10">
+              No orders found
+            </div>
+          )}
+          {filteredOrders.map((order) => (
             <div
               key={order.id}
               className="
