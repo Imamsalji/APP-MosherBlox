@@ -44,6 +44,7 @@ const Cart = () => {
     const data = await getCart();
     if (data.length != 0) {
       setCartItems(data.items);
+      setNavCart(data.items.length);
     } else {
       setCartItems([]);
     }
@@ -54,6 +55,7 @@ const Cart = () => {
     const data = await getCart();
     if (data.length != 0) {
       setCartItems(data.items);
+      setNavCart(data.items.length);
     } else {
       setCartItems([]);
     }
