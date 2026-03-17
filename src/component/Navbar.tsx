@@ -107,6 +107,9 @@ export default function Navbar() {
     );
     LogContent = (
       <div className="hidden md:flex space-x-4">
+        <div className="flex items-center h-10">
+          <div id="google_translate_element"></div>
+        </div>
         <button
           className="relative px-4 py-2 text-sm border border-gray-500 hover:brightness-125 rounded-lg"
           onClick={() => navigate("/carts")}
@@ -132,6 +135,9 @@ export default function Navbar() {
 
     LogContentMobile = (
       <div className="flex flex-col space-y-2 pt-2">
+        <div className="flex items-center gap-4">
+          <div id="google_translate_element"></div>
+        </div>
         <button
           className="relative w-full px-4 py-2 text-sm border hover:brightness-125 border-gray-500 rounded-lg"
           onClick={() => navigate("/carts")}
