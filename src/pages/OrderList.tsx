@@ -40,6 +40,7 @@ const OrderList = () => {
   const [ShowModalReport, setShowModalReport] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [now, setNow] = useState(Date.now());
 
   const navigate = useNavigate();
 
@@ -73,6 +74,21 @@ const OrderList = () => {
     // });
   };
 
+  const getRemainingTime = (updatedAt: string) => {
+    const createdTime = new Date(updatedAt).getTime();
+    const endTime = createdTime + 5 * 60 * 1000; // +5 menit
+
+    const diff = endTime - now;
+    console.log(now);
+
+    if (diff <= 0) return null;
+
+    const minutes = Math.floor(diff / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
   const fetchCart = async () => {
     try {
       const data = await getMyOrders();
@@ -88,6 +104,11 @@ const OrderList = () => {
   };
   useEffect(() => {
     fetchCart();
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const filteredOrders = orders.filter((order) => {
@@ -280,14 +301,15 @@ const OrderList = () => {
                         NOTE
                       </button>
                       {(order.status === "success" ||
-                        order.status === "rejected") && (
-                        <button
-                          onClick={() => openModalReport(order)}
-                          className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
-                        >
-                          Report
-                        </button>
-                      )}
+                        order.status === "rejected") &&
+                        getRemainingTime(order.updated_at) && (
+                          <button
+                            onClick={() => openModalReport(order)}
+                            className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition ml-2"
+                          >
+                            Report ({getRemainingTime(order.updated_at)})
+                          </button>
+                        )}
                     </>
                   )}
                 </div>
