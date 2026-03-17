@@ -3,7 +3,6 @@ import { getGameDetail } from "../api/game";
 import type { GameList } from "../types/Game";
 import { useParams } from "react-router-dom";
 import GlowCard from "../component/GlowCard";
-import logo from "./../assets/img/logoMosher.jpeg";
 import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { addToCart, getCart } from "../api/cart";
 import type { CartItem } from "../types/Cart";

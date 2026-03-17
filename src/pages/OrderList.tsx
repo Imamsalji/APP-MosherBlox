@@ -9,29 +9,6 @@ import type { OrderDetail } from "../component/transaksi/CyberpunkOrderDetailMod
 import TextArea from "../component/form/input/TextArea";
 import Label from "../component/form/Label";
 
-// const orders: Order[] = [
-//   {
-//     id: "ORD-78421",
-//     game: "Cyber Battle X",
-//     amount: "Rp 150.000",
-//     status: "pending",
-//     date: "15 Jan 2026",
-//   },
-//   {
-//     id: "ORD-78422",
-//     game: "Neon Realm",
-//     amount: "Rp 75.000",
-//     status: "paid",
-//     date: "14 Jan 2026",
-//   },
-//   {
-//     id: "ORD-78423",
-//     game: "Quantum Strike",
-//     amount: "Rp 300.000",
-//     status: "paid",
-//     date: "13 Jan 2026",
-//   },
-// ];
 type Status = "pending" | "waiting_verification" | "success" | "rejected";
 const statusStyle: Record<Status, string> = {
   pending:
