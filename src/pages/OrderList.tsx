@@ -350,6 +350,15 @@ const OrderList = () => {
                   ✕
                 </button>
               </div>
+              {selectedOrder2.bukti_admin_url ? (
+                <img
+                  src={selectedOrder2.bukti_admin_url}
+                  alt="bukti"
+                  className="w-full h-60 object-cover rounded-lg border"
+                />
+              ) : (
+                <p className="text-gray-400">Tidak ada bukti</p>
+              )}
               <p className="text-white-400 ">{selectedOrder2.admin_note}</p>
             </div>
           </div>
