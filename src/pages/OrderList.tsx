@@ -223,7 +223,6 @@ const OrderList = () => {
                           setSelectedOrder({
                             id: order.id,
                             game: order.items,
-                            product: "Diamond Pass",
                             amount: formatRupiah(order.total_price),
                             status: order.status,
                             paymentMethod: "QRIS",
@@ -262,7 +261,6 @@ const OrderList = () => {
                           setSelectedOrder({
                             id: order.id,
                             game: order.items,
-                            product: "Diamond Pass",
                             amount: formatRupiah(order.total_price),
                             status: order.status,
                             paymentMethod: "QRIS",

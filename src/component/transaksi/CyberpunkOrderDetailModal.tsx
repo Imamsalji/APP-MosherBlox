@@ -4,7 +4,6 @@ import { formatRupiah } from "../../utils/format";
 export interface OrderDetail {
   id: any;
   game: OrderItem[];
-  product: string;
   bukti_admin?: string;
   bukti_admin_url?: string;
   username: string;
@@ -57,7 +56,6 @@ const CyberpunkOrderDetailModal = ({ order, onClose }: Props) => {
           {/* DETAIL */}
           <Detail label="Order ID" value={order.id} mono />
           <Detail label="Game" value={order.game} />
-          <Detail label="Product" value={order.product} />
           <Detail label="Amount" value={order.amount} highlight />
           <Detail label="Payment" value={order.paymentMethod} />
           <Detail label="Date" value={order.date} />
