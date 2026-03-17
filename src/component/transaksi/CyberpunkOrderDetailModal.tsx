@@ -5,6 +5,8 @@ export interface OrderDetail {
   id: any;
   game: OrderItem[];
   product: string;
+  bukti_admin?: string;
+  bukti_admin_url?: string;
   username: string;
   email: string;
   admin_note?: string;
