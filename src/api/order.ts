@@ -82,3 +82,8 @@ export const getRoblox = async (
   const response = await axios.get(`/getRoblox/${user}`)
   return response.data.data
 }
+
+export const reportOrder = async (id: number, payload: FormData) => {
+  const response = await axios.post(`/orders/${id}/report`, payload);
+  return response.data;
+};

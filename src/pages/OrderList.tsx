@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMyOrders } from "../api/order";
+import { getMyOrders, reportOrder } from "../api/order";
 import type { GetOrders } from "../types/Order";
 import { formatRupiah } from "../utils/format";
-
 import CyberpunkOrderDetailModal from "../component/transaksi/CyberpunkOrderDetailModal";
 import type { OrderDetail } from "../component/transaksi/CyberpunkOrderDetailModal";
 import TextArea from "../component/form/input/TextArea";
 import Label from "../component/form/Label";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Toast from "../component/transaksi/Toast";
+import { useNotifStore } from "../store/appStore";
 
 type Status = "pending" | "waiting_verification" | "success" | "rejected";
 const statusStyle: Record<Status, string> = {
@@ -27,7 +29,6 @@ interface formOrder {
 
 const OrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
-  const [orders, setOrders] = useState<GetOrders[]>([]);
   const [form, setForm] = useState<Record<number, formOrder>>({});
   const [selectedOrder2, setSelectedOrder2] = useState<OrderDetail | null>(
     null,
@@ -41,6 +42,8 @@ const OrderList = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [now, setNow] = useState(Date.now());
+  const queryClient = useQueryClient();
+  const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -60,18 +63,42 @@ const OrderList = () => {
     setShowModalReport(true);
   };
 
+  const { data: orders = [] } = useQuery({
+    queryKey: ["user-orders"],
+    queryFn: getMyOrders,
+  });
+
+  const verifyMutation = useMutation({
+    mutationFn: ({ id, user_note }: { id: number; user_note: string }) => {
+      const formData = new FormData();
+
+      formData.append("_method", "PUT");
+      formData.append("user_note", user_note);
+
+      setShow(true);
+      setSelectedReport(null);
+      return reportOrder(id, formData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-orders"] });
+    },
+  });
+
   const handleSubmit = (id: number, e: React.FormEvent) => {
     e.preventDefault();
+    setSelectedReport(null);
 
-    const data = form[id];
-    console.log(data);
-
-    // verifyMutation.mutate({
-    //   id: id,
-    //   status: data.status,
-    //   admin_note: data.comment,
-    //   bukti_admin: data.bukti_admin,
-    // });
+    useNotifStore.getState().show({
+      title: "Konfirmasi Report",
+      message: "Apakah yakin anda ingin Mengajukan Keluhan?",
+      onConfirm: async () => {
+        const data = form[id];
+        verifyMutation.mutate({
+          id: id,
+          user_note: data.comment,
+        });
+      },
+    });
   };
 
   const getRemainingTime = (updatedAt: string) => {
@@ -79,7 +106,6 @@ const OrderList = () => {
     const endTime = createdTime + 5 * 60 * 1000; // +5 menit
 
     const diff = endTime - now;
-    console.log(now);
 
     if (diff <= 0) return null;
 
@@ -89,21 +115,7 @@ const OrderList = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const fetchCart = async () => {
-    try {
-      const data = await getMyOrders();
-
-      if (data.length != 0) {
-        setOrders(data);
-      } else {
-        setOrders([]);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
-    fetchCart();
     const interval = setInterval(() => {
       setNow(Date.now());
     }, 1000);
@@ -129,6 +141,11 @@ const OrderList = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.15),transparent_65%)]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
+        <Toast
+          show={show}
+          message="Komplain berhasil diajukan! "
+          onClose={() => setShow(false)}
+        />
         {/* TITLE */}
         <h2 className="text-xl md:text-3xl font-bold tracking-widest text-cyan-400 mb-10">
           ORDER HISTORY
@@ -390,7 +407,7 @@ const OrderList = () => {
                 onSubmit={(event) => handleSubmit(SelectedReport.id, event)}
               >
                 <div>
-                  <Label>Comment</Label>
+                  <Label>silahkan masukan kendala/masalah</Label>
                   <TextArea
                     value={form[SelectedReport.id]?.comment || ""}
                     onChange={(value) =>
