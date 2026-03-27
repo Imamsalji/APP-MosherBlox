@@ -1,5 +1,4 @@
 import logoheader from "./../assets/img/WhatsApp_Image_2026-01-06_at_14.50.23-removebg-preview (1).png";
-import { useEffect, useState } from "react";
 import gaming1 from "./../assets/img/gaming1.jpg";
 import gaming2 from "./../assets/img/gaming2.jpg";
 import gaming3 from "./../assets/img/gaming3.jpg";
@@ -32,8 +31,6 @@ const slides: Slide[] = [
 ];
 
 export default function Header() {
-  const [active, setActive] = useState(0);
-
   return (
     <header
       id="home"
