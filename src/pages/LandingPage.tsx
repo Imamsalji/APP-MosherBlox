@@ -98,38 +98,54 @@ function App() {
 
       <section
         id="komunitas"
-        className="container mx-auto px-6 md:px-10 py-16 text-center"
+        className="relative container mx-auto px-6 md:px-10 py-20 text-center overflow-hidden"
       >
-        <h2 className="text-2xl md:text-3xl font-bold mb-10">
-          Gabung Komunitas Kami
-        </h2>
-        <div className="space-y-12 md:space-y-0 md:grid md:grid-cols-3 md:gap-12">
-          <div className="flex flex-col items-center" data-aos="fade-up">
-            <div className="bg-pink-500 w-28 h-28 md:w-32 md:h-32 blob-shape flex items-center justify-center mb-4">
-              <span className="text-3xl md:text-4xl">💡</span>
+        <div className="relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-14 text-cyan-400 tracking-widest drop-shadow-[0_0_10px_#00ffff]">
+            GABUNG KOMUNITAS KAMI
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Card */}
+            <div className="group p-6 rounded-2xl border border-cyan-500/20 bg-black/40 backdrop-blur-lg hover:shadow-[0_0_25px_#00ffff] transition-all duration-300">
+              <div className="w-20 h-20 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 text-3xl shadow-[0_0_20px_#00ffff] group-hover:scale-110 transition">
+                💡
+              </div>
+              <h4 className="mt-6 text-lg font-bold text-white group-hover:text-cyan-400">
+                WhatsApp Group
+              </h4>
+              <p className="text-gray-400 text-sm mt-2">
+                Tingkatkan kemampuan coding dan problem solving dengan
+                komunitas.
+              </p>
             </div>
-            <h4 className="font-bold text-lg">It improves your IQ</h4>
-            <p className="text-gray-400 text-xs md:text-sm mt-2 px-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-          </div>
-          <div className="flex flex-col items-center" data-aos="fade-up">
-            <div className="bg-pink-500 w-28 h-28 md:w-32 md:h-32 blob-shape flex items-center justify-center mb-4">
-              <span className="text-3xl md:text-4xl">💡</span>
+
+            {/* Card */}
+            <div className="group p-6 rounded-2xl border border-pink-500/20 bg-black/40 backdrop-blur-lg hover:shadow-[0_0_25px_#ff00ff] transition-all duration-300">
+              <div className="w-20 h-20 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-600 text-3xl shadow-[0_0_20px_#ff00ff] group-hover:scale-110 transition">
+                🚀
+              </div>
+              <h4 className="mt-6 text-lg font-bold text-white group-hover:text-pink-400">
+                Discord
+              </h4>
+              <p className="text-gray-400 text-sm mt-2">
+                Bangun relasi dengan developer lain dan peluang karir lebih
+                luas.
+              </p>
             </div>
-            <h4 className="font-bold text-lg">It improves your IQ</h4>
-            <p className="text-gray-400 text-xs md:text-sm mt-2 px-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-          </div>
-          <div className="flex flex-col items-center" data-aos="fade-up">
-            <div className="bg-pink-500 w-28 h-28 md:w-32 md:h-32 blob-shape flex items-center justify-center mb-4">
-              <span className="text-3xl md:text-4xl">💡</span>
+
+            {/* Card */}
+            <div className="group p-6 rounded-2xl border border-purple-500/20 bg-black/40 backdrop-blur-lg hover:shadow-[0_0_25px_#a855f7] transition-all duration-300">
+              <div className="w-20 h-20 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 text-3xl shadow-[0_0_20px_#a855f7] group-hover:scale-110 transition">
+                ⚡
+              </div>
+              <h4 className="mt-6 text-lg font-bold text-white group-hover:text-purple-400">
+                Instagram
+              </h4>
+              <p className="text-gray-400 text-sm mt-2">
+                Kolaborasi dalam project nyata untuk portfolio dan pengalaman.
+              </p>
             </div>
-            <h4 className="font-bold text-lg">It improves your IQ</h4>
-            <p className="text-gray-400 text-xs md:text-sm mt-2 px-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
           </div>
         </div>
       </section>
