@@ -23,6 +23,7 @@ import CreateGame from "./pages/admin/games/CreateGame";
 import GameEdit from "./pages/admin/games/EditGame";
 import Order from "./pages/admin/Order";
 import Profiles from "./pages/admin/Profiles";
+import Profile from "./pages/Profile";
 
 export default function Router() {
   return (
@@ -34,7 +35,7 @@ export default function Router() {
         <Route path="/register" element={<Register />} />
 
         <Route element={<MainLayout />}>
-          <Route path="/game-guest" element={<GameGuest />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         {/* PROTECTED */}

@@ -1,0 +1,105 @@
+import React from "react";
+import { useAuthStore } from "../store/auth";
+
+const Profile = () => {
+  const { isAuthenticated, user, logout } = useAuthStore();
+  return (
+    <section className="relative min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f0c29] via-[#1a0033] to-black opacity-90"></div>
+
+      {/* Grid Effect */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-4xl">
+        <div className="bg-black/50 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-[0_0_30px_#a855f7] p-8">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+            {/* Avatar */}
+            <div className="relative">
+              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 p-[2px] shadow-[0_0_20px_#00ffff]">
+                <div className="w-full h-full rounded-full bg-black flex items-center justify-center text-3xl font-bold text-white">
+                  {user?.name?.charAt(0)}
+                </div>
+              </div>
+
+              <button className="absolute bottom-0 right-0 bg-purple-600 text-xs px-2 py-1 rounded-full hover:brightness-125">
+                Edit
+              </button>
+            </div>
+
+            {/* Info */}
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl font-bold text-cyan-400 drop-shadow-[0_0_10px_#00ffff]">
+                {user?.name}
+              </h2>
+              <p className="text-gray-400 text-sm mt-1">{user?.email}</p>
+
+              <span className="inline-block mt-3 px-3 py-1 text-xs bg-purple-500/20 border border-purple-500 rounded-full text-purple-300">
+                🚀 Member Active
+              </span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="my-8 border-t border-purple-500/20"></div>
+
+          {/* Form */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Name */}
+            <div>
+              <label className="text-sm text-gray-400">Nama</label>
+              <input
+                type="text"
+                defaultValue={user?.name}
+                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_#00ffff]"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="text-sm text-gray-400">Email</label>
+              <input
+                type="email"
+                defaultValue={user?.email}
+                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_#00ffff]"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="text-sm text-gray-400">Password Baru</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-pink-400 focus:shadow-[0_0_10px_#ff00ff]"
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label className="text-sm text-gray-400">
+                Konfirmasi Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-pink-400 focus:shadow-[0_0_10px_#ff00ff]"
+              />
+            </div>
+          </div>
+
+          {/* Button */}
+          <div className="mt-8 flex justify-end">
+            <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg text-white font-semibold shadow-[0_0_20px_#00ffff] hover:brightness-125 transition">
+              💾 Simpan Perubahan
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Profile;
