@@ -14,6 +14,8 @@ export default function Navbar() {
   const setNavCart = useAppStore((s) => s.setCart);
   const titleNavCart = useAppStore((s) => s.cart);
   let listOrder;
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   // const logout = async () => {
   //     if (!confirm("Yakin mau keluar?")) return;
   //     await api.post(`/logout`);
@@ -36,8 +38,6 @@ export default function Navbar() {
       fetchCart();
     }
   }, []);
-
-  const [isOpen, setIsOpen] = useState(false);
   let LogContent = (
     <div className="hidden md:flex space-x-4">
       <button
@@ -106,61 +106,99 @@ export default function Navbar() {
       </a>
     );
     LogContent = (
-      <div className="hidden md:flex space-x-4">
+      <div className="hidden md:flex items-center space-x-4">
         <div className="flex items-center h-10">
           <div id="google_translate_element"></div>
         </div>
+
+        {/* CART */}
         <button
           className="relative px-4 py-2 text-sm border border-gray-500 hover:brightness-125 rounded-lg"
           onClick={() => navigate("/carts")}
         >
-          Karanjang
+          Keranjang
           <span
             className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 
-                   flex items-center justify-center 
-                   text-xs font-bold text-white 
-                   bg-red-600 rounded-full"
+        flex items-center justify-center 
+        text-xs font-bold text-white 
+        bg-red-600 rounded-full"
           >
             {titleNavCart}
           </span>
         </button>
-        <button
-          className="px-4 py-2 text-sm bg-purple-600 hover:brightness-125 rounded-lg"
-          onClick={() => fLogout()}
-        >
-          Logout
-        </button>
+
+        {/* PROFILE DROPDOWN */}
+        <div className="relative">
+          <button
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="flex items-center gap-2 px-4 py-2 border border-purple-500 rounded-lg hover:shadow-[0_0_10px_#a855f7] transition"
+          >
+            <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center text-sm font-bold">
+              {user?.name?.charAt(0)}
+            </div>
+            <span className="text-sm">{user?.name}</span>
+          </button>
+
+          {/* DROPDOWN */}
+          {isProfileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-black/80 backdrop-blur-lg border border-purple-500/30 rounded-xl shadow-[0_0_20px_#a855f7] p-2 z-50">
+              <button
+                className="w-full text-left px-3 py-2 text-sm hover:bg-purple-500/20 rounded-lg"
+                onClick={() => navigate("/profile")}
+              >
+                👤 Profile
+              </button>
+
+              <button
+                className="w-full text-left px-3 py-2 text-sm hover:bg-purple-500/20 rounded-lg"
+                onClick={() => navigate("/profile/edit")}
+              >
+                ⚙️ Edit Profile
+              </button>
+
+              <hr className="my-2 border-gray-700" />
+
+              <button
+                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/20 rounded-lg"
+                onClick={() => fLogout()}
+              >
+                🚪 Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     );
 
     LogContentMobile = (
-      <div className="flex flex-col space-y-2 pt-2">
-        <div className="flex items-center gap-4">
-          <div id="google_translate_element"></div>
-        </div>
+      <div className="border border-purple-500/30 rounded-lg p-3 bg-black/40">
+        <p className="text-sm text-gray-300">👤 {user?.name}</p>
+
         <button
-          className="relative w-full px-4 py-2 text-sm border hover:brightness-125 border-gray-500 rounded-lg"
-          onClick={() => navigate("/carts")}
+          className="w-full mt-2 px-4 py-2 text-sm hover:bg-purple-500/20 rounded-lg"
+          onClick={() => navigate("/profile")}
         >
-          Karanjang
-          <span
-            className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 
-                   flex items-center justify-center 
-                   text-xs font-bold text-white 
-                   bg-red-600 rounded-full"
-          >
-            {titleNavCart}
-          </span>
+          Profile
         </button>
+
         <button
-          className="w-full px-4 py-2 text-sm bg-purple-600 hover:brightness-125 rounded-lg"
+          className="w-full mt-2 px-4 py-2 text-sm hover:bg-purple-500/20 rounded-lg"
+          onClick={() => navigate("/profile/edit")}
+        >
+          Edit Profile
+        </button>
+        <hr className="my-2 border-gray-700" />
+
+        <button
+          className="w-full mt-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 rounded-lg"
           onClick={() => fLogout()}
         >
-          Logout
+          🚪 Logout
         </button>
       </div>
     );
   }
+
   return (
     <nav
       className="fixed w-full z-50 bg-[#1a162d]/90 backdrop-blur-md px-6 py-4 md:px-10"
