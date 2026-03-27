@@ -4,6 +4,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Cart from "./pages/Cart";
 import Game from "./pages/Game";
+import GameGuest from "./pages/GameGuest";
 import AllGame from "./pages/AllGame";
 import Payment from "./pages/Payment";
 import OrderList from "./pages/OrderList";
@@ -31,6 +32,10 @@ export default function Router() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route element={<MainLayout />}>
+          <Route path="/game-guest" element={<GameGuest />} />
+        </Route>
 
         {/* PROTECTED */}
         <Route element={<ProtectedRoute />}>
