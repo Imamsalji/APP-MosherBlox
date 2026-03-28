@@ -235,6 +235,9 @@ const Order = () => {
                       </TableCell>
                       <TableCell className="px-4 py-3 text-white-500 text-start text-theme-sm dark:text-white/90">
                         <div className="flex items-center gap-5">
+                          {order.status === "complaint" && (
+                            <>{order.user_note}</>
+                          )}
                           {(order.status === "waiting_verification" ||
                             order.status === "success" ||
                             order.status === "rejected") && (
