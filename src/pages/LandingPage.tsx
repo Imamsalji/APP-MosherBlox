@@ -11,6 +11,7 @@ import CyberpunkSpinner from "../component/transaksi/CyberpunkSpinner";
 import { Game } from "../types/Game";
 import { useEffect, useState } from "react";
 import Toast from "../component/transaksi/Toast";
+import { useAuthStore } from "../store/auth";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -54,7 +55,7 @@ function App() {
     <CyberpunkOrderList/> */}
       <section
         id="games"
-        className="container mx-auto px-6 md:px-10 py-16 text-center"
+        className="container mx-auto px-6 md:px-10 py-5 text-center"
       >
         <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
           Games

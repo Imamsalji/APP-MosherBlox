@@ -83,7 +83,7 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
             )}
           </div>
 
-          <h3 className="text-sm md:text-base font-bold tracking-wide line-clamp-2">
+          <h3 className="text-sm md:text-base py-1.5  tracking-wide line-clamp-2">
             {title}
           </h3>
 
