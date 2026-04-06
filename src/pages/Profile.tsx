@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "../store/auth";
+import { UpdatePassword } from "../api/setting";
+import { useNavigate } from "react-router-dom";
+import Input from "../component/form/input/InputField";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
+  const [form, setForm] = useState({
+    name: user?.name || "",
+    email: user?.email || "",
+    current_password: "",
+    new_password: "",
+    new_password_confirmation: "",
+  });
+
+  const mutationEmail = useMutation({
+    mutationFn: UpdatePassword,
+    onSuccess: () => {
+      navigate("/profile", {
+        state: { message: "Email Berhasil di ubah" },
+      });
+    },
+  });
+
+  const mutationPassword = useMutation({
+    mutationFn: UpdatePassword,
+    onSuccess: () => {
+      navigate("/profile", {
+        state: { message: "Password Berhasil di ubah" },
+      });
+    },
+  });
+
+  const handlePassword = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("current_password", form.current_password);
+    formData.append("new_password", form.new_password);
+    formData.append(
+      "new_password_confirmation",
+      form.new_password_confirmation,
+    );
+    formData.append("_method", "PUT");
+
+    console.log(form);
+
+    mutationPassword.mutate(formData);
+    // mutationEmail.mutate(formData);
+  };
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden">
       {/* Background */}
