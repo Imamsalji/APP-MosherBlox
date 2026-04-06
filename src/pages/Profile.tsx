@@ -95,56 +95,95 @@ const Profile = () => {
           <div className="my-8 border-t border-purple-500/20"></div>
 
           {/* Form */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Name */}
-            <div>
-              <label className="text-sm text-gray-400">Nama</label>
-              <input
-                type="text"
-                defaultValue={user?.name}
-                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_#00ffff]"
-              />
+          <form onSubmit={handlePassword}>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Name */}
+              <div>
+                <label className="text-sm text-gray-400">Nama</label>
+                <Input
+                  type="text"
+                  id="name"
+                  value={form.name}
+                  // error={!!errors?.name}
+                  // hint={errors?.name?.[0]}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="text-sm text-gray-400">Email</label>
+                <Input
+                  type="text"
+                  id="email"
+                  value={form.email}
+                  // error={!!errors?.name}
+                  // hint={errors?.name?.[0]}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="text-sm text-gray-400">Password Lama</label>
+                <Input
+                  type="password"
+                  id="current_password"
+                  placeholder="••••••••"
+                  // error={!!errors?.name}
+                  // hint={errors?.name?.[0]}
+                  onChange={(e) =>
+                    setForm({ ...form, current_password: e.target.value })
+                  }
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="text-sm text-gray-400">Password Baru</label>
+                <Input
+                  type="password"
+                  id="new_password"
+                  placeholder="••••••••"
+                  // error={!!errors?.name}
+                  // hint={errors?.name?.[0]}
+                  onChange={(e) =>
+                    setForm({ ...form, new_password: e.target.value })
+                  }
+                />
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="text-sm text-gray-400">
+                  Konfirmasi Password
+                </label>
+                <Input
+                  type="password"
+                  id="new_password_confirmation"
+                  placeholder="••••••••"
+                  // error={!!errors?.name}
+                  // hint={errors?.name?.[0]}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      new_password_confirmation: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
 
-            {/* Email */}
-            <div>
-              <label className="text-sm text-gray-400">Email</label>
-              <input
-                type="email"
-                defaultValue={user?.email}
-                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_#00ffff]"
-              />
+            {/* Button */}
+            <div className="mt-8 flex justify-end">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg text-white font-semibold shadow-[0_0_20px_#00ffff] hover:brightness-125 transition"
+              >
+                💾 Simpan Perubahan
+              </button>
             </div>
-
-            {/* Password */}
-            <div>
-              <label className="text-sm text-gray-400">Password Baru</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-pink-400 focus:shadow-[0_0_10px_#ff00ff]"
-              />
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label className="text-sm text-gray-400">
-                Konfirmasi Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full mt-1 px-4 py-2 bg-black/60 border border-purple-500/30 rounded-lg focus:outline-none focus:border-pink-400 focus:shadow-[0_0_10px_#ff00ff]"
-              />
-            </div>
-          </div>
-
-          {/* Button */}
-          <div className="mt-8 flex justify-end">
-            <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg text-white font-semibold shadow-[0_0_20px_#00ffff] hover:brightness-125 transition">
-              💾 Simpan Perubahan
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </section>
