@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../component/form/input/InputField";
 
 const Profile = () => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
   const [form, setForm] = useState({
@@ -18,15 +19,15 @@ const Profile = () => {
 
   const mutationEmail = useMutation({
     mutationFn: UpdateProfile,
-    onSuccess: () => {
-      return true;
+    onSuccess: (data, variables, context) => {
+      useAuthStore.getState().setAuth(token, data.data);
     },
   });
 
   const mutationPassword = useMutation({
     mutationFn: UpdatePassword,
-    onSuccess: () => {
-      return true;
+    onSuccess: (data, variables, context) => {
+      console.log("Response data:", data.data);
     },
   });
 
