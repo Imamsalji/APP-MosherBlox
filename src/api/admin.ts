@@ -22,6 +22,12 @@ export const getAdminDashboard = async () => {
    GAME MANAGEMENT
 ========================= */
 
+export const getDashboard = async () => {
+  const response = await api.get("/admin/dashboard");
+  return response.data.data;
+};
+
+
 export const getAllGames = async () => {
   const response = await api.get("/admin/games");
   return response.data.data;
