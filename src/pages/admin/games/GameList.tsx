@@ -133,6 +133,9 @@ export default function GameList() {
 
                       <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                         <div className="flex items-center gap-5">
+                          <a href={"/detail-game/" + order.slug}>
+                            Lihat Halaman
+                          </a>
                           <Button
                             size="sm"
                             variant="primary"
