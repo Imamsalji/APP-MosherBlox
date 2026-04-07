@@ -45,6 +45,10 @@ export default function GameList() {
     mutationFn: deleteGame,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-games"] });
+      navigate("/admin/game", {
+        state: { message: "Game berhasil Dihapus" },
+      });
+      setShow(true);
     },
   });
 
