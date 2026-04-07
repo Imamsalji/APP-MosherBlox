@@ -18,6 +18,7 @@ interface AuthState {
   isAuthenticated: boolean
 
   setAuth: (token: string, user: User) => void
+  setUser: (user: User) => void
   logout: () => void
 }
 
@@ -39,6 +40,15 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     set({
       token,
+      user,
+      isAuthenticated: true,
+    })
+  },
+
+  setUser: (user) => {
+    localStorage.setItem('user', JSON.stringify(user))
+
+    set({
       user,
       isAuthenticated: true,
     })

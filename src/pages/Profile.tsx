@@ -4,9 +4,11 @@ import { useAuthStore } from "../store/auth";
 import { UpdatePassword, UpdateProfile } from "../api/setting";
 import { useNavigate } from "react-router-dom";
 import Input from "../component/form/input/InputField";
+import Toast from "../component/transaksi/Toast";
 
 const Profile = () => {
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("user") as string);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
   const [form, setForm] = useState({
@@ -20,7 +22,8 @@ const Profile = () => {
   const mutationEmail = useMutation({
     mutationFn: UpdateProfile,
     onSuccess: (data, variables, context) => {
-      useAuthStore.getState().setAuth(token, data.data);
+      useAuthStore.getState().setUser(data.data);
+      setShow(true);
     },
   });
 
@@ -48,11 +51,16 @@ const Profile = () => {
 
     console.log(form);
 
-    // mutationPassword.mutate(formData);
+    mutationPassword.mutate(formData);
     mutationEmail.mutate(formData);
   };
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden">
+      <Toast
+        show={show}
+        message="Data Profile Berhasil diUbah!"
+        onClose={() => setShow(false)}
+      />
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f0c29] via-[#1a0033] to-black opacity-90"></div>
 
