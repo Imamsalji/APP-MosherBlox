@@ -61,12 +61,6 @@ const Profile = () => {
         message="Data Profile Berhasil diUbah!"
         onClose={() => setShow(false)}
       />
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0f0c29] via-[#1a0033] to-black opacity-90"></div>
-
-      {/* Grid Effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-
       {/* Content */}
       <div className="relative z-10 w-full max-w-4xl">
         <div className="bg-black/50 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-[0_0_30px_#a855f7] p-8">
