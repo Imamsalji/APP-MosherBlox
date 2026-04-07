@@ -4,9 +4,12 @@ import {
   BoxIconLine,
   GroupIcon,
 } from "../../icons";
-import Badge from "../ui/badge/Badge";
 
-export default function EcommerceMetrics() {
+type Props = {
+  user?: string;
+  game?: string;
+};
+export default function EcommerceMetrics({ user, game }: Props) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
       {/* <!-- Metric Item Start --> */}
@@ -21,7 +24,7 @@ export default function EcommerceMetrics() {
               User
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              3,782
+              {user}
             </h4>
           </div>
         </div>
@@ -39,7 +42,7 @@ export default function EcommerceMetrics() {
               Game Data
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              5,359
+              {game}
             </h4>
           </div>
         </div>
