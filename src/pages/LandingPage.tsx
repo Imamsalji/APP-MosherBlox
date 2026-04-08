@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Toast from "../component/transaksi/Toast";
 import { useAuthStore } from "../store/auth";
 import AboutUsSection from "../component/About";
+import ReviewSection from "../component/review";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -44,7 +45,7 @@ function App() {
       <div className="h-20"></div>
       <Header />
       <AboutUsSection />
-      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
       <CyberpunkCarousel />
       <GlobalConfirm />
       {message && (
@@ -56,7 +57,7 @@ function App() {
     <CyberpunkPayment/>
 
     <CyberpunkOrderList/> */}
-      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
       <section
         id="games"
         className="container mx-auto px-2 md:px-10 py-5 text-center"
@@ -100,7 +101,7 @@ function App() {
           VIEW MORE GAMES
         </button>
       </section>
-      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
       <section
         id="komunitas"
         className="relative bg-gray-950 container mx-auto px-6 md:px-10 py-20 text-center overflow-hidden"
@@ -154,6 +155,8 @@ function App() {
           </div>
         </div>
       </section>
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
+      <ReviewSection />
       <Footer />
     </>
   );
