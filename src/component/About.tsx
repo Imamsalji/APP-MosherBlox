@@ -208,7 +208,7 @@ export default function AboutUsSection() {
         </div>
 
         {/* CTA Section */}
-        <div className="max-w-3xl mx-auto text-center">
+        {/* <div className="max-w-3xl mx-auto text-center">
           <div className="relative p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-purple-900/40 to-cyan-900/40 border border-purple-500/30 backdrop-blur-sm">
             <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500 rounded-full mix-blend-screen opacity-10 blur-3xl -z-10"></div>
             <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-500 rounded-full mix-blend-screen opacity-10 blur-3xl -z-10"></div>
@@ -232,7 +232,7 @@ export default function AboutUsSection() {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Floating elements */}
