@@ -12,6 +12,7 @@ import { Game } from "../types/Game";
 import { useEffect, useState } from "react";
 import Toast from "../component/transaksi/Toast";
 import { useAuthStore } from "../store/auth";
+import AboutUsSection from "../component/About";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -42,6 +43,8 @@ function App() {
       <Navbar />
       <div className="h-20"></div>
       <Header />
+      <AboutUsSection />
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
       <CyberpunkCarousel />
       <GlobalConfirm />
       {message && (
