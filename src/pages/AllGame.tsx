@@ -26,7 +26,7 @@ export default function AllGame() {
   return (
     <section
       id="games"
-      className="container mx-auto px-6 md:px-10 py-16 text-center"
+      className="container mx-auto px-2 md:px-10 py-16 text-center"
     >
       <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
         Games
@@ -41,7 +41,7 @@ export default function AllGame() {
                     sm:grid-cols-3
                     md:grid-cols-4
                     lg:grid-cols-6
-                    gap-6
+                    gap-2
                 "
         >
           {game.map((item) => (

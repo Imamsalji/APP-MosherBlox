@@ -129,8 +129,8 @@ const ArticleCarousel = () => {
   const cardWidth = `calc((100% - ${GAP * (visible - 1)}px) / ${visible})`;
 
   return (
-    <section className="py-12 px-4 sm:px-8 lg:px-16">
-      {/* <section className="bg-gray-950 py-12 px-4 sm:px-8 lg:px-16"> */}
+    // <section className="py-12 px-4 sm:px-8 lg:px-16">
+    <section className="bg-gray-950 py-12 px-4 sm:px-8 lg:px-16">
       {/* Header */}
       <p className="text-xs font-semibold tracking-widest uppercase text-gray-500 mb-1">
         Artikel pilihan

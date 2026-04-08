@@ -18,11 +18,7 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
       <div
         className="
       absolute -inset-1
-      rounded-2xl
       bg-gradient-to-r
-      from-cyan-400
-      via-fuchsia-500
-      to-purple-600
       opacity-60
       blur-2xl
       group-hover:opacity-100
@@ -37,7 +33,6 @@ const CyberpunkCard = ({ title, image, tag }: CyberpunkCardProps) => {
       relative
       bg-[#0b0f1a]
       rounded-2xl
-      border border-cyan-400/30
       overflow-hidden
       shadow-[0_0_30px_rgba(34,211,238,0.25)]
       transition

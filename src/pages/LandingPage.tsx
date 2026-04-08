@@ -53,6 +53,7 @@ function App() {
     <CyberpunkPayment/>
 
     <CyberpunkOrderList/> */}
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
       <section
         id="games"
         className="container mx-auto px-2 md:px-10 py-5 text-center"
@@ -96,13 +97,13 @@ function App() {
           VIEW MORE GAMES
         </button>
       </section>
-
+      <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-5 w-full m-0"></div>
       <section
         id="komunitas"
-        className="relative container mx-auto px-6 md:px-10 py-20 text-center overflow-hidden"
+        className="relative bg-gray-950 container mx-auto px-6 md:px-10 py-20 text-center overflow-hidden"
       >
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-14 text-cyan-400 tracking-widest drop-shadow-[0_0_10px_#00ffff]">
+          <h2 className="text-3xl md:text-4xl font-bold mb-14 text-cyan-400 tracking-widest ">
             GABUNG KOMUNITAS KAMI
           </h2>
 
