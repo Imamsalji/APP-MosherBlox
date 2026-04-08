@@ -55,7 +55,7 @@ function App() {
     <CyberpunkOrderList/> */}
       <section
         id="games"
-        className="container mx-auto px-6 md:px-10 py-5 text-center"
+        className="container mx-auto px-2 md:px-10 py-5 text-center"
       >
         <h2 className="text-2xl md:text-3xl font-['Comic_Sans_MS',_cursive] font-bold mb-10">
           Games
@@ -77,7 +77,7 @@ function App() {
                 sm:grid-cols-3
                 md:grid-cols-4
                 lg:grid-cols-6
-                gap-6
+                gap-2
             "
         >
           {game?.map((item: Game) => (
