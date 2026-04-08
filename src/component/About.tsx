@@ -104,12 +104,12 @@ export default function AboutUsSection() {
           onMouseMove={handleMouseMove}
         >
           <div className="inline-block mb-4 sm:mb-6">
-            <span className="text-sm sm:text-base font-bold tracking-widest uppercase bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="text-2xl lg:text-2xl sm:text-base font-bold tracking-widest uppercase bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Tentang Kami
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-5xl font-black mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-cyan-300 to-purple-300 bg-clip-text text-transparent">
               Platform Robux Terpercaya
             </span>
