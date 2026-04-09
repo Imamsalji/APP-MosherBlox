@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-export default function ReviewSection() {
+export default function Review() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
@@ -256,7 +256,7 @@ export default function ReviewSection() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-2 sm:gap-8">
           {[
             { number: "10K+", label: "Review Positif" },
             { number: "4.9/5", label: "Rating Rata-rata" },
@@ -279,19 +279,6 @@ export default function ReviewSection() {
               <p className="text-slate-400 text-lg">{stat.label}</p>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Floating Review Badge */}
-      <div className="fixed bottom-8 right-8 pointer-events-none">
-        <div className="relative w-24 h-24 animate-bounce">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-full opacity-20 blur-xl"></div>
-          <div className="relative w-full h-full bg-gradient-to-br from-cyan-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/50">
-            <div className="text-center">
-              <div className="text-2xl font-black">4.9</div>
-              <div className="text-xs font-bold">⭐</div>
-            </div>
-          </div>
         </div>
       </div>
 

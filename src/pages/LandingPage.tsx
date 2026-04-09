@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import Toast from "../component/transaksi/Toast";
 import { useAuthStore } from "../store/auth";
 import AboutUsSection from "../component/About";
-import ReviewSection from "../component/review";
+import Review from "../component/Review";
 // import CyberpunkCart from "./../component/transaksi/CyberpunkCart";
 // import CyberpunkPayment from "./../component/transaksi/CyberpunkPayment";
 // import CyberpunkOrderList from "./../component/transaksi/CyberpunkOrderList";
@@ -156,7 +156,7 @@ function App() {
         </div>
       </section>
       <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
-      <ReviewSection />
+      <Review />
       <Footer />
     </>
   );
