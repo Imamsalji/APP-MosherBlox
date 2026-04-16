@@ -274,7 +274,7 @@ export default function Navbar() {
           <a
             href=""
             onClick={(e) => {
-              navigate("/game");
+              navigate("/");
               scrollToSection(e, "games");
             }}
             className="block hover:text-purple-400"
@@ -333,7 +333,7 @@ export default function Navbar() {
         <a
           href=""
           onClick={(e) => {
-            navigate("/game");
+            navigate("/");
             scrollToSection(e, "games");
           }}
           className="block hover:text-purple-400"
