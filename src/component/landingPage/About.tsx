@@ -79,7 +79,10 @@ export default function AboutUsSection() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
+    <section
+      id="aboutUs"
+      className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden"
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600 rounded-full mix-blend-screen opacity-20 blur-3xl animate-pulse"></div>
@@ -255,6 +258,6 @@ export default function AboutUsSection() {
           animation: glow 2s ease-in-out infinite;
         }
       `}</style>
-    </div>
+    </section>
   );
 }
