@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import logo from "./../assets/img/logoMosher.jpeg";
 import { useAuthStore } from "../store/auth";
 import { getCart } from "../api/cart";
-import type { CartItem } from "../types/Cart";
 import { useAppStore, useNotifStore } from "../store/appStore";
 
 export default function Navbar() {
@@ -242,7 +241,14 @@ export default function Navbar() {
           >
             Home
           </a>
-          <a href="#" className="block hover:text-purple-400">
+          <a
+            href="#aboutUs"
+            onClick={(e) => {
+              navigate("/");
+              scrollToSection(e, "aboutUs");
+            }}
+            className="block hover:text-purple-400"
+          >
             About Us
           </a>
           <a
@@ -254,6 +260,16 @@ export default function Navbar() {
             className="block hover:text-purple-400"
           >
             Komunitas
+          </a>
+          <a
+            href="#testimoni"
+            onClick={(e) => {
+              navigate("/");
+              scrollToSection(e, "testimoni");
+            }}
+            className="block hover:text-purple-400"
+          >
+            Testimoni
           </a>
           <a
             href=""
@@ -284,7 +300,14 @@ export default function Navbar() {
         >
           Home
         </a>
-        <a href="#" className="block hover:text-purple-400">
+        <a
+          href="#aboutUs"
+          onClick={(e) => {
+            navigate("/");
+            scrollToSection(e, "aboutUs");
+          }}
+          className="block hover:text-purple-400"
+        >
           About Us
         </a>
         <a
@@ -296,6 +319,16 @@ export default function Navbar() {
           className="block hover:text-purple-400"
         >
           Komunitas
+        </a>
+        <a
+          href="#testimoni"
+          onClick={(e) => {
+            navigate("/");
+            scrollToSection(e, "testimoni");
+          }}
+          className="block hover:text-purple-400"
+        >
+          Testimoni
         </a>
         <a
           href=""
