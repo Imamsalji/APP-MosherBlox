@@ -25,6 +25,8 @@ import Order from "./pages/admin/Order";
 import Profiles from "./pages/admin/Profiles";
 import Profile from "./pages/Profile";
 import ArticleFormPage from "./pages/admin/ArticleFormPage";
+import ArticleListPage from "./pages/article/Articlelist";
+import ArticleDetailPage from "./pages/article/Articledetail";
 
 export default function Router() {
   return (
@@ -48,6 +50,8 @@ export default function Router() {
             <Route path="/payment/:id" element={<Payment />} />
             <Route path="/list-order" element={<OrderList />} />
             <Route path="/tes" element={<CyberpunkCarousel />} />
+            <Route path="/articles" element={<ArticleListPage />} />
+            <Route path="/articles/:slug" element={<ArticleDetailPage />} />
           </Route>
 
           <Route element={<AdminRoute />}>
