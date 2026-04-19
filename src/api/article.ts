@@ -4,7 +4,9 @@ import type {
   ArticleFormData,
   Article,
   ApiResponse,
-  Tag
+  Tag,
+  ArticleFilters,
+  PaginatedResponse
 } from './../types/Article'
 
 function buildFormData(data: ArticleFormData): FormData {
@@ -68,4 +70,36 @@ export async function updateArticle(
 export async function fetchArticle(slug: string): Promise<Article> {
   const { data } = await api.get<ApiResponse<Article>>(`/articles/${slug}`)
   return data.data
+}
+
+
+// ─── Articles ─────────────────────────────────────────────────────────────────
+ 
+export async function fetchArticles(filters: ArticleFilters = {}): Promise<PaginatedResponse<Article>> {
+  const { data } = await api.get<ApiResponse<PaginatedResponse<Article>>>('/articles', { params: filters })
+  return data.data
+}
+ 
+ 
+export async function deleteArticle(id: number): Promise<void> {
+  await api.delete(`/articles/${id}`)
+}
+
+
+// ─── Comments ────────────────────────────────────────────────────────────────
+ 
+export async function fetchComments(slug: string, page = 1): Promise<PaginatedResponse<Comment>> {
+  const { data } = await api.get<ApiResponse<PaginatedResponse<Comment>>>(`/articles/${slug}/comments`, {
+    params: { page },
+  })
+  return data.data
+}
+ 
+export async function postComment(slug: string, payload: { name?: string; content: string }): Promise<Comment> {
+  const { data } = await api.post<ApiResponse<Comment>>(`/articles/${slug}/comments`, payload)
+  return data.data
+}
+ 
+export async function deleteComment(id: number): Promise<void> {
+  await api.delete(`/comments/${id}`)
 }

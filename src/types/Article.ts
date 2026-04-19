@@ -9,6 +9,13 @@ export interface Category {
   slug: string
 }
 
+export interface Comment {
+  id: number
+  author_name: string
+  content: string
+  created_at: string
+}
+
 export interface Tag {
   id: number
   name: string
@@ -60,3 +67,24 @@ export interface ApiResponse<T> {
   message: string
   data: T
 }
+
+
+export interface PaginatedResponse<T> {
+  data: T[]
+  meta: {
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
+  }
+}
+ 
+export interface ArticleFilters {
+  search?: string
+  category?: string
+  tag?: string
+  author_id?: number
+  page?: number
+  per_page?: number
+}
+ 

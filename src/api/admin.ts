@@ -8,6 +8,7 @@ import type {
   CheckoutResponse,
   UploadPaymentResponse,
 } from './../types/Order'
+import { useQuery } from "@tanstack/react-query";
 
 /* =========================
    DASHBOARD
@@ -117,3 +118,6 @@ export const rejectOrder = async (id: number) => {
   const response = await api.patch(`/admin/orders/${id}/reject`);
   return response.data;
 };
+
+
+ 
