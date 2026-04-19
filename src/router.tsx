@@ -24,6 +24,7 @@ import GameEdit from "./pages/admin/games/EditGame";
 import Order from "./pages/admin/Order";
 import Profiles from "./pages/admin/Profiles";
 import Profile from "./pages/Profile";
+import ArticleFormPage from "./pages/admin/ArticleFormPage";
 
 export default function Router() {
   return (
@@ -60,6 +61,15 @@ export default function Router() {
               <Route path="/admin/product/edit/:id" element={<ProductEdit />} />
               <Route path="/admin/orders" element={<Order />} />
               <Route path="/admin/profile" element={<Profiles />} />
+
+              <Route
+                path="/admin/articles/create"
+                element={<ArticleFormPage />}
+              />
+              <Route
+                path="/admin/articles/:slug/edit"
+                element={<ArticleFormPage />}
+              />
             </Route>
           </Route>
         </Route>
