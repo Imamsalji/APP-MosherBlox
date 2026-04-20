@@ -4,7 +4,6 @@ import {
   useArticle,
   useComments,
   usePostComment,
-  useMe,
 } from "../../hooks/Usearticlehooks";
 import type { Comment } from "../../types/Article";
 import { useAuthStore } from "../../store/auth";
@@ -38,7 +37,9 @@ function readingTime(content: string): number {
 const getUser = useAuthStore.getState().user;
 
 function CommentForm({ slug }: { slug: string }) {
-  const { data: me } = useAuthStore.getState().user;
+  const { data: me } = useAuthStore.getState().user
+    ? useAuthStore((state) => ({ data: state.user }))
+    : { data: null };
   const { mutate, isPending, isSuccess, reset } = usePostComment(slug);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -460,7 +461,7 @@ export default function ArticleDetailPage() {
             </p>
           ) : (
             <div className="space-y-6">
-              {comments.map((comment: Comment) => (
+              {comments.map((comment: any) => (
                 <CommentItem key={comment.id} comment={comment} />
               ))}
             </div>

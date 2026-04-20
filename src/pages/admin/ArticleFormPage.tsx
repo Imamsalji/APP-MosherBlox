@@ -50,7 +50,6 @@ export default function ArticleFormPage() {
   const { slug } = useParams<{ slug?: string }>();
   const isEdit = Boolean(slug);
 
-  // ── Remote data
   const { data: categories = [], isLoading: loadingCats } = useCategories();
   const { data: tags = [], isLoading: loadingTags } = useTags();
 
@@ -60,7 +59,6 @@ export default function ArticleFormPage() {
     enabled: isEdit,
   });
 
-  // ── Form
   const {
     register,
     control,
@@ -83,7 +81,6 @@ export default function ArticleFormPage() {
     },
   });
 
-  // ── Pre-fill on edit
   useEffect(() => {
     if (existingArticle) {
       setValue("title", existingArticle.title);
@@ -106,7 +103,6 @@ export default function ArticleFormPage() {
     }
   }, [existingArticle, setValue]);
 
-  // ── Auto-generate slug from title (create mode only)
   const titleValue = watch("title");
   useEffect(() => {
     if (!isEdit) {
@@ -119,12 +115,10 @@ export default function ArticleFormPage() {
     }
   }, [titleValue, isEdit, setValue]);
 
-  // ── Mutations
   const createMutation = useCreateArticle();
   const updateMutation = useUpdateArticle(existingArticle?.id ?? 0);
   const mutation = isEdit ? updateMutation : createMutation;
 
-  // ── Submit
   async function onSubmit(values: FormValues) {
     try {
       const payload = {
@@ -133,22 +127,24 @@ export default function ArticleFormPage() {
         category_ids: values.category_ids ?? [],
         tag_ids: values.tag_ids ?? [],
       };
-
       await mutation.mutateAsync(payload);
       navigate("/admin/articles");
     } catch (err: unknown) {
-      // Error ditangani di mutation (bisa tambah toast di sini)
       console.error(err);
     }
   }
 
-  // ── Loading state
   if (isEdit && loadingArticle) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3 text-gray-500">
-          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-          <span className="text-sm">Memuat artikel...</span>
+      <div className="min-h-screen bg-[#0f1117] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative w-12 h-12">
+            <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20" />
+            <div className="absolute inset-0 rounded-full border-2 border-t-indigo-500 border-r-transparent border-b-transparent border-l-transparent animate-spin" />
+          </div>
+          <span className="text-sm text-gray-500 tracking-wide">
+            Memuat artikel...
+          </span>
         </div>
       </div>
     );
@@ -156,20 +152,22 @@ export default function ArticleFormPage() {
 
   const statusValue = watch("status");
   const serverError = mutation.error?.message;
+  const excerptLen = watch("excerpt")?.length ?? 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#1a162d] text-gray-100">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-10 bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-20 bg-[#1a162d]/90 backdrop-blur-md border-b border-white/[0.06]">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          {/* Left */}
+          <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+              className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-200 hover:bg-white/[0.06] transition-all"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -182,25 +180,32 @@ export default function ArticleFormPage() {
                 />
               </svg>
             </button>
-            <div>
-              <h1 className="text-base font-semibold text-gray-900">
-                {isEdit ? "Edit Artikel" : "Tambah Artikel Baru"}
-              </h1>
+
+            <div className="w-px h-5 bg-white/10" />
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                <span className="text-sm font-semibold text-gray-100 truncate">
+                  {isEdit ? "Edit Artikel" : "Artikel Baru"}
+                </span>
+              </div>
               {isEdit && existingArticle && (
-                <p className="text-xs text-gray-400 mt-0.5 truncate max-w-xs">
+                <p className="text-xs text-gray-500 mt-0.5 truncate max-w-[280px]">
                   {existingArticle.title}
                 </p>
               )}
             </div>
           </div>
 
-          {/* ── Action buttons ── */}
-          <div className="flex items-center gap-2">
+          {/* Right */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             {mutation.isError && (
-              <p className="text-xs text-red-500 max-w-[200px] text-right">
+              <p className="text-xs text-red-400 max-w-[180px] text-right leading-tight">
                 {serverError}
               </p>
             )}
+
             <button
               type="button"
               onClick={() => {
@@ -208,10 +213,11 @@ export default function ArticleFormPage() {
                 handleSubmit(onSubmit)();
               }}
               disabled={isSubmitting || mutation.isPending}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              className="px-4 py-2 text-xs font-medium text-gray-300 bg-white/[0.06] border border-white/[0.08] rounded-lg hover:bg-white/[0.1] hover:text-white disabled:opacity-40 transition-all"
             >
               Simpan Draft
             </button>
+
             <button
               type="button"
               onClick={() => {
@@ -219,10 +225,24 @@ export default function ArticleFormPage() {
                 handleSubmit(onSubmit)();
               }}
               disabled={isSubmitting || mutation.isPending}
-              className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors flex items-center gap-2"
+              className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 disabled:opacity-40 transition-all flex items-center gap-2 shadow-lg shadow-indigo-500/20"
             >
-              {mutation.isPending && (
-                <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              {mutation.isPending ? (
+                <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
               )}
               {isEdit ? "Simpan Perubahan" : "Publikasikan"}
             </button>
@@ -233,11 +253,11 @@ export default function ArticleFormPage() {
       {/* ── Body ── */}
       <main className="max-w-6xl mx-auto px-6 py-8">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="flex gap-8 items-start">
-            {/* ── Left: main content ── */}
-            <div className="flex-1 flex flex-col gap-6">
-              {/* Title */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6">
+          <div className="flex gap-6 items-start">
+            {/* ── Left column ── */}
+            <div className="flex-1 min-w-0 flex flex-col gap-4">
+              {/* Title + Slug */}
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-6">
                 <FormField
                   label="Judul Artikel"
                   required
@@ -247,27 +267,35 @@ export default function ArticleFormPage() {
                     {...register("title")}
                     type="text"
                     placeholder="Tulis judul artikel yang menarik..."
-                    className={`w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors ${
-                      errors.title ? "border-red-400" : "border-gray-300"
+                    className={`w-full rounded-xl border bg-[#0f1117] px-4 py-3 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all ${
+                      errors.title
+                        ? "border-red-500/50 bg-red-500/5"
+                        : "border-white/[0.07] hover:border-white/[0.12]"
                     }`}
                   />
                 </FormField>
 
-                <div className="mt-4">
+                <div className="mt-5">
                   <FormField
                     label="Slug URL"
                     hint="Dibuat otomatis dari judul, bisa diedit manual."
                     error={errors.slug?.message}
                   >
-                    <div className="flex rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 overflow-hidden">
-                      <span className="inline-flex items-center px-3 bg-gray-50 border-r border-gray-300 text-gray-400 text-xs whitespace-nowrap">
+                    <div
+                      className={`flex rounded-xl border overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500/50 transition-all ${
+                        errors.slug
+                          ? "border-red-500/50"
+                          : "border-white/[0.07] hover:border-white/[0.12]"
+                      }`}
+                    >
+                      <span className="inline-flex items-center px-3 bg-white/[0.04] border-r border-white/[0.07] text-gray-500 text-xs whitespace-nowrap font-mono">
                         /articles/
                       </span>
                       <input
                         {...register("slug")}
                         type="text"
                         placeholder="artikel-saya"
-                        className="flex-1 px-3 py-2.5 text-sm text-gray-700 bg-white focus:outline-none"
+                        className="flex-1 px-3 py-2.5 text-sm text-gray-300 bg-[#0f1117] focus:outline-none font-mono"
                       />
                     </div>
                   </FormField>
@@ -275,7 +303,7 @@ export default function ArticleFormPage() {
               </div>
 
               {/* Content */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-6">
                 <FormField
                   label="Konten"
                   required
@@ -283,65 +311,101 @@ export default function ArticleFormPage() {
                 >
                   <textarea
                     {...register("content")}
-                    rows={16}
+                    rows={18}
                     placeholder="Tulis konten artikel di sini..."
-                    className={`w-full rounded-lg border px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-mono leading-relaxed resize-y transition-colors ${
-                      errors.content ? "border-red-400" : "border-gray-300"
+                    className={`w-full rounded-xl border bg-[#0f1117] px-4 py-3 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 font-mono leading-relaxed resize-y transition-all ${
+                      errors.content
+                        ? "border-red-500/50 bg-red-500/5"
+                        : "border-white/[0.07] hover:border-white/[0.12]"
                     }`}
                   />
                 </FormField>
               </div>
 
               {/* Excerpt */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-6">
                 <FormField
                   label="Ringkasan (Excerpt)"
-                  hint="Tampil di listing artikel. Maks. 500 karakter."
+                  hint="Tampil di listing artikel."
                   error={errors.excerpt?.message}
                 >
                   <textarea
                     {...register("excerpt")}
                     rows={3}
                     placeholder="Tulis ringkasan singkat artikel..."
-                    className={`w-full rounded-lg border px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-colors ${
-                      errors.excerpt ? "border-red-400" : "border-gray-300"
+                    className={`w-full rounded-xl border bg-[#0f1117] px-4 py-3 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none transition-all ${
+                      errors.excerpt
+                        ? "border-red-500/50 bg-red-500/5"
+                        : "border-white/[0.07] hover:border-white/[0.12]"
                     }`}
                   />
-                  <p className="text-right text-xs text-gray-400">
-                    {watch("excerpt")?.length ?? 0} / 500
-                  </p>
+                  <div className="flex justify-end mt-1.5">
+                    <span
+                      className={`text-xs tabular-nums ${
+                        excerptLen > 450 ? "text-amber-400" : "text-gray-600"
+                      }`}
+                    >
+                      {excerptLen} / 500
+                    </span>
+                  </div>
                 </FormField>
               </div>
             </div>
 
-            {/* ── Right: sidebar ── */}
-            <div className="w-80 flex-shrink-0 flex flex-col gap-4">
-              {/* Status card */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4">
-                  Publikasi
-                </h2>
+            {/* ── Right sidebar ── */}
+            <div className="w-72 flex-shrink-0 flex flex-col gap-4">
+              {/* Publikasi */}
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <svg
+                    className="w-3.5 h-3.5 text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <h2 className="text-xs font-semibold text-gray-300 tracking-wide uppercase">
+                    Publikasi
+                  </h2>
+                </div>
 
                 <FormField label="Status" error={errors.status?.message}>
                   <Controller
                     control={control}
                     name="status"
                     render={({ field }) => (
-                      <div className="flex gap-2">
+                      <div className="grid grid-cols-2 gap-2 p-1 bg-[#0f1117] rounded-xl border border-white/[0.06]">
                         {(["draft", "published"] as const).map((s) => (
                           <button
                             key={s}
                             type="button"
                             onClick={() => field.onChange(s)}
-                            className={`flex-1 py-2 rounded-lg text-xs font-medium border transition-all ${
+                            className={`py-2 rounded-lg text-xs font-semibold transition-all ${
                               field.value === s
                                 ? s === "published"
-                                  ? "bg-green-600 border-green-600 text-white"
-                                  : "bg-gray-700 border-gray-700 text-white"
-                                : "bg-white border-gray-300 text-gray-600 hover:border-gray-400"
+                                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                                  : "bg-white/[0.08] text-gray-200 border border-white/[0.1]"
+                                : "text-gray-600 hover:text-gray-400"
                             }`}
                           >
-                            {s === "draft" ? "Draft" : "Published"}
+                            <span className="flex items-center justify-center gap-1.5">
+                              <span
+                                className={`w-1.5 h-1.5 rounded-full ${
+                                  field.value === s
+                                    ? s === "published"
+                                      ? "bg-emerald-400"
+                                      : "bg-gray-400"
+                                    : "bg-gray-700"
+                                }`}
+                              />
+                              {s === "draft" ? "Draft" : "Published"}
+                            </span>
                           </button>
                         ))}
                       </div>
@@ -350,27 +414,42 @@ export default function ArticleFormPage() {
                 </FormField>
 
                 {statusValue === "published" && (
-                  <div className="mt-4">
+                  <div className="mt-4 pt-4 border-t border-white/[0.06]">
                     <FormField
-                      label="Tanggal Publikasi"
-                      hint="Kosongkan untuk langsung publish sekarang."
+                      label="Jadwal Publikasi"
+                      hint="Kosongkan untuk publish sekarang."
                       error={errors.published_at?.message}
                     >
                       <input
                         {...register("published_at")}
                         type="datetime-local"
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full rounded-xl border border-white/[0.07] bg-[#0f1117] px-3 py-2.5 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all hover:border-white/[0.12] [color-scheme:dark]"
                       />
                     </FormField>
                   </div>
                 )}
               </div>
 
-              {/* Thumbnail card */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4">
-                  Thumbnail
-                </h2>
+              {/* Thumbnail */}
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <svg
+                    className="w-3.5 h-3.5 text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <h2 className="text-xs font-semibold text-gray-300 tracking-wide uppercase">
+                    Thumbnail
+                  </h2>
+                </div>
                 <Controller
                   control={control}
                   name="thumbnail"
@@ -385,13 +464,31 @@ export default function ArticleFormPage() {
                 />
               </div>
 
-              {/* Categories card */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4">
-                  Kategori
-                </h2>
+              {/* Kategori */}
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <svg
+                    className="w-3.5 h-3.5 text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                    />
+                  </svg>
+                  <h2 className="text-xs font-semibold text-gray-300 tracking-wide uppercase">
+                    Kategori
+                  </h2>
+                </div>
                 {loadingCats ? (
-                  <p className="text-xs text-gray-400">Memuat kategori...</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <span className="w-3 h-3 border border-gray-700 border-t-gray-500 rounded-full animate-spin" />
+                    Memuat...
+                  </div>
                 ) : (
                   <Controller
                     control={control}
@@ -410,13 +507,31 @@ export default function ArticleFormPage() {
                 )}
               </div>
 
-              {/* Tags card */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4">
-                  Tag
-                </h2>
+              {/* Tags */}
+              <div className="bg-[#161b27] border border-white/[0.07] rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <svg
+                    className="w-3.5 h-3.5 text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+                    />
+                  </svg>
+                  <h2 className="text-xs font-semibold text-gray-300 tracking-wide uppercase">
+                    Tag
+                  </h2>
+                </div>
                 {loadingTags ? (
-                  <p className="text-xs text-gray-400">Memuat tag...</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <span className="w-3 h-3 border border-gray-700 border-t-gray-500 rounded-full animate-spin" />
+                    Memuat...
+                  </div>
                 ) : (
                   <Controller
                     control={control}
