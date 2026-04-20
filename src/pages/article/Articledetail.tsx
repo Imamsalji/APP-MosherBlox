@@ -38,7 +38,7 @@ const getUser = useAuthStore.getState().user;
 
 function CommentForm({ slug }: { slug: string }) {
   const { data: me } = useAuthStore.getState().user
-    ? useAuthStore((state) => ({ data: state.user }))
+    ? { data: useAuthStore.getState().user }
     : { data: null };
   const { mutate, isPending, isSuccess, reset } = usePostComment(slug);
   const [name, setName] = useState("");
