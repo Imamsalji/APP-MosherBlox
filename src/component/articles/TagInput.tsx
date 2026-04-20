@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import type { Tag } from "../../types/Article";
-
 interface Props {
   availableTags: Tag[];
   selectedIds: number[];
@@ -37,24 +36,26 @@ export function TagInput({
   return (
     <div ref={containerRef} className="relative">
       <div
-        className={`min-h-[42px] w-full rounded-lg border bg-white px-3 py-2 flex flex-wrap gap-1.5 cursor-text focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-colors ${
-          error ? "border-red-400" : "border-gray-300"
+        className={`min-h-[40px] w-full rounded-xl border bg-[#0f1117] px-3 py-2 flex flex-wrap gap-1.5 cursor-text focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500/40 transition-all ${
+          error
+            ? "border-red-500/50"
+            : "border-white/[0.07] hover:border-white/[0.12]"
         }`}
         onClick={() => setOpen(true)}
       >
         {selected.map((tag) => (
           <span
             key={tag.id}
-            className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-md"
+            className="inline-flex items-center gap-1 bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 text-xs font-medium px-2 py-0.5 rounded-md"
           >
-            {tag.name}
+            #{tag.name}
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeTag(tag.id);
               }}
-              className="hover:text-indigo-900 leading-none"
+              className="text-indigo-400 hover:text-indigo-200 leading-none transition-colors"
             >
               ×
             </button>
@@ -70,25 +71,26 @@ export function TagInput({
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
           placeholder={selected.length === 0 ? "Cari atau pilih tag..." : ""}
-          className="flex-1 min-w-[120px] outline-none text-sm bg-transparent text-gray-800 placeholder-gray-400"
+          className="flex-1 min-w-[100px] outline-none text-xs bg-transparent text-gray-300 placeholder-gray-600"
         />
       </div>
 
       {open && filtered.length > 0 && (
-        <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-auto">
+        <ul className="absolute z-30 mt-1 w-full bg-[#1c2333] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/40 max-h-44 overflow-auto">
           {filtered.map((tag) => (
             <li
               key={tag.id}
               onMouseDown={() => addTag(tag.id)}
-              className="px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer"
+              className="px-3 py-2 text-xs text-gray-400 hover:bg-indigo-500/10 hover:text-indigo-300 cursor-pointer transition-colors first:rounded-t-xl last:rounded-b-xl"
             >
+              <span className="text-gray-600 mr-1">#</span>
               {tag.name}
             </li>
           ))}
         </ul>
       )}
 
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
     </div>
   );
 }

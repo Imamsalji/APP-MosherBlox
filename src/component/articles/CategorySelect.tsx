@@ -24,7 +24,7 @@ export function CategorySelect({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {categories.map((cat) => {
           const active = selectedIds.includes(cat.id);
           return (
@@ -32,10 +32,10 @@ export function CategorySelect({
               key={cat.id}
               type="button"
               onClick={() => toggle(cat.id)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                 active
-                  ? "bg-indigo-600 border-indigo-600 text-white"
-                  : "bg-white border-gray-300 text-gray-600 hover:border-indigo-400 hover:text-indigo-600"
+                  ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300"
+                  : "bg-transparent border-white/[0.08] text-gray-500 hover:border-white/20 hover:text-gray-300"
               }`}
             >
               {cat.name}
@@ -43,7 +43,7 @@ export function CategorySelect({
           );
         })}
       </div>
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
     </div>
   );
 }
