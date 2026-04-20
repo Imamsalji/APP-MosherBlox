@@ -127,8 +127,10 @@ export default function ArticleFormPage() {
         category_ids: values.category_ids ?? [],
         tag_ids: values.tag_ids ?? [],
       };
+      console.log(payload);
+
       await mutation.mutateAsync(payload);
-      navigate("/admin/articles");
+      // navigate("/admin/articles");
     } catch (err: unknown) {
       console.error(err);
     }
