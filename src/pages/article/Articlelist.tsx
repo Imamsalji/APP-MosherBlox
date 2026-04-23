@@ -43,7 +43,7 @@ export default function ArticleListPage() {
   const [searchInput, setSearchInput] = useState(
     searchParams.get("search") ?? "",
   );
-  const { dark, toggle: toggleDark } = useDarkMode();
+  // const { dark, toggle: toggleDark } = useDarkMode();
 
   const currentPage = Number(searchParams.get("page") ?? 1);
   const activeCategory = searchParams.get("category") ?? "";
@@ -82,12 +82,12 @@ export default function ArticleListPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* ── Navbar ── */}
       <header className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <Link
             to="/"
             className="font-black text-xl tracking-tight text-gray-900 dark:text-white"
           >
-            ink<span className="text-indigo-600">.</span>
+            MISL<span className="text-indigo-600">.</span>
           </Link>
 
           {/* Search */}
@@ -116,7 +116,7 @@ export default function ArticleListPage() {
             </div>
           </form>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <button
               onClick={toggleDark}
               className="p-2 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -158,7 +158,7 @@ export default function ArticleListPage() {
             >
               Tulis Artikel
             </Link>
-          </div>
+          </div> */}
         </div>
       </header>
 
