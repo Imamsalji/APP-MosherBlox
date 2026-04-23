@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useArticles, useCategories } from "../../hooks/Usearticlehooks";
-import type { Article, Category } from "../../types/Article";
+import type { Category } from "../../types/Article";
 import SkeletonCard from "./sub/SkeletonCard";
 import ArticleCard from "./sub/ArticleCard";
 import ArticleCardFeatured from "./sub/ArticleCardFeatured";
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-// ─── Dark Mode Toggle ─────────────────────────────────────────────────────────
 
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
