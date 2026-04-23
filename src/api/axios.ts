@@ -1,12 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '../store/auth'
 
-/**
- * =========================
- * AXIOS INSTANCE
- * =========================
- */
-
 export const apiPublic = axios.create({
   // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
   baseURL: 'http://127.0.0.1:8000/api/v1',
@@ -28,13 +22,6 @@ const api = axios.create({
 })
 
 
-
-/**
- * =========================
- * REQUEST INTERCEPTOR
- * =========================
- * - Attach Bearer Token
- */
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token
@@ -48,12 +35,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-/**
- * =========================
- * RESPONSE INTERCEPTOR
- * =========================
- * - Handle 401 / 403
- */
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<any>) => {

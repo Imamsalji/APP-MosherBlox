@@ -7,11 +7,6 @@ import type {
   UploadPaymentResponse,
 } from './../types/Order'
 
-/**
- * =========================
- * ORDER / CHECKOUT API
- * =========================
- */
 
 /**
  * Checkout dari cart → buat order
