@@ -37,7 +37,7 @@ export default function ArticleListPage() {
   const [searchInput, setSearchInput] = useState(
     searchParams.get("search") ?? "",
   );
-  const { dark, toggle: toggleDark } = useDarkMode();
+  // const { dark, toggle: toggleDark } = useDarkMode();
 
   const currentPage = Number(searchParams.get("page") ?? 1);
   const activeCategory = searchParams.get("category") ?? "";
@@ -111,7 +111,7 @@ export default function ArticleListPage() {
           </form>
 
           <div className="flex items-center gap-2">
-            <button
+            {/* <button
               onClick={toggleDark}
               className="p-2 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Toggle dark mode"
@@ -145,7 +145,7 @@ export default function ArticleListPage() {
                   />
                 </svg>
               )}
-            </button>
+            </button> */}
             <Link
               to="/admin/articles/create"
               className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors"
