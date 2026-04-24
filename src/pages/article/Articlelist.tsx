@@ -6,12 +6,6 @@ import SkeletonCard from "./sub/SkeletonCard";
 import ArticleCard from "./sub/ArticleCard";
 import ArticleCardFeatured from "./sub/ArticleCardFeatured";
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-// ─── Dark Mode Toggle ─────────────────────────────────────────────────────────
-
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
     if (typeof window === "undefined") return false;
