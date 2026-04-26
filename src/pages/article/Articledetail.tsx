@@ -234,7 +234,7 @@ export default function ArticleDetailPage() {
             to="/"
             className="font-black text-xl tracking-tight text-gray-900 dark:text-white"
           >
-            ink<span className="text-indigo-600">.</span>
+            MISL<span className="text-indigo-600">.</span>
           </Link>
           <Link
             to="/articles"
