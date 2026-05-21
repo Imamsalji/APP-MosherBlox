@@ -248,7 +248,7 @@ const Payment = () => {
                     dengan cara scan kode QR yang telah disediakan. Pembayaran
                     dapat dilakukan menggunakan berbagai aplikasi e-wallet
                     maupun mobile banking yang mendukung QRIS, seperti
-                    <span className="font-medium text-white">DANA</span>,
+                    <span className="font-medium text-white"> DANA</span>,
                     <span className="font-medium text-white">OVO</span>,
                     <span className="font-medium text-white">GoPay</span>,
                     <span className="font-medium text-white">ShopeePay</span>,
