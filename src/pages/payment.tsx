@@ -244,7 +244,7 @@ const Payment = () => {
                   <p className="text-slate-300 leading-8">
                     Untuk proses pembayaran, silakan melakukan transaksi melalui
                     metode
-                    <span className="font-semibold text-cyan-400">QRIS</span>
+                    <span className="font-semibold text-cyan-400"> QRIS </span>
                     dengan cara scan kode QR yang telah disediakan. Pembayaran
                     dapat dilakukan menggunakan berbagai aplikasi e-wallet
                     maupun mobile banking yang mendukung QRIS, seperti
