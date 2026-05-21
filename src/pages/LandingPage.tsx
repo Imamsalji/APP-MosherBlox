@@ -32,7 +32,7 @@ function App() {
       <Header />
       <AboutUsSection />
       <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#00ffff,#00ffff,#00ffff,transparent)] h-1 w-full m-0"></div>
-      <CyberpunkCarousel />
+      {/* <CyberpunkCarousel /> */}
       <GlobalConfirm />
       {message && (
         <Toast show={show} message={message} onClose={() => setShow(false)} />
