@@ -181,7 +181,7 @@ const Payment = () => {
             mb-12
           "
         >
-          PAYMENT GATE
+          PAYMENT
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -235,7 +235,86 @@ const Payment = () => {
             </div>
 
             <p className="mt-6 text-xs text-center text-gray-400">
-              Scan QRIS menggunakan e-wallet atau mobile banking Anda
+              <div className="max-w-3xl w-full bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-8">
+                <div className="mb-6">
+                  <h1 className="text-3xl font-bold text-white mb-3">
+                    Halo Kak 👋
+                  </h1>
+
+                  <p className="text-slate-300 leading-8">
+                    Untuk proses pembayaran, silakan melakukan transaksi melalui
+                    metode
+                    <span className="font-semibold text-cyan-400">QRIS</span>
+                    dengan cara scan kode QR yang telah disediakan. Pembayaran
+                    dapat dilakukan menggunakan berbagai aplikasi e-wallet
+                    maupun mobile banking yang mendukung QRIS, seperti
+                    <span className="font-medium text-white">DANA</span>,
+                    <span className="font-medium text-white">OVO</span>,
+                    <span className="font-medium text-white">GoPay</span>,
+                    <span className="font-medium text-white">ShopeePay</span>,
+                    atau aplikasi mobile banking lainnya.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-6">
+                  <h2 className="text-xl font-semibold text-cyan-400 mb-4">
+                    Langkah Pembayaran
+                  </h2>
+
+                  <ol className="list-decimal list-inside space-y-3 text-slate-300 leading-7">
+                    <li>Buka aplikasi pembayaran yang digunakan.</li>
+
+                    <li>
+                      Pilih menu
+                      <span className="font-semibold text-white">
+                        “Scan QRIS”
+                      </span>
+                      atau
+                      <span className="font-semibold text-white">“Bayar”</span>.
+                    </li>
+
+                    <li>Scan kode QR yang telah diberikan.</li>
+
+                    <li>Masukkan nominal pembayaran sesuai tagihan.</li>
+
+                    <li>
+                      Pastikan nama penerima dan jumlah pembayaran sudah benar.
+                    </li>
+
+                    <li>
+                      Lanjutkan pembayaran dan masukkan PIN/password aplikasi
+                      Anda.
+                    </li>
+
+                    <li>
+                      Setelah transaksi berhasil, simpan atau screenshot bukti
+                      pembayaran.
+                    </li>
+                  </ol>
+                </div>
+
+                <div className="space-y-4 text-slate-300 leading-8">
+                  <p>
+                    Setelah pembayaran selesai dilakukan, mohon segera kirim
+                    bukti transfer atau screenshot transaksi agar pembayaran
+                    dapat kami cek dan verifikasi lebih cepat. Proses verifikasi
+                    biasanya memerlukan beberapa menit tergantung antrean dan
+                    status transaksi yang masuk.
+                  </p>
+
+                  <p>
+                    Apabila mengalami kendala saat pembayaran, seperti QR tidak
+                    bisa di-scan, transaksi pending, atau pembayaran gagal,
+                    silakan hubungi kami kembali agar dapat dibantu secepatnya.
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-slate-700">
+                  <p className="text-white font-semibold text-lg">
+                    Terima kasih atas kerja sama dan kepercayaannya 🙏
+                  </p>
+                </div>
+              </div>
             </p>
           </div>
 
